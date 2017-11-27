@@ -1,4 +1,4 @@
-#include <app2B/mainImpl.h>
+#include <app2A/mainImpl.h>
 
 #include <lib1/lib1.h>
 
