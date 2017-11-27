@@ -1,0 +1,53 @@
+
+include(ccbAddPackage)
+
+set( PACKAGE_NAMESPACE lb0 )
+ccbInitPackageProject(
+	PACKAGE_NAME
+	${PACKAGE_NAMESPACE}
+)
+
+set( briefDescription "A low-level libary for the CppCodeBaseCMake package." )
+set( longDescription "" )
+
+set( PACKAGE_PUBLIC_HEADER
+    lib0.h
+)
+
+set( PACKAGE_PRODUCTION_FILES
+	lib0.cpp
+)
+
+set(PACKAGE_FIXTURE_FILES
+)
+	
+set( PACKAGE_TEST_FILES
+)
+
+set(PACKAGE_LINKED_LIBRARIES
+)
+
+set(PACKAGE_LINKED_TEST_LIBRARIES
+)
+
+set( archiveDevPackageOptions
+	DISTRIBUTION_PACKAGE_CONTENT_TYPE 	BINARIES_DEVELOPER
+	DISTRIBUTION_PACKAGE_FORMATS 		7Z
+)
+
+############################################## Add Package #################################
+ccbAddPackage( 
+	PACKAGE_NAME			${PACKAGE_NAME}
+	PACKAGE_NAMESPACE		${PACKAGE_NAMESPACE}
+	TYPE					LIB
+	BRIEF_DESCRIPTION		${briefDescription}
+	LONG_DESCRIPTION		${longDescription}
+	PUBLIC_HEADER			${PACKAGE_PUBLIC_HEADER}
+	PRODUCTION_FILES		${PACKAGE_PRODUCTION_FILES}
+	PUBLIC_FIXTURE_HEADER	${PACKAGE_PUBLIC_FIXTURE_HEADER}
+	FIXTURE_FILES			${PACKAGE_FIXTURE_FILES}
+	TEST_FILES				${PACKAGE_TEST_FILES}
+	LINKED_LIBRARIES		${PACKAGE_LINKED_LIBRARIES}
+	LINKED_TEST_LIBRARIES	${PACKAGE_LINKED_TEST_LIBRARIES}
+	DISTRIBUTION_PACKAGES 	${archiveDevPackageOptions}
+)
