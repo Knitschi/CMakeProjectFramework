@@ -1,6 +1,8 @@
 
 include(${CMAKE_CURRENT_LIST_DIR}/../CppCodeBaseCMake/DefaultConfigurations/Linux.config.cmake)
 
+set(CCB_CONFIG "Clang" CACHE STRING "the config name" FORCE)
+
 # GENERATOR AND TOOLCHAIN
 set( CMAKE_GENERATOR "Ninja" CACHE STRING "The CMake generator" FORCE)
 # It seems that on Linux the CMAKE_MAKE_PROGRAM is set before reaching the project() command.
