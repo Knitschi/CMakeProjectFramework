@@ -1,9 +1,12 @@
 [submodule "Sources/CppCodeBaseCMake"]
 	path = Sources/CppCodeBaseCMake
 	url = ssh://admin@DatenBunker:/share/GitRepositories/CppCodeBaseCMake.git
+	branch = master
 [submodule "Sources/CppCodeBaseBuildscripts"]
 	path = Sources/CppCodeBaseBuildscripts
 	url = ssh://admin@DatenBunker:/share/GitRepositories/CppCodeBaseBuildscripts.git
+	branch = master
 [submodule "Sources/CppCodeBaseJenkinsfile"]
 	path = Sources/CppCodeBaseJenkinsfile
 	url = ssh://admin@DatenBunker:/share/GitRepositories/CppCodeBaseJenkinsfile.git
+	branch = master
