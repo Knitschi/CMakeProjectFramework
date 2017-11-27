@@ -1,3 +1,3 @@
 # BuildCppCodeBaseCMake
 
-A project that tests the CppCodeBaseCMake package. 
+A project that tests the CppCodeBase packages.

@@ -1,3 +1,6 @@
 [submodule "Sources/CppCodeBaseCMake"]
 	path = Sources/CppCodeBaseCMake
 	url = https://github.com/Knitschi/CppCodeBaseCMake.git
+[submodule "Sources/CppCodeBaseBuildscripts"]
+	path = Sources/CppCodeBaseBuildscripts
+	url = git@github.com:Knitschi/CppCodeBaseBuildscripts.git
