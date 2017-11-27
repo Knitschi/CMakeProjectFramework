@@ -4,7 +4,6 @@ set(CCB_CONFIG_FILE "${CMAKE_CURRENT_LIST_FILE}" CACHE FILEPATH "The path to the
 
 include("${CMAKE_CURRENT_LIST_DIR}/../CppCodeBaseCMake/DefaultConfigurations/Windows.config.cmake")
 
-set( CCB_ENABLE_DOXYGEN_TARGET ON CACHE BOOL "Adds a target that will run doxygen on the entire CppCodeBase." FORCE)
 set( CCB_ENABLE_STATIC_ANALYSIS_TARGET OFF CACHE BOOL "Adds a target that mainly runs clang-tidy on the CppCodeBase." FORCE)
 
 set( BUILD_SHARED_LIBS ON CACHE BOOL "Set this to ON to create all production target libraries as shared libries. The fixture libraries and libraries created for executables are always static libraries." FORCE)
