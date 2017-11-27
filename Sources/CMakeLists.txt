@@ -22,4 +22,3 @@ set( packages
 )
 
 ccbAddPackages("${packages}" "")
-
