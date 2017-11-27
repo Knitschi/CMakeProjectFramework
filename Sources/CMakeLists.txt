@@ -9,6 +9,8 @@ include("${CMAKE_TOOLCHAIN_FILE}")					# make sure the compiler is set before th
 project(CppCodeBase)
 ccbInit()
 
+add_subdirectory(BuildConfigurations)
+
 ####################################### ADD CppCodeBase Packages #############################################
 # The packages must be sorted by their level in the dependency graph with the lowest levels at the beginning
 set( packages
