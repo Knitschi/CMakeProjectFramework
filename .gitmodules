@@ -4,3 +4,6 @@
 [submodule "Sources/CppCodeBaseBuildscripts"]
 	path = Sources/CppCodeBaseBuildscripts
 	url = git@github.com:Knitschi/CppCodeBaseBuildscripts.git
+[submodule "Sources/CppCodeBaseJenkinsfile"]
+	path = Sources/CppCodeBaseJenkinsfile
+	url = git@github.com:Knitschi/CppCodeBaseJenkinsfile.git
