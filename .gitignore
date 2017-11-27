@@ -1,0 +1,6 @@
+Generated/**
+Generated
+Configuration/**
+Configuration
+Sources/*/ccbPackageVersion_*.cmake
+.vscode/

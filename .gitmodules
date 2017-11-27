@@ -1,0 +1,3 @@
+[submodule "CppCodeBaseCMake"]
+	path = CppCodeBaseCMake
+	url = https://github.com/Knitschi/CppCodeBaseCMake.git
