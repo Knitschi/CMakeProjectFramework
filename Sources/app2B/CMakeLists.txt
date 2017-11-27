@@ -15,6 +15,8 @@ ccbInitPackageProject(
 
 set( PACKAGE_PRODUCTION_FILES
 	main.cpp
+	mainImpl.cpp
+	mainImpl.h
 )
 
 set( PACKAGE_FIXTURE_FILES
@@ -25,6 +27,7 @@ set( PACKAGE_TEST_FILES
 
 # names of the libraries that are linked to this target
 set(PACKAGE_LINKED_LIBRARIES
+	lib1
 )
 
 set(PACKAGE_LINKED_TEST_LIBRARIES

@@ -6,7 +6,7 @@ include("${CMAKE_TOOLCHAIN_FILE}")					# make sure the compiler is set before th
 
 
 ##################################### CREATE PROJECT ########################################
-project(CppCodeBase)
+project(BuildCppCodeBaseCMake)
 ccbInit()
 
 ####################################### ADD CppCodeBase Packages #############################################
