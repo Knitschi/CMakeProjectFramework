@@ -10,3 +10,9 @@
 	path = Sources/CppCodeBaseJenkinsfile
 	url = ssh://admin@DatenBunker:/share/GitRepositories/CppCodeBaseJenkinsfile.git
 	branch = master
+[submodule "Sources/CppCodeBaseJenkinsjob"]
+	path = Sources/CppCodeBaseJenkinsjob
+	url = ssh://admin@DatenBunker:/share/GitRepositories/CppCodeBaseJenkinsjob.git
+[submodule "Sources/CppCodeBaseMachines"]
+	path = Sources/CppCodeBaseMachines
+	url = ssh://admin@DatenBunker:/share/GitRepositories/CppCodeBaseMachines.git
