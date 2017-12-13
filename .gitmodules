@@ -6,10 +6,6 @@
 	path = Sources/CppCodeBaseBuildscripts
 	url = ssh://admin@DatenBunker:/share/GitRepositories/CppCodeBaseBuildscripts.git
 	branch = master
-[submodule "Sources/CppCodeBaseJenkinsfile"]
-	path = Sources/CppCodeBaseJenkinsfile
-	url = ssh://admin@DatenBunker:/share/GitRepositories/CppCodeBaseJenkinsfile.git
-	branch = master
 [submodule "Sources/CppCodeBaseJenkinsjob"]
 	path = Sources/CppCodeBaseJenkinsjob
 	url = ssh://admin@DatenBunker:/share/GitRepositories/CppCodeBaseJenkinsjob.git
