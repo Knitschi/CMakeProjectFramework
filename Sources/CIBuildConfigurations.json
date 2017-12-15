@@ -1,0 +1,18 @@
+[
+    {
+        "ConfigName" : "Windows",
+        "BuildSlaveLabel" : "Windows-10-0.0.0"
+    },
+    {
+        "ConfigName" : "VS2015-shared",
+        "BuildSlaveLabel" : "Windows-10-0.0.0"
+    },
+    {
+        "ConfigName" : "Gcc-shared-debug",
+        "BuildSlaveLabel" : "Debian-8.9-0.0.0"
+    },
+    {
+        "ConfigName" : "Clang-static-release",
+        "BuildSlaveLabel" : "Debian-8.9-0.0.0"
+    }
+]
