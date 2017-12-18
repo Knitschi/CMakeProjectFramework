@@ -1,11 +1,13 @@
 [
     {
         "ConfigName" : "Windows",
-        "BuildSlaveLabel" : "Windows-10-0.0.0"
+        "BuildSlaveLabel" : "Windows-10-0.0.0",
+        "CompilerConfig" : "Release"
     },
     {
         "ConfigName" : "VS2015-shared",
-        "BuildSlaveLabel" : "Windows-10-0.0.0"
+        "BuildSlaveLabel" : "Windows-10-0.0.0",
+        "CompilerConfig" : "Debug"
     },
     {
         "ConfigName" : "Gcc-shared-debug",
