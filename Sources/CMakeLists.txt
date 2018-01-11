@@ -21,5 +21,9 @@ set( packages
 	app2B
 )
 
-ccbAddPackages("${packages}" "")
+set( globalFiles
+	BuildCppCodeBaseDocumentation.dox
+)
+
+ccbAddPackages("${packages}" "${globalFiles}")
 
