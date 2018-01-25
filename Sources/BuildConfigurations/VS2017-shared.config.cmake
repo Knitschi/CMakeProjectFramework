@@ -1,5 +1,5 @@
 
-set(CCB_CONFIG "VS2015" CACHE STRING "the config name" FORCE)
+set(CCB_CONFIG "VS2017-shared" CACHE STRING "the config name" FORCE)
 set(CCB_CONFIG_FILE "${CMAKE_CURRENT_LIST_FILE}" CACHE FILEPATH "The path to the used .config.cmake file.")
 
 include("${CMAKE_CURRENT_LIST_DIR}/../CppCodeBaseCMake/DefaultConfigurations/Windows.config.cmake")

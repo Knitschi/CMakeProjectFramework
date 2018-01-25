@@ -11,4 +11,4 @@ set( CCB_ENABLE_ABI_API_COMPATIBILITY_CHECK_TARGETS ON CACHE BOOL "Enables targe
 
 # Locations
 set( CCB_WEBPAGE_URL "http://feldrechengeraet" CACHE STRING "An url from which the distribution of the last build can be downloaded." FORCE)
-set(Qt5_DIR "/usr/local/Qt-5.5.1/release/lib/cmake/Qt5" CACHE STRING "Location of Qt" FORCE)
+set( Qt5_DIR "/usr/local/Qt-5.9.1/debug/lib/cmake/Qt5" CACHE STRING "Location of Qt" FORCE)

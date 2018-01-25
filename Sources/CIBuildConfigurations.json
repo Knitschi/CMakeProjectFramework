@@ -1,11 +1,11 @@
 [
     {
-        "ConfigName" : "Windows",
+        "ConfigName" : "VS2017-static",
         "BuildSlaveLabel" : "Windows-10-0.0.0",
         "CompilerConfig" : "Release"
     },
     {
-        "ConfigName" : "VS2015-shared",
+        "ConfigName" : "VS2017-shared",
         "BuildSlaveLabel" : "Windows-10-0.0.0",
         "CompilerConfig" : "Debug"
     },
