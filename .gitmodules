@@ -14,3 +14,7 @@
 	path = Sources/CppCodeBaseMachines
 	url = ssh://admin@DatenBunker:/share/GitRepositories/CppCodeBaseMachines.git
 	branch = master
+[submodule "Sources/cotire"]
+	path = Sources/cotire
+	url = https://github.com/Knitschi/cotire.git
+	branch = master
