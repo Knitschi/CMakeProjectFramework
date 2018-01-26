@@ -43,6 +43,24 @@ BuildCppCodeBase repository.
 - CppCodeBaseJenkinsjob
 - CppCodeBaseMachines
 
+## Package Dependencies ##
+
+\dot 
+digraph G {
+  {
+    node [shape=box] CppCodeBaseJenkinsjob CppCodeBaseBuildscripts CppCodeBaseCMake CppCodeBaseMachines 
+  }
+  "MyBuildRepository" -> "CppCodeBaseJenkinsjob" [ label="Uses trigger script to auto start builds." ]
+  "CppCodeBaseJenkinsjob" -> "CppCodeBaseMachines" [ label="Uses jenkins plugins. Uses slave labels."]
+  "CppCodeBaseJenkinsjob" -> "CppCodeBaseBuildscripts" [ label="Uses scripts for the build." ]
+  "CppCodeBaseJenkinsjob" -> "CppCodeBaseCMake" [ label="Uses CMake scripts for branch integration." ]
+  "CppCodeBaseBuildscripts" -> "CppCodeBaseCMake" [ label="Uses custom targets and and configuration mechanics."  ]
+  "CppCodeBaseCMake" -> "Third Party Build-Tools" [ label="Uses tools for pipeline. Retrieves tools independently with hunter (not implemented)" style=dotted]
+  "CppCodeBaseCMake" -> "CppCodeBaseMachines" [ label="Uses tools for pipeline which are provided by the machines. (should be removed)" style=dashed  ]
+}
+\enddot
+
+
 */
 
 
