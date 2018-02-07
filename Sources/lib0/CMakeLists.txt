@@ -1,13 +1,13 @@
 
-include(ccbAddPackage)
+include(cpfAddPackage)
 
 set( PACKAGE_NAMESPACE lb0 )
-ccbInitPackageProject(
+cpfInitPackageProject(
 	PACKAGE_NAME
 	${PACKAGE_NAMESPACE}
 )
 
-set( briefDescription "A low-level libary for the CppCodeBaseCMake package." )
+set( briefDescription "A low-level libary for the CPFCMake package." )
 set( longDescription "" )
 
 set( PACKAGE_PUBLIC_HEADER
@@ -36,7 +36,7 @@ set( archiveDevPackageOptions
 )
 
 ############################################## Add Package #################################
-ccbAddPackage( 
+cpfAddPackage( 
 	PACKAGE_NAME			${PACKAGE_NAME}
 	PACKAGE_NAMESPACE		${PACKAGE_NAMESPACE}
 	TYPE					LIB

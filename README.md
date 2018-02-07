@@ -1,12 +1,12 @@
-# BuildCppCodeBase
+# Welcome to the CMakeProjectFramework
 
-A container project for the **CppCodeBase** repositories.
+A container project for the **CMakeProjectFramework** repositories.
 
-## CppCodeBase Project Page ##
-[https://knitschi.github.io/BuildCppCodeBase/doxygen/index.html](https://knitschi.github.io/BuildCppCodeBase/doxygen/index.html)
+## CMakeProjectFramework Main Page ##
+[https://knitschi.github.io/CMakeProjectFramework/doxygen/index.html](https://knitschi.github.io/CMakeProjectFramework/doxygen/index.html)
 
-## CppCodeBase Packages ##
-- [CppCodeBaseCMake](https://github.com/Knitschi/CppCodeBaseCMake)
-- [CppCodeBaseBuildscripts](https://github.com/Knitschi/CppCodeBaseBuildscripts)
-- [CppCodeBaseMachines](https://github.com/Knitschi/CppCodeBaseMachines)
-- [CppCodeBaseJenkinsjob](https://github.com/Knitschi/CppCodeBaseJenkinsjob)
+## CMakeProjectFramework Packages ##
+- [CPFCMake](https://github.com/Knitschi/CPFCMake)
+- [CPFBuildscripts](https://github.com/Knitschi/CPFBuildscripts)
+- [CPFMachines](https://github.com/Knitschi/CPFMachines)
+- [CPFJenkinsjob](https://github.com/Knitschi/CPFJenkinsjob)

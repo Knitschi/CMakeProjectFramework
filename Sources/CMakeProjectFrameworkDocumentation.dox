@@ -1,0 +1,67 @@
+/**
+\mainpage The CMakeProjectFramework Repository
+
+# Introduction #
+
+The CMakeProjectFramework framework provides a solution for organizing a C++ software project. When setting up a C++ Software project
+multiple tasks apart from writing the actual C++ code arise.
+
+- Organizing the code-base into smaller packages.
+- Versioning of the packages.
+- Setting up a CI-server.
+- Reducing the build to a view command line calls to allow it being build on the CI-server. This also requires automatic retrieval
+of other software dependencies.
+- Setting up a build pipeline that also does additional tasks like running automated test, static/dynamic analysis, generate documentation, etc.
+- Setting up a homepage for the project.
+
+The packages of the CMakeProjectFramework try to solve the above mentioned problems by kitting some common tools from the C++
+ecosystem together. The tools used by the CMakeProjectFramework are:
+
+- CMake     (metabuildsystem)
+- Git       (code versioning)
+- hunter    (package manager)
+- 
+- Jenkins   (CI server)
+- Doxygen   (documentation generator)
+
+The goal of the project is to ease the burden of setting up a complete C++ production environment.
+
+
+# Repository Content #
+
+The CMakeProjectFramework repository contains the various subprojects of the CMakeProjectFramework.
+The repository contains documentation of the CMakeProjectFramework and to provides the configuration
+for its official build job. 
+
+The implementation of the real functionality is located within the packages that are hosted by the
+CMakeProjectFramework repository.
+
+## Packages ##
+
+- CPFBuildscripts
+- CPFCMake
+- CPFJenkinsjob
+- CPFMachines
+
+## Package Dependencies ##
+
+\dot 
+digraph G {
+  {
+    node [shape=box] CPFJenkinsjob CPFBuildscripts CPFCMake CPFMachines 
+  }
+  "MyBuildRepository" -> "CPFJenkinsjob" [ label="Uses trigger script to auto start builds." ]
+  "CPFJenkinsjob" -> "CPFMachines" [ label="Uses jenkins plugins. Uses slave labels."]
+  "CPFJenkinsjob" -> "CPFBuildscripts" [ label="Uses scripts for the build." ]
+  "CPFJenkinsjob" -> "CPFCMake" [ label="Uses CMake scripts for branch integration." ]
+  "CPFBuildscripts" -> "CPFCMake" [ label="Uses custom targets and and configuration mechanics."  ]
+  "CPFCMake" -> "Third Party Build-Tools" [ label="Uses tools for pipeline. Retrieves tools independently with hunter (not implemented)" style=dotted]
+  "CPFCMake" -> "CPFMachines" [ label="Uses tools for pipeline which are provided by the machines. (should be removed)" style=dashed  ]
+}
+\enddot
+
+
+*/
+
+
+

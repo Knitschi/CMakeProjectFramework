@@ -1,15 +1,15 @@
-# Root CMakeLists file for the "CppCodeBase"
+# Root CMakeLists file for the "CMakeProjectFramework"
 cmake_minimum_required (VERSION 3.8.0) 
 
-include("CppCodeBaseCMake/ccbInit.cmake")
+include("CPFCMake/cpfInit.cmake")
 include("${CMAKE_TOOLCHAIN_FILE}")					# make sure the compiler is set before the project call
 
 
 ##################################### CREATE PROJECT ########################################
-project(BuildCppCodeBase)
-ccbInit()
+project(CMakeProjectFramework)
+cpfInit()
 
-####################################### ADD CppCodeBase Packages #############################################
+####################################### ADD Packages #############################################
 # The packages must be sorted by their level in the dependency graph with the lowest levels at the beginning
 set( packages
 	# cmake
@@ -24,7 +24,7 @@ set( packages
 )
 
 set( globalFiles
-	BuildCppCodeBaseDocumentation.dox
+	CMakeProjectFrameworkDocumentation.dox
 )
 
-ccbAddPackages("${packages}" "${globalFiles}")
+cpfAddPackages("${packages}" "${globalFiles}")

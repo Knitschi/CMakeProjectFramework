@@ -1,12 +1,12 @@
-include(ccbAddPackage)
+include(cpfAddPackage)
 
 # define namespace name for module
 set( PACKAGE_NAMESPACE app2B )
 
 set( briefDescription "A command line application that does nothing." )
-set( longDescription "The application is used to test the CppCodeBaseCMake package." )
+set( longDescription "The application is used to test the CPFCMake package." )
 
-ccbInitPackageProject(
+cpfInitPackageProject(
 	PACKAGE_NAME
 	${PACKAGE_NAMESPACE}
 )
@@ -42,7 +42,7 @@ set( archiveDevPackageOptions
 )
 
 ############################################## Add Package #################################
-ccbAddPackage( 
+cpfAddPackage( 
 	PACKAGE_NAME			${PACKAGE_NAME}
 	PACKAGE_NAMESPACE		${PACKAGE_NAMESPACE}
 	TYPE					CONSOLE_APP
