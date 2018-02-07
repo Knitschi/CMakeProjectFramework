@@ -1,18 +1,18 @@
-[submodule "Sources/CppCodeBaseCMake"]
-	path = Sources/CppCodeBaseCMake
-	url = ssh://admin@DatenBunker:/share/GitRepositories/CppCodeBaseCMake.git
+[submodule "Sources/CPFCMake"]
+	path = Sources/CPFCMake
+	url = ssh://admin@DatenBunker:/share/GitRepositories/CPFCMake.git
 	branch = master
-[submodule "Sources/CppCodeBaseBuildscripts"]
-	path = Sources/CppCodeBaseBuildscripts
-	url = ssh://admin@DatenBunker:/share/GitRepositories/CppCodeBaseBuildscripts.git
+[submodule "Sources/CPFBuildscripts"]
+	path = Sources/CPFBuildscripts
+	url = ssh://admin@DatenBunker:/share/GitRepositories/CPFBuildscripts.git
 	branch = master
-[submodule "Sources/CppCodeBaseJenkinsjob"]
-	path = Sources/CppCodeBaseJenkinsjob
-	url = ssh://admin@DatenBunker:/share/GitRepositories/CppCodeBaseJenkinsjob.git
+[submodule "Sources/CPFJenkinsjob"]
+	path = Sources/CPFJenkinsjob
+	url = ssh://admin@DatenBunker:/share/GitRepositories/CPFJenkinsjob.git
 	branch = master
-[submodule "Sources/CppCodeBaseMachines"]
-	path = Sources/CppCodeBaseMachines
-	url = ssh://admin@DatenBunker:/share/GitRepositories/CppCodeBaseMachines.git
+[submodule "Sources/CPFMachines"]
+	path = Sources/CPFMachines
+	url = ssh://admin@DatenBunker:/share/GitRepositories/CPFMachines.git
 	branch = master
 [submodule "Sources/cotire"]
 	path = Sources/cotire
