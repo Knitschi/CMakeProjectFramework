@@ -2,8 +2,7 @@
 
 A container project for the **CMakeProjectFramework** repositories.
 
-## CMakeProjectFramework Main Page ##
-[https://knitschi.github.io/CMakeProjectFramework/doxygen/index.html](https://knitschi.github.io/CMakeProjectFramework/doxygen/index.html)
+- [Project documentation](https://knitschi.github.io/CMakeProjectFramework/doxygen/index.html)
 
 ## CMakeProjectFramework Packages ##
 - [CPFCMake](https://github.com/Knitschi/CPFCMake)
