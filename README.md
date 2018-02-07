@@ -1,3 +1,3 @@
 # BuildCppCodeBaseCMake
 
-A project that tests the CppCodeBase packages.
+- Project Page: [https://knitschi.github.io/BuildCppCodeBase/doxygen/index.html](https://knitschi.github.io/BuildCppCodeBase/doxygen/index.html)
