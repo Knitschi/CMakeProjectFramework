@@ -12,8 +12,6 @@ cpfInit()
 ####################################### ADD Packages #############################################
 # The packages must be sorted by their level in the dependency graph with the lowest levels at the beginning
 set( packages
-	# cmake
-	cotire
 	# level 0
 	lib0
 	# level 1
@@ -23,8 +21,12 @@ set( packages
 	app2B
 )
 
+set( externalPackages
+	cotire
+)
+
 set( globalFiles
 	CMakeProjectFrameworkDocumentation.dox
 )
 
-cpfAddPackages("${packages}" "${globalFiles}")
+cpfAddPackages( "${packages}" "${externalPackages}" "${globalFiles}")

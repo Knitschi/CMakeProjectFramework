@@ -7,7 +7,7 @@ cpfInitPackageProject(
 	${PACKAGE_NAMESPACE}
 )
 
-set( briefDescription "A low-level libary for the CPFCMake package." )
+set( briefDescription "A C++ libary used for testing the CPF" )
 set( longDescription "" )
 
 set( PACKAGE_PUBLIC_HEADER

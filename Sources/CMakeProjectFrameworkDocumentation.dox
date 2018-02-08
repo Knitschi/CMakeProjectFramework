@@ -1,65 +1,86 @@
 /**
 \mainpage The CMakeProjectFramework Repository
 
+\note The code in this project is work in progress. Currently there is not CI system set up for the repository that guarantees its working condition.
+
 # Introduction #
 
-The CMakeProjectFramework framework provides a solution for organizing a C++ software project. When setting up a C++ Software project
+The CMakeProjectFramework framework provides a solution for organizing a cross-platform C++ software project. When setting up a C++ Software project
 multiple tasks apart from writing the actual C++ code arise.
 
 - Organizing the code-base into smaller packages.
 - Versioning of the packages.
 - Setting up a CI-server.
-- Reducing the build to a view command line calls to allow it being build on the CI-server. This also requires automatic retrieval
-of other software dependencies.
 - Setting up a build pipeline that also does additional tasks like running automated test, static/dynamic analysis, generate documentation, etc.
+- Automatic acquisition of external software dependencies.
 - Setting up a homepage for the project.
 
-The packages of the CMakeProjectFramework try to solve the above mentioned problems by kitting some common tools from the C++
-ecosystem together. The tools used by the CMakeProjectFramework are:
+The packages of the CMakeProjectFramework try to solve the above mentioned problems by using a combination of some common tools from the C++
+ecosystem. The third party tools used by the CMakeProjectFramework are:
 
-- CMake     (metabuildsystem)
-- Git       (code versioning)
-- hunter    (package manager)
-- 
-- Jenkins   (CI server)
-- Doxygen   (documentation generator)
+- CMake           (metabuildsystem)
+- Git             (code versioning)
+- hunter          (package manager)
+- cotire          (cmake module for precompiled headers)
+- Jenkins         (CI server)
+- Doxygen         (documentation generator)
+- clang-tidy      (static code analyis)
+- valgrind        (dynamic code analysis)
+- OpenCppCoverage (measure test coverage)
 
-The goal of the project is to ease the burden of setting up a complete C++ production environment.
+
+# Setting up a CPF project #
+
+\todo Write tutorial when things are done.
 
 
-# Repository Content #
+## Limitations ##
 
-The CMakeProjectFramework repository contains the various subprojects of the CMakeProjectFramework.
-The repository contains documentation of the CMakeProjectFramework and to provides the configuration
-for its official build job. 
+The CMakeProjectFramework is currently only developed on Linux and Windows. In the long run I would also like to support development on MacOS, 
+and cross-compiling to any other platform that is supported by CMake.
 
-The implementation of the real functionality is located within the packages that are hosted by the
-CMakeProjectFramework repository.
 
-## Packages ##
+# Project Organization #
 
-- CPFBuildscripts
-- CPFCMake
-- CPFJenkinsjob
-- CPFMachines
+The CMakeProjectFramework master repository contains some of the documentation of the CMakeProjectFramework and provides the configuration
+for its official build job. The master repository also serves as an "owner" for the packages that implement the various aspects
+of the CI system. The packages are located in their own repositories and added as Git submodules to the master repository. 
+
+The packages are:
+
+- \ref CPFCMakeGroup "CPFCMake": Contains CMake code that implements the additional CI tasks as custom targets.
+- \ref CPFBuildscriptsGroup "CPFBuildscripts": Provides python scripts that shorten the frequently used CMake calls.
+- \ref CPFMachinesGroup "CPFMachines": Provides a python script that sets up a Jenkins-CI server and build-slaves on remote machines via ssh.
+- \ref CPFJenkinsjobGroup "CPFJenkinsjob": Provides a jenkins pipeline script that implements a generic build-job for a CPF project.
 
 ## Package Dependencies ##
+
+Here is a simplified graph the illustrates the dependencies between the packages of the CMakeProjectFramework. 
 
 \dot 
 digraph G {
   {
-    node [shape=box] CPFJenkinsjob CPFBuildscripts CPFCMake CPFMachines 
+    node [shape=box, font="", fontcolor="#4665C0"];
+    CPFJenkinsjob [ URL="\ref CPFJenkinsjobGroup"];
+    CPFBuildscripts [ URL="\ref CPFBuildscriptsGroup"];
+    CPFCMake [ URL="\ref CPFCMakeGroup"];
+    CPFMachines [ URL="\ref CPFMachinesGroup"];
   }
-  "MyBuildRepository" -> "CPFJenkinsjob" [ label="Uses trigger script to auto start builds." ]
+  "MyBuildRepository" -> "CPFJenkinsjob" [ label="Uses setup script and provides config." ]
   "CPFJenkinsjob" -> "CPFMachines" [ label="Uses jenkins plugins. Uses slave labels."]
   "CPFJenkinsjob" -> "CPFBuildscripts" [ label="Uses scripts for the build." ]
   "CPFJenkinsjob" -> "CPFCMake" [ label="Uses CMake scripts for branch integration." ]
-  "CPFBuildscripts" -> "CPFCMake" [ label="Uses custom targets and and configuration mechanics."  ]
-  "CPFCMake" -> "Third Party Build-Tools" [ label="Uses tools for pipeline. Retrieves tools independently with hunter (not implemented)" style=dotted]
-  "CPFCMake" -> "CPFMachines" [ label="Uses tools for pipeline which are provided by the machines. (should be removed)" style=dashed  ]
+  "CPFBuildscripts" -> "CPFCMake" [ label="Uses custom targets and config file mechanics."  ]
+  "CPFCMake" -> "CPFMachines" [ label="Uses 3rd party tools provided by CPFMachines." style = dashed ]
+  "CPFMachines" -> "3rd party tools and libs"
 }
 \enddot
 
+MyBuildRepository represents a project that uses the CMakeProjectFramework. 
+
+\note In the long run, the dependency between CPFCMake and %CPFMachines should be removed 
+by making CPFCMake acquire all of the third party software via hunter, instead of using the pre-installed
+software from the build slaves.
 
 */
 

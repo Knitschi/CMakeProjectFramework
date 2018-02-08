@@ -3,8 +3,8 @@ include(cpfAddPackage)
 # define namespace name for module
 set( PACKAGE_NAMESPACE app2A )
 
-set( briefDescription "A command line application that does nothing." )
-set( longDescription "The application is used to test the CPFCMake package." )
+set( briefDescription "An empty C++ command line application used for testing the CPF." )
+set( longDescription "" )
 
 cpfInitPackageProject(
 	PACKAGE_NAME
