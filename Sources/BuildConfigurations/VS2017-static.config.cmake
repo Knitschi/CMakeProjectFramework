@@ -4,4 +4,4 @@ set(CPF_CONFIG_FILE "${CMAKE_CURRENT_LIST_FILE}" CACHE FILEPATH "The path to the
 include("${CMAKE_CURRENT_LIST_DIR}/../CPFCMake/DefaultConfigurations/Windows.config.cmake")
 
 # LOCATIONS
-set( CPF_WEBPAGE_URL "http://feldrechengeraet" CACHE STRING "An url from which the distribution of the last build can be downloaded." FORCE)
+set( CPF_WEBPAGE_URL "http://buildmasterdebian9" CACHE STRING "An url from which the distribution of the last build can be downloaded." FORCE)
