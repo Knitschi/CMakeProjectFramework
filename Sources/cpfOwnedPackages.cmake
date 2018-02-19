@@ -9,5 +9,5 @@ lib1;\
 app2A;\
 app2B;\
 "
-CACHE STRING "The packages that are owned by this CI-project."
+CACHE STRING "The packages that are owned by this CI-project." FORCE
 )
