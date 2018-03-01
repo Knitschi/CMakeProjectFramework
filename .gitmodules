@@ -10,10 +10,6 @@
 	path = Sources/CPFCMake
 	url = ssh://admin@datenbunker:/share/GitRepositories/CPFCMake.git
 	branch = master
-[submodule "Sources/CPFJenkinsjob"]
-	path = Sources/CPFJenkinsjob
-	url = ssh://admin@datenbunker:/share/GitRepositories/CPFJenkinsjob.git
-	branch = master
 [submodule "Sources/CPFMachines"]
 	path = Sources/CPFMachines
 	url = ssh://admin@datenbunker:/share/GitRepositories/CPFMachines.git
