@@ -50,8 +50,7 @@ The packages are:
 
 - \ref CPFCMakeGroup "CPFCMake": Contains CMake code that implements the additional CI tasks as custom targets.
 - \ref CPFBuildscriptsGroup "CPFBuildscripts": Provides python scripts that shorten the frequently used CMake calls.
-- \ref CPFMachinesGroup "CPFMachines": Provides a python script that sets up a Jenkins-CI server and build-slaves on remote machines via ssh.
-- \ref CPFJenkinsjobGroup "CPFJenkinsjob": Provides a jenkins pipeline script that implements a generic build-job for a CPF project.
+- \ref CPFMachinesGroup "CPFMachines": Provides a python script that sets up a Jenkins-CI server and web-servers that provide CI-jobs for CPF-projects.
 
 ## Package Dependencies ##
 
@@ -61,18 +60,15 @@ Here is a simplified graph the illustrates the dependencies between the packages
 digraph G {
   {
     node [shape=box, font="", fontcolor="#4665C0"];
-    CPFJenkinsjob [ URL="\ref CPFJenkinsjobGroup"];
     CPFBuildscripts [ URL="\ref CPFBuildscriptsGroup"];
     CPFCMake [ URL="\ref CPFCMakeGroup"];
     CPFMachines [ URL="\ref CPFMachinesGroup"];
   }
-  "MyBuildRepository" -> "CPFJenkinsjob" [ label="Uses setup script and provides config." ]
-  "CPFJenkinsjob" -> "CPFMachines" [ label="Uses jenkins plugins. Uses slave labels."]
-  "CPFJenkinsjob" -> "CPFBuildscripts" [ label="Uses scripts for the build." ]
-  "CPFJenkinsjob" -> "CPFCMake" [ label="Uses CMake scripts for branch integration." ]
+  "MyMachinesConfig" -> "CPFMachines" [ label="Uses setup script and provides config." ]
+  "CPFMachines" -> "CPFBuildscripts" [ label="Uses scripts in buildjob." ]
+  "CPFMachines" -> "CPFCMake" [ label="Uses CMake scripts for version tagging." ]
   "CPFBuildscripts" -> "CPFCMake" [ label="Uses custom targets and config file mechanics."  ]
-  "CPFCMake" -> "CPFMachines" [ label="Uses 3rd party tools provided by CPFMachines." style = dashed ]
-  "CPFMachines" -> "3rd party tools and libs"
+  "CPFCMake" -> "3rd party tools and libs" [ label="Uses 3rd party tools provided by CPFMachines and hunter." style = dashed ]
 }
 \enddot
 
