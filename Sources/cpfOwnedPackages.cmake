@@ -3,7 +3,6 @@ set( CPF_OWNED_PACKAGES
 CPFCMake;\
 CPFBuildscripts;\
 CPFMachines;\
-CPFJenkinsjob;\
 lib0;\
 lib1;\
 app2A;\
