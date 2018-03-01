@@ -16,6 +16,6 @@ set( BUILD_SHARED_LIBS OFF CACHE BOOL "Set this to ON to create all production t
 set( CPF_ENABLE_PRECOMPILED_HEADER OFF CACHE BOOL "Switch the use of precompiled headers on and off." FORCE)
 
 # LOCATIONS
-set( CPF_WEBPAGE_URL "http://buildmasterdebian9" CACHE STRING "An url from which the distribution of the last build can be downloaded." FORCE)
+set( CPF_WEBPAGE_URL "http://buildmasterdebian9:8082" CACHE STRING "An url from which the distribution of the last build can be downloaded." FORCE)
 # At some point this should be done by hunter
 set( Qt5_DIR "/usr/local/Qt-5.9.1/release/lib/cmake/Qt5" CACHE STRING "Location of Qt" FORCE)

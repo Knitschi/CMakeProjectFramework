@@ -10,5 +10,5 @@ set( CPF_ENABLE_ABI_API_COMPATIBILITY_CHECK_TARGETS ON CACHE BOOL "Enables targe
 
 
 # Locations
-set( CPF_WEBPAGE_URL "http://buildmasterdebian9" CACHE STRING "An url from which the distribution of the last build can be downloaded." FORCE)
+set( CPF_WEBPAGE_URL "http://buildmasterdebian9:8082" CACHE STRING "An url from which the distribution of the last build can be downloaded." FORCE)
 set( Qt5_DIR "/usr/local/Qt-5.9.1/debug/lib/cmake/Qt5" CACHE STRING "Location of Qt" FORCE)
