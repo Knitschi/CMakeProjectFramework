@@ -80,5 +80,98 @@ software from the build slaves.
 
 */
 
+//##########################################################################################
+/**
+\page GettingStarted
+
+# Getting Started #
+
+The CppCodeBase can currently be compiled on Windows and Linux. In Order to download and build the sources the following tools are required:
+
+- <a href="https://git-scm.com/downloads">Git</a>
+- <a href="https://www.python.org/downloads/">Python3</a>
+- <a href="https://cmake.org/download/">CMake</a> 3.8 or later
+- <a href="http://www.graphviz.org/">Graphviz</a>
+- Visual Studio 2015 or GCC 4.8 or Clang 3.8
+- On Linux, Qt 5.5.1 currently needs to be installed manually.
+
+
+The following tools are needed for other steps in the build pipeline
+
+- <a href="http://clang.llvm.org/extra/clang-tidy/">Clang-Tidy</a> for static analysis.
+- <a href="http://valgrind.org/">Valgrind</a> (on Linux) for dynamic code analysis.
+- <a href="https://opencppcoverage.codeplex.com/">OpenCppCoverage</a> (on Windows) for measuring test coverage.
+- <a href="http://www.stack.nl/~dimitri/doxygen/download.html">Doxygen</a>(on Windows and Linux) for generating the documentation.
+
+
+## Dependencies ##
+
+The CppCodeBase cmake setup uses the hunter package manager to download and compile some of its dependencies.
+During the configuration process you can define the \c HUNTER_ROOT directory that will be used by hunter to
+build and store some of the external dependencies. If you you alread use hunter in another project, make sure
+to set the variable to the same directory that is used by the other project in order to save compilation time
+and disk space for dependencies that are used by multiple projects.
+
+
+### Prerequisites ###
+- The source code.
+- Make sure you can run a Python 3 version from the command line by entering <tt>python -V</tt>.
+- Make sure you can run CMake 3.8 or higher from the command line by entering <tt>cmake --version</tt>.
+- Make sure you can run the Graphviz tools <tt>dot</tt>, <tt>acyclic</tt> and <tt>tred</tt> from the command line.
+- There may be other prerequisites. CMake will issue an error when they are missing.
+
+
+## Building the Project ##
+
+Change your current directory to the folder root folder of the CppCodeBase and enter the following commands.
+The CppCodeBase provides three python scripts that must be subsequently called to configure the build, generate
+'make-files' and to finally execute the build pipeline. More detailed information about the scripts can be found \ref BuildScripts here.
+
+
+### Configuration ###
+
+Runnin the \c 0_Configure.py script generates a \c MyConfgiguration.cmake file in the \c Configuration sub-directory. The argument
+to the script, here \c MyConfgiguration can be arbitrarily chosen.
+
+\code{.bat}
+..\CppCodeBase> python 0_Configure.py MyConfiguration
+\endcode
+
+The generated file ccbContains default values for CMake variables that can be used to configure the project. You can now open
+the file and take a look at the variables and their values. Maybe you may want to change some of them.
+
+
+### Generate ###
+
+This script will execute CMake and generate the 'make-files' for the generator set in the MyConfiguration.cmake config file.
+
+\code{.bat}
+..\CppCodeBase> python 1_Generate.py
+\endcode
+
+After this there should be a sub-directory \c Generated/MyConfiguration that ccbContains the make-files for your configuration.
+This directory will also contain all files that are generated in the 'make' step. Note that this step will also retrieve and
+compile external dependencies of the project that are managed with hunter. So this step may take a while when running it for
+the first time.
+
+\bug The script sometimes fails to clear the build directory
+This can probably happen in combination with the tortoise git client, which is known to prevent
+files from beeing deleted. Repeated execution of the script will at some point lead to all files beeing cleared
+and the cmake command being executed.
+
+
+### Make ###
+
+Calling the \c 2_Make.py script will finally execute the build pipeline. 
+
+\code{.bat}
+..\CppCodeBase> python 2_Make.py --target pipeline
+\endcode
+
+This will generate the binaries, run the tests, do some analysis, etc.
+The binaries can be found in the \c Generated/MyConfiguration/InstallStage subdirectory.
+The project documentation and other information can be found under \c Generated/MyConfiguration/html.
+*/
+
 
 
