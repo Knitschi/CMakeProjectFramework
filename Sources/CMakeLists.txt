@@ -16,7 +16,11 @@ set( externalPackages
 )
 
 set( globalFiles
-	CMakeProjectFrameworkDocumentation.dox
+	documentation/CMakeProjectFrameworkDocumentation.dox
+	documentation/CPFDeveloperDocs.dox
+	documentation/SettingUpACPFProject.dox
+	documentation/SettingUpTheCPFCIInfrastructure.dox
+	documentation/WorkingWithACPFProject.dox
 )
 
 cpfAddPackages( "${externalPackages}" "${globalFiles}")

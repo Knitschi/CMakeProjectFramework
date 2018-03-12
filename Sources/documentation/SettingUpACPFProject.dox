@@ -1,0 +1,14 @@
+/**
+\page SettingUpACPFProject Setting up a CPF project 
+
+# Setting up a CPF project #
+
+## Prerequisites ##
+- The source code.
+- Make sure you can run a Python 3 version from the command line by entering <tt>python -V</tt>.
+- Make sure you can run CMake 3.8 or higher from the command line by entering <tt>cmake --version</tt>.
+- Make sure you can run the Graphviz tools <tt>dot</tt>, <tt>acyclic</tt> and <tt>tred</tt> from the command line.
+- There may be other prerequisites. CMake will issue an error when they are missing.
+
+\todo Write tutorial when things are done.
+*/

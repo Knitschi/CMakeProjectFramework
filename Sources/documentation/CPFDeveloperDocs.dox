@@ -1,0 +1,90 @@
+/**
+\page CPFDeveloperDocs CPF developer documentation
+
+# Project Organization #
+
+The CMakeProjectFramework master repository contains some of the documentation of the CMakeProjectFramework and provides the configuration
+for its official build job. The master repository also serves as an "owner" for the packages that implement the various aspects
+of the CI system. The packages are located in their own repositories and added as Git submodules to the master repository. 
+
+The packages are:
+
+- \ref CPFCMakeGroup "CPFCMake": Contains CMake code that implements the additional CI tasks as custom targets.
+- \ref CPFBuildscriptsGroup "CPFBuildscripts": Provides python scripts that shorten the frequently used CMake calls.
+- \ref CPFMachinesGroup "CPFMachines": Provides a python script that sets up a Jenkins-CI server and web-servers that provide CI-jobs for CPF-projects.
+
+## Package Dependencies ##
+
+Here is a simplified graph the illustrates the dependencies between the packages of the CMakeProjectFramework. 
+
+\dot 
+digraph G {
+  {
+    node [shape=box, font="", fontcolor="#4665C0"];
+    CPFBuildscripts [ URL="\ref CPFBuildscriptsGroup"];
+    CPFCMake [ URL="\ref CPFCMakeGroup"];
+    CPFMachines [ URL="\ref CPFMachinesGroup"];
+  }
+  "MyMachinesConfig" -> "CPFMachines" [ label="Uses setup script and provides config." ]
+  "CPFMachines" -> "CPFBuildscripts" [ label="Uses scripts in buildjob." ]
+  "CPFMachines" -> "CPFCMake" [ label="Uses CMake scripts for version tagging." ]
+  "CPFBuildscripts" -> "CPFCMake" [ label="Uses custom targets and config file mechanics."  ]
+  "CPFCMake" -> "3rd party tools and libs" [ label="Uses 3rd party tools provided by CPFMachines and hunter." style = dashed ]
+}
+\enddot
+
+MyBuildRepository represents a project that uses the CMakeProjectFramework. 
+
+\note In the long run, the dependency between CPFCMake and %CPFMachines should be removed 
+by making CPFCMake acquire all of the third party software via hunter, instead of using the pre-installed
+software from the build slaves.
+
+## Dependencies ##
+
+The CppCodeBase cmake setup uses the hunter package manager to download and compile some of its dependencies.
+During the configuration process you can define the \c HUNTER_ROOT directory that will be used by hunter to
+build and store some of the external dependencies. If you you alread use hunter in another project, make sure
+to set the variable to the same directory that is used by the other project in order to save compilation time
+and disk space for dependencies that are used by multiple projects.
+
+
+## Documentation generation ##
+
+The CppCodeBase uses <a href="http://www.stack.nl/~dimitri/doxygen/download.html">Doxygen</a> to allow keeping the documentation right beside the code.
+Doxygen has <a href="http://plantuml.com/">PlanUml</a> enabled to allow embedding UML diagramms into to documentation.
+
+### Searching ###
+
+The search functionality is configured to use the server-side search approach as described <a href="http://www.stack.nl/~dimitri/doxygen/manual/extsearch.html">here</a>.
+To make it work these points must be implemented.
+
+- The \c DoxygenConfig.txt must contain the correct value for the \c SEARCHENGINE_URL key. This means that the url of the \c doxysearch.cgi file must be
+known and accessible <b>before</b> generating the documentation. When the url of the documentation web-server changes, this value must be changed too.
+One can test if the cgi script works by entering \c http://feldrechengeraet/cgi-bin/doxysearch.cgi?test. This should return <tt>test succesfull</tt>.
+The file \c search/search.js in the doxygen directory should also contain a correct linkt to the \c doxysearch.cgi file.
+- The web-server needs access to the right \c doxysearch.cgi file which is provided by Doxygen. The \c doxysearch.cgi file must come
+from the same version of doxygen that is used to generate the html files and the \c doxysearch.db search database.
+- The webserver must be configured to use cgi scripts, which is done by providing the serve-cgi-bin.conf file with the docker-image of the webserver.
+The Dockerfile makes sure the file is copied into the container.
+- The help generation needs to execute the \c doxyindexer.exe to create the \c doxysearch.db serach-index for the \c doxysearch.cgi. This is done in
+the python script \c 7_GenerateDocumentation.py
+- The generated files must be copied to the documentation server container with the command
+\code{.sh}
+docker cp /var/lib/jenkins/www/html docserver:/var/www
+\endcode
+
+
+### The Dependency Graph ###
+
+Building the documentation target will also create two graphviz .dot files for the dependency graph of the build C++ packages.
+These graphs can be added to the projects documentation by adding the lines.
+
+\code
+\dotfile CPFDependencies.dot The projects dependency graph
+\dotfile CPFDependenciesTransitiveReduced.dot The projects transitive reduced target dependency graph
+\endcode
+
+To the doxygen documentation. The transitive reduced graph does not show direct dependencies when an
+indirect dependency exists. This resulst in a cleaner graph, which may sometimes be favoured to the complete graph.
+
+*/
