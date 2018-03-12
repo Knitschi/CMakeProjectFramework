@@ -6,7 +6,7 @@
 # Introduction #
 
 The CMakeProjectFramework framework provides a solution for organizing a cross-platform C++ software project. When setting up a C++ Software project
-multiple tasks apart from writing the actual C++ code arise.
+multiple tasks besides writing the actual C++ code arise.
 
 - Organizing the code-base into smaller packages.
 - Versioning of the packages.
@@ -15,23 +15,20 @@ multiple tasks apart from writing the actual C++ code arise.
 - Automatic acquisition of external software dependencies.
 - Setting up a homepage for the project.
 
-The packages of the CMakeProjectFramework try to solve the above mentioned problems by using a combination of some common tools from the C++
+The packages of the CMakeProjectFramework try to solve the above mentioned problems by using a combination of common open source tools from the C++
 ecosystem. The third party tools used by the CMakeProjectFramework are:
 
-- CMake           (metabuildsystem)
-- Git             (code versioning)
-- hunter          (package manager)
-- cotire          (cmake module for precompiled headers)
-- Jenkins         (CI server)
-- Doxygen         (documentation generator)
-- clang-tidy      (static code analyis)
-- valgrind        (dynamic code analysis)
-- OpenCppCoverage (measure test coverage)
-
-
-# Setting up a CPF project #
-
-\todo Write tutorial when things are done.
+- <a href="https://git-scm.com/downloads">Git</a>                                       (code versioning)
+- <a href="https://cmake.org/download/">CMake</a>                                       (metabuildsystem)
+- <a href="https://github.com/ruslo/hunter">Hunter package manager</a>                  (automatic dependeny retrieval)
+- <a href="https://github.com/sakra/cotire">Cotire</a>                                  (cmake module for precompiled headers)
+- <a href="https://jenkins.io/">Jenkins</a>                                             (CI server)
+- <a href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a>                           (documentation generator)
+- <a href="http://clang.llvm.org/extra/clang-tidy/">clang-tidy</a>                      (static code analyis)
+- <a href="http://valgrind.org/">valgrind</a>                                           (dynamic code analysis)
+- <a href="https://github.com/OpenCppCoverage/OpenCppCoverage">OpenCppCoverage</a>      (measure test coverage)
+- <a href="https://github.com/lvc/abi-compliance-checker">Abi Compliance Checker</a>    (visualize changes in the API/ABI between package versions)
+- <a href="https://www.graphviz.org/">Graphviz</a>                                      (used to create a dependency graph of the project)
 
 
 ## Limitations ##
@@ -39,94 +36,49 @@ ecosystem. The third party tools used by the CMakeProjectFramework are:
 The CMakeProjectFramework is currently only developed on Linux and Windows. In the long run I would also like to support development on MacOS, 
 and cross-compiling to any other platform that is supported by CMake.
 
+## Further reading ##
 
-# Project Organization #
-
-The CMakeProjectFramework master repository contains some of the documentation of the CMakeProjectFramework and provides the configuration
-for its official build job. The master repository also serves as an "owner" for the packages that implement the various aspects
-of the CI system. The packages are located in their own repositories and added as Git submodules to the master repository. 
-
-The packages are:
-
-- \ref CPFCMakeGroup "CPFCMake": Contains CMake code that implements the additional CI tasks as custom targets.
-- \ref CPFBuildscriptsGroup "CPFBuildscripts": Provides python scripts that shorten the frequently used CMake calls.
-- \ref CPFMachinesGroup "CPFMachines": Provides a python script that sets up a Jenkins-CI server and web-servers that provide CI-jobs for CPF-projects.
-
-## Package Dependencies ##
-
-Here is a simplified graph the illustrates the dependencies between the packages of the CMakeProjectFramework. 
-
-\dot 
-digraph G {
-  {
-    node [shape=box, font="", fontcolor="#4665C0"];
-    CPFBuildscripts [ URL="\ref CPFBuildscriptsGroup"];
-    CPFCMake [ URL="\ref CPFCMakeGroup"];
-    CPFMachines [ URL="\ref CPFMachinesGroup"];
-  }
-  "MyMachinesConfig" -> "CPFMachines" [ label="Uses setup script and provides config." ]
-  "CPFMachines" -> "CPFBuildscripts" [ label="Uses scripts in buildjob." ]
-  "CPFMachines" -> "CPFCMake" [ label="Uses CMake scripts for version tagging." ]
-  "CPFBuildscripts" -> "CPFCMake" [ label="Uses custom targets and config file mechanics."  ]
-  "CPFCMake" -> "3rd party tools and libs" [ label="Uses 3rd party tools provided by CPFMachines and hunter." style = dashed ]
-}
-\enddot
-
-MyBuildRepository represents a project that uses the CMakeProjectFramework. 
-
-\note In the long run, the dependency between CPFCMake and %CPFMachines should be removed 
-by making CPFCMake acquire all of the third party software via hunter, instead of using the pre-installed
-software from the build slaves.
+If you cloned an existing CPF based project and want to know how to work with it, read \ref WorkingWithCPF.
+If you want to create your own CPF based C++ project, read \ref SettingUpACPFProject.
+If you are interested in the CMakeProjectFramework code itself, read \ref DeveloperDocs.
 
 */
 
-//##########################################################################################
+//####################################################################################################
+
 /**
-\page GettingStarted
+\page WorkingWithCPF Working with a CPF project
 
-# Getting Started #
+# Working with a CPF project # 
 
-The CppCodeBase can currently be compiled on Windows and Linux. In Order to download and build the sources the following tools are required:
+## Directory Layout of a CPF project ##
 
-- <a href="https://git-scm.com/downloads">Git</a>
-- <a href="https://www.python.org/downloads/">Python3</a>
-- <a href="https://cmake.org/download/">CMake</a> 3.8 or later
-- <a href="http://www.graphviz.org/">Graphviz</a>
-- Visual Studio 2015 or GCC 4.8 or Clang 3.8
-- On Linux, Qt 5.5.1 currently needs to be installed manually.
+The root-folder of the code base ccbContains the following folders.
 
+- \b Sources: Contains the C++ code and CMake code. It has a sub-folder for each C++ \em target (library or executable) in the code-base. 
+There is also a sub-folder that ccbContains CMake utility code. The folder ccbContains a set of \em global files like the CMakeLists root file, the Doxygen
+configuration files or generated \c .cmake files for developer dependent CMake variables.
 
-The following tools are needed for other steps in the build pipeline
+- \b Generated: This folder is not checked into git but is generated when running the \c 1_Generate.py script. The directory will contain
+one subdirectory for each configuration for which the \c 1_Generate.py script was executed. The configuration subdirectory will itself
+contain files and directories that are used by the build-system. Of bigger interest are the following subdirectories. 
 
-- <a href="http://clang.llvm.org/extra/clang-tidy/">Clang-Tidy</a> for static analysis.
-- <a href="http://valgrind.org/">Valgrind</a> (on Linux) for dynamic code analysis.
-- <a href="https://opencppcoverage.codeplex.com/">OpenCppCoverage</a> (on Windows) for measuring test coverage.
-- <a href="http://www.stack.nl/~dimitri/doxygen/download.html">Doxygen</a>(on Windows and Linux) for generating the documentation.
+  + InstallStage: Contains all binaries of each package in the CppCodeBase. The executables in this directories subdirectories should be ready
+  to run after executing the pipeline.
+  + html: Contains all html pages that are generated when building the pipeline.
 
+- \b Configuration: Contains \c .cmake files for each configuration that was created with the \c 0_Configure.py script.
 
-## Dependencies ##
+- \b Infrastructure: This folder ccbContains files that define the build pipeline of the CppCodeBase project. A major part of these files
+are python scripts that help to execute the individual steps of the pipeline. Then there are various scripts and docker files that
+define the setup of the machines that are used to build the pipeline on the <a href="https://jenkins.io">jenkins</a> build-server. 
 
-The CppCodeBase cmake setup uses the hunter package manager to download and compile some of its dependencies.
-During the configuration process you can define the \c HUNTER_ROOT directory that will be used by hunter to
-build and store some of the external dependencies. If you you alread use hunter in another project, make sure
-to set the variable to the same directory that is used by the other project in order to save compilation time
-and disk space for dependencies that are used by multiple projects.
+- \b Tools: Contains tools that are needed to run the build-pipeline
 
-
-### Prerequisites ###
-- The source code.
-- Make sure you can run a Python 3 version from the command line by entering <tt>python -V</tt>.
-- Make sure you can run CMake 3.8 or higher from the command line by entering <tt>cmake --version</tt>.
-- Make sure you can run the Graphviz tools <tt>dot</tt>, <tt>acyclic</tt> and <tt>tred</tt> from the command line.
-- There may be other prerequisites. CMake will issue an error when they are missing.
+\todo Demonstrate use of buildscripts and common tasks a developer has to do when working with a CPF project.
 
 
-## Building the Project ##
-
-Change your current directory to the folder root folder of the CppCodeBase and enter the following commands.
-The CppCodeBase provides three python scripts that must be subsequently called to configure the build, generate
-'make-files' and to finally execute the build pipeline. More detailed information about the scripts can be found \ref BuildScripts here.
-
+## Configure and build the project ##
 
 ### Configuration ###
 
@@ -171,7 +123,232 @@ Calling the \c 2_Make.py script will finally execute the build pipeline.
 This will generate the binaries, run the tests, do some analysis, etc.
 The binaries can be found in the \c Generated/MyConfiguration/InstallStage subdirectory.
 The project documentation and other information can be found under \c Generated/MyConfiguration/html.
+
+
+
+# Build Scripts #
+
+The CppCodeBase provides three python scripts that wrap underlying calls to CMake in order
+to reduce the amount manually stated command line arguments. These scripts and their function
+are described here.
+
+## <tt>0_Configure.py</tt> ##
+
+This script takes an arbitrary configuration name as its main Argument. It can take additional
+definitions of CMake variables as optional arguments.
+
+\code{.bat}
+0_Configure.py VS2015 --DHUNTER_ROOT="C:/MyHunterLibs" --DCPPCODEBASE_TEST_FILES_DIR=="C:/Temp"
+\endcode
+
+calling the script generates the file \c Configuration/\<configuration\>.cmake where \c \<configuration\>
+would be \c VS2015 in the given example. This file ccbContains the initial values of the mayor cmake cache variables
+of the project. The values of the variables can be initialized by giving the \c --D options. The \c --D option
+is mainly intended to be used on the build-server. In a local development loop it is probably more convenient
+to generate a default configuration file without giving any \c --D options and then change the values of the variables 
+by opening the file in a text editor.
+
+In contrast to the \c CMakeCache.txt file which fulfills a very similar role, the \c \<configuration\>.cmake file
+is kept outside the build tree. This allows deleting the complete build tree without loosing the manually set 
+configuration.
+
+
+## <tt>1_Generate.py</tt> ##
+
+This script calls cmake to generate the 'make-files' for a given configuration. The script takes a configuration
+name that was defined by a call to the \c 0_Configure.py script as its only argument.
+
+\code{.bat}
+1_Generate.py VS2015
+\endcode
+
+This call will generate the build tree root directory under \c Generated/\<configuration\>. It will also initialize
+the cmake cache variables with the values from the configuration file. This means that previously made changes to
+an exiting \c CMakeCache.txt file are lost when calling this script with the \c \<configuration\> argument.
+The \c \<configuration\> argument can be omitted when there is only one \c Configuration/\<configuration\>.cmake
+file available or if only one configuration has a build directory with an existing \c CMakeCache.txt file.
+When the \c \<configuration\> argument is given, the script will clear the build tree before executing cmake.
+
+Note that the first run of this script will trigger the hunter package manager to download and build the dependencies.
+
+
+## <tt>2_Make.py</tt> ##
+
+This script calls <tt>cmake --build</tt> in order to compile one of the targets contained in the CppCodeBase. The script
+takes as main argument the \c \<configuration\> that should be build. Before this can be done, you must have run 
+\c 1_Generate.py for that configuration. The script can take the optional argument <tt>--target \<target_name\></tt> and
+the optional argument <tt>--config \<config_name\></tt>. 
+
+\code{.bat}
+2_Make.py VS2015 --target pipeline --config Release
+\endcode
+
+The main \c \<configuration\> argument can be omitted if only one configurations \c CMakeCache.txt file is available.
+When the argument is omitted, cmake will execute an incremental build.
+
+The \c --target option can be used to specify a certain target that shall be build. This typically is the \c pipeline target, which will build all available targets. 
+If no \c --target option is given, the default target is built, which ccbContains only building the binary targets.
+
+The \c --config option is only relevant when using a multi-configuration generator like Visual Studio. In this case the value of this
+argument could be \c Release or \c Debug. If the option is omitted, the \c Debug configuration is build. Do not confuse this compile
+configuration with the project configuration set with the \c 0_Configure.py script.
+
+
+# Notes on the configuration file mechanism. #
+
+The custom mechanism with the extra configuration file distinguishes the work-flow of the CppCodeBase from the
+standard cmake command-line work-flow, where the configure and generate step are executed at the same time.
+Using the CMake-Gui provides a similar work-flow, where the \c CMakeCache.txt file serves as the file
+that defines the local configuration.
+
+Having an extra configuration file creates some duplication. The extra configuration step may 
+also be unexpected to developers who expect the normal cmake behavior.
+
+However, in my experience the need to delete the complete build tree is quite common. Mainly
+when making changes to the cmake code. In these cases it is quite annoying to reconfigure the
+project by giving a possibly long list of cumbersome variables. In these cases it is nice to
+have the configuration stored outside the build tree which removes the need for re-specifying
+local settings whenever the build tree is deleted. The configuration file will typically contain
+no internal variables and will therefore be much smaller then the \c CMakeCache.txt file.
+
+When the mechanism with the extra configuration file was implemented, I also tried to
+keep the \c CMakeCache.txt file out of the build tree by setting the \c CMAKE_CACHEFILE_DIR
+variables. These attempts did not succeed.
+
+
+## Build pipeline and custom targets ##
+
+The build pipeline consists of a number of 'jobs' that accomplish the following tasks:
+
+- Automatically <b>retrieving and building all C++ dependencies</b> before the code of the CppCodeBase is build.
+Internally this is done with the <a href="https://github.com/ruslo/hunter">hunter package manger</a>.
+- <b>Build the code.</b> This is done with a combination of CMake and platform specific build tools.
+- <b>Run tests.</b>
+- <b>Run static Analysis.</b> This is currently only done on Linux with the \em Clang-Tidy tool.
+- <b>Run dynamic Analysis.</b> On Linux this step runs the automated tests with the \em Valgrind tool to find possible
+memory leaks. On Windows this step runs the automated tests with \em OpenCppCoverage tool to create a test coverage report.
+- <b>Generate Documentation.</b> This step runs \em Doxygen to create the HTML documentation.
+
+Most of the jobs are implemented as CMake targets. This has the advantage that we can use the
+parallelization and 'incremental-build' functionality that is already implemented by the build-system.
+This also may allow conveniently building specific targets by using the GUI of the IDE.
+A disadvantage is that depending on the underlying build-system the output is more or
+less mixed-up and it often takes some time to parse the output until the error that caused
+the build to fail is found.
+
+There is also a groovy script that defines the jenkins build-job. Development on this script
+tends to be slow because each iteration requires a commit, push and re-run of the pipeline.
+That is another reason to keep the script as small as possible.
+
+
 */
 
 
+//####################################################################################################
+/**
+\page SettingUpACPFProject Setting up a CPF project 
 
+# Setting up a CPF project #
+
+## Prerequisites ##
+- The source code.
+- Make sure you can run a Python 3 version from the command line by entering <tt>python -V</tt>.
+- Make sure you can run CMake 3.8 or higher from the command line by entering <tt>cmake --version</tt>.
+- Make sure you can run the Graphviz tools <tt>dot</tt>, <tt>acyclic</tt> and <tt>tred</tt> from the command line.
+- There may be other prerequisites. CMake will issue an error when they are missing.
+
+\todo Write tutorial when things are done.
+*/
+
+
+//####################################################################################################
+/**
+\page CPFDeveloperDocs CPF developer documentation
+
+# Project Organization #
+
+The CMakeProjectFramework master repository contains some of the documentation of the CMakeProjectFramework and provides the configuration
+for its official build job. The master repository also serves as an "owner" for the packages that implement the various aspects
+of the CI system. The packages are located in their own repositories and added as Git submodules to the master repository. 
+
+The packages are:
+
+- \ref CPFCMakeGroup "CPFCMake": Contains CMake code that implements the additional CI tasks as custom targets.
+- \ref CPFBuildscriptsGroup "CPFBuildscripts": Provides python scripts that shorten the frequently used CMake calls.
+- \ref CPFMachinesGroup "CPFMachines": Provides a python script that sets up a Jenkins-CI server and web-servers that provide CI-jobs for CPF-projects.
+
+## Package Dependencies ##
+
+Here is a simplified graph the illustrates the dependencies between the packages of the CMakeProjectFramework. 
+
+\dot 
+digraph G {
+  {
+    node [shape=box, font="", fontcolor="#4665C0"];
+    CPFBuildscripts [ URL="\ref CPFBuildscriptsGroup"];
+    CPFCMake [ URL="\ref CPFCMakeGroup"];
+    CPFMachines [ URL="\ref CPFMachinesGroup"];
+  }
+  "MyMachinesConfig" -> "CPFMachines" [ label="Uses setup script and provides config." ]
+  "CPFMachines" -> "CPFBuildscripts" [ label="Uses scripts in buildjob." ]
+  "CPFMachines" -> "CPFCMake" [ label="Uses CMake scripts for version tagging." ]
+  "CPFBuildscripts" -> "CPFCMake" [ label="Uses custom targets and config file mechanics."  ]
+  "CPFCMake" -> "3rd party tools and libs" [ label="Uses 3rd party tools provided by CPFMachines and hunter." style = dashed ]
+}
+\enddot
+
+MyBuildRepository represents a project that uses the CMakeProjectFramework. 
+
+\note In the long run, the dependency between CPFCMake and %CPFMachines should be removed 
+by making CPFCMake acquire all of the third party software via hunter, instead of using the pre-installed
+software from the build slaves.
+
+## Dependencies ##
+
+The CppCodeBase cmake setup uses the hunter package manager to download and compile some of its dependencies.
+During the configuration process you can define the \c HUNTER_ROOT directory that will be used by hunter to
+build and store some of the external dependencies. If you you alread use hunter in another project, make sure
+to set the variable to the same directory that is used by the other project in order to save compilation time
+and disk space for dependencies that are used by multiple projects.
+
+
+## Documentation generation ##
+
+The CppCodeBase uses <a href="http://www.stack.nl/~dimitri/doxygen/download.html">Doxygen</a> to allow keeping the documentation right beside the code.
+Doxygen has <a href="http://plantuml.com/">PlanUml</a> enabled to allow embedding UML diagramms into to documentation.
+
+### Searching ###
+
+The search functionality is configured to use the server-side search approach as described <a href="http://www.stack.nl/~dimitri/doxygen/manual/extsearch.html">here</a>.
+To make it work these points must be implemented.
+
+- The \c DoxygenConfig.txt must contain the correct value for the \c SEARCHENGINE_URL key. This means that the url of the \c doxysearch.cgi file must be
+known and accessible <b>before</b> generating the documentation. When the url of the documentation web-server changes, this value must be changed too.
+One can test if the cgi script works by entering \c http://feldrechengeraet/cgi-bin/doxysearch.cgi?test. This should return <tt>test succesfull</tt>.
+The file \c search/search.js in the doxygen directory should also contain a correct linkt to the \c doxysearch.cgi file.
+- The web-server needs access to the right \c doxysearch.cgi file which is provided by Doxygen. The \c doxysearch.cgi file must come
+from the same version of doxygen that is used to generate the html files and the \c doxysearch.db search database.
+- The webserver must be configured to use cgi scripts, which is done by providing the serve-cgi-bin.conf file with the docker-image of the webserver.
+The Dockerfile makes sure the file is copied into the container.
+- The help generation needs to execute the \c doxyindexer.exe to create the \c doxysearch.db serach-index for the \c doxysearch.cgi. This is done in
+the python script \c 7_GenerateDocumentation.py
+- The generated files must be copied to the documentation server container with the command
+\code{.sh}
+docker cp /var/lib/jenkins/www/html docserver:/var/www
+\endcode
+
+
+### The Dependency Graph ###
+
+Building the documentation target will also create two graphviz .dot files for the dependency graph of the build C++ packages.
+These graphs can be added to the projects documentation by adding the lines.
+
+\code
+\dotfile CPFDependencies.dot The projects dependency graph
+\dotfile CPFDependenciesTransitiveReduced.dot The projects transitive reduced target dependency graph
+\endcode
+
+To the doxygen documentation. The transitive reduced graph does not show direct dependencies when an
+indirect dependency exists. This resulst in a cleaner graph, which may sometimes be favoured to the complete graph.
+
+*/
