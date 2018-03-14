@@ -1,5 +1,5 @@
 /**
-\page CPFDeveloperDocs CPF developer documentation
+\page AD_CPFDeveloperDocs CPF developer documentation
 
 # Project Organization #
 
@@ -48,7 +48,7 @@ to set the variable to the same directory that is used by the other project in o
 and disk space for dependencies that are used by multiple projects.
 
 
-## Documentation generation ##
+\section DocumentationGeneration Documentation generation
 
 The CppCodeBase uses <a href="http://www.stack.nl/~dimitri/doxygen/download.html">Doxygen</a> to allow keeping the documentation right beside the code.
 Doxygen has <a href="http://plantuml.com/">PlanUml</a> enabled to allow embedding UML diagramms into to documentation.

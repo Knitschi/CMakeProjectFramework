@@ -1,196 +1,572 @@
 /**
-\page WorkingWithCPF Working with a CPF project
+\page AA_WorkingWithCPF Working with a CPF project
 
-# Working with a CPF project # 
-
-## Directory Layout of a CPF project ##
-
-The root-folder of the code base ccbContains the following folders.
-
-- \b Sources: Contains the C++ code and CMake code. It has a sub-folder for each C++ \em target (library or executable) in the code-base. 
-There is also a sub-folder that ccbContains CMake utility code. The folder ccbContains a set of \em global files like the CMakeLists root file, the Doxygen
-configuration files or generated \c .cmake files for developer dependent CMake variables.
-
-- \b Generated: This folder is not checked into git but is generated when running the \c 1_Generate.py script. The directory will contain
-one subdirectory for each configuration for which the \c 1_Generate.py script was executed. The configuration subdirectory will itself
-contain files and directories that are used by the build-system. Of bigger interest are the following subdirectories. 
-
-  + InstallStage: Contains all binaries of each package in the CppCodeBase. The executables in this directories subdirectories should be ready
-  to run after executing the pipeline.
-  + html: Contains all html pages that are generated when building the pipeline.
-
-- \b Configuration: Contains \c .cmake files for each configuration that was created with the \c 0_Configure.py script.
-
-- \b Infrastructure: This folder ccbContains files that define the build pipeline of the CppCodeBase project. A major part of these files
-are python scripts that help to execute the individual steps of the pipeline. Then there are various scripts and docker files that
-define the setup of the machines that are used to build the pipeline on the <a href="https://jenkins.io">jenkins</a> build-server. 
-
-- \b Tools: Contains tools that are needed to run the build-pipeline
-
-\todo Demonstrate use of buildscripts and common tasks a developer has to do when working with a CPF project.
+This page provides information on how to do the day to day tasks that arise when working with a **CPF** project.
+To illustrate the required steps, the text refers to an example project that can be retrieved on Github.
 
 
-## Configure and build the project ##
+\section Prerequisites Setting up the environment
 
-### Configuration ###
+Before you start, you have to install the basic tools that are used by the CMakeProjectFramework.
 
-Runnin the \c 0_Configure.py script generates a \c MyConfgiguration.cmake file in the \c Configuration sub-directory. The argument
-to the script, here \c MyConfgiguration can be arbitrarily chosen.
+\todo Find out what must be installed by hand to compile the project.
 
-\code{.bat}
-..\CppCodeBase> python 0_Configure.py MyConfiguration
-\endcode
+Windows
+- Visual Studio 2017
+- Git
+- Python3
+- CMake 3.10
 
-The generated file ccbContains default values for CMake variables that can be used to configure the project. You can now open
-the file and take a look at the variables and their values. Maybe you may want to change some of them.
+- OpenCppCoverage (optional)
+
+Linux
+- Gcc
+- Git
+- Python3
+- CMake 3.10
+
+- Clang (optional)
+- Valgrind (optional)
+
+Git, Python and CMake should be callable from the command-line. (PATH on Windows)
 
 
-### Generate ###
+\section GettingACPFProject Cloning the example project
 
-This script will execute CMake and generate the 'make-files' for the generator set in the MyConfiguration.cmake config file.
+A CPF project must be based on a git repository. The CMake code relies on it when determining package versions and when
+handling packages that can be contained in git submodules. Because of the possibly contained submodules the repository
+must be cloned by using:
 
 \code{.bat}
-..\CppCodeBase> python 1_Generate.py
+git clone --recursive https://github.com/Knitschi/ACPFTestProject.git
 \endcode
 
-After this there should be a sub-directory \c Generated/MyConfiguration that ccbContains the make-files for your configuration.
-This directory will also contain all files that are generated in the 'make' step. Note that this step will also retrieve and
-compile external dependencies of the project that are managed with hunter. So this step may take a while when running it for
-the first time.
+
+\section ConfigureGenerateBuild Configure, generate and build a CPF project 
+
+In order to build a freshly cloned CPF project, four commands need to be exectuted. Sadly this is
+a little more effort then the normal two steps (*generate* and *build*) that are used for a *vanilla* CMake project.
+The steps are implemented with the following *Python 3* scripts.
+
+1. \b 0_CopyScritps.py: Add commands to the projects root directory. 
+2. \b 1_Configure.py: Set variables that determine the compiler etc.
+3. \b 2_Generate.py: Create the *make-files* for the project.
+4. \b 3_Make.py: Build the project.
+
+If you have your operating system configured to run \c .py files with python 3, you can omit the explicit call to \c python in the following command line examples.
+If this is not the case, make sure the <TT>python -\-version</TT>  call returns a a 3.X version. On Linux you may need to use
+\c python3 instead of \c python.
+
+
+\subsection CopyStep The copy step
+
+In order to execute the copy step run
+
+\code{.bat}
+...\ACPFTestProject>python Sources/CPFBuildscripts/0_CopyScritps.py
+\endcode
+
+in the project root directory.
+
+This step copies some python scripts into the projects root directory. The scripts are
+provided by the CPFBuildscripts package. The scripts are only copied to shorten the command-line
+calls to these scripts while working with the project. This step only needs to be executed
+once after cloning the repository.
+
+
+\subsection ConfigurationStep The configuration step
+
+In order to generate a configuration file run
+
+\code{.bat}
+.../ACPFTestProject>python 1_Configure.py VS --inherits VS2017-shared
+\endcode
+
+on Windows or 
+
+\code{.sh}
+.../ACPFTestProject>python3 1_Configure.py Gcc --inherits Gcc-shared-debug
+\endcode
+
+on Linux in the project root directory.
+
+The purpose of the configuration step is to create a <TT>.config.cmake</TT> file that contains a set of CMake cache variables.
+These variables determine things like the CMake *generator*, or which custom targets are included in the pipeline.
+The config file is used instead of the usual variable definitions in the CMake generate step.
+The created file is located in the \c Configuration sub-directory. The name of the configuration (here \c VS or \c Gcc) can
+be chosen freely.
+
+The \c -\-inherits option determines a base configuration from which the created file inherits default values for all required variables.
+The base configuration can be provided by the CPFCMake package or the projects \c CIBuildConfigurations directory, which is the common
+use case. Some of the values in the configuration file, like library locations or test file directories, may 
+be need to set to values that are specific to the machine onto which the project was cloned. 
+After running the script you have the chance to edit the default values in the created config file in order to change the values to something
+that is adequate for the local build. On a CI server it may sometimes be useful to set non default values of variables directly with the command line
+call. This can be done by adding \c -\-D options to the script call.
+
+\code{.bat}
+...\ACPFTestProject>1_Configure.py VS --inherits VS2017-shared --DHUNTER_ROOT="C:/MyHunterLibs" --DCPF_TEST_FILES_DIR=="C:/Temp"
+\endcode
+
+A project can have multiple configurations in parallel. This can be achieved by running the \c 1_Configure.py script, multiple times.
+However, short command versions for the following generate and build steps are only available when only one configuration is present.
+
+
+\subsubsection NotesOnConfigurations Notes on the configuration file mechanism
+
+The custom mechanism with the additional configuration file distinguishes the work-flow of the CPF project from the
+standard CMake command-line work-flow, where the configure and generate step are executed at the same time.
+A caveat of this approach is, that configuration information is duplicated in the \c config.cmake file and the \c CMakeCache.txt file.
+The developer has to remember that instead of editing the \c CMakeCache.txt file one now has to edit the \c config.cmake file and then
+re-execute the generate step.
+The additional command line call may also come unexpected to developers who are used to work with *normal* CMake projects. 
+
+However, CMake itself provides a similar three step work-flow when using the CMake-GUI application. 
+Here the user can also change values of variables in the \c CMakeCache.txt file before executing the generate step. 
+This indicates that there is a certain need for a three-step approach.
+
+The CPF mechanism has some advantages over the two step work-flow which in my opinion outweigh the disadvantages.
+
+- Developers are relieved of remembering long lists of variable definitions that need to be typed
+whenever they need to re-generate the project. Especially when working on cmake code it becomes often necessary
+to completely delete the build directory. With the CPF mechanism the possibly manually
+edited configuration survives the deletion of the build directory.
+
+- The project can define default configurations that are used by the projects CI job. This can be used
+to define with which compilers and on which platforms the project can be build.
+
+
+\subsection GenerateStep The generate step
+
+To execute the generate step run
+
+\code{.bat}
+...\ACPFTestProject>python 2_Generate.py VS
+\endcode
+
+on Windows or
+
+\code{.sh}
+.../ACPFTestProject>python3 2_Generate.py Gcc
+\endcode
+
+on Linux in the project root directory.
+
+The generate step is the equivalent to the normally used <TT>cmake -H. -B_build -G"generator" -D...</TT> call.
+It will create the build-directory \c Generated/VS that holds the created *make-files* for the generator that is set 
+in the config file. In the example this is the Visual Studio solution for the Windows case and the make files
+in the Linux case.
+
+Note that during this step the hunter package manager may retrieve and compile external dependencies of the project. 
+This means that this step may take quite some time when running it for the first time. After the first run, hunter-package
+build results are cached and subsequent executions of this step should be much faster.
+
+When called with the configuration argument, the script will delete the build directory before generating the make-files, 
+to guarantee that its content is clean. The script can be called without the configuration argument. In this case it will use the first configuration
+that is available in the *Configuration* directory. It will also not delete the build directory before generating
+the files and do a faster *incremental* generate instead.
 
 \bug The script sometimes fails to clear the build directory
 This can probably happen in combination with the tortoise git client, which is known to prevent
-files from beeing deleted. Repeated execution of the script will at some point lead to all files beeing cleared
+files from being deleted. Repeated execution of the script will at some point lead to all files being cleared
 and the cmake command being executed.
 
 
-### Make ###
+\subsection BuildStep The build step
 
-Calling the \c 2_Make.py script will finally execute the build pipeline. 
-
-\code{.bat}
-..\CppCodeBase> python 2_Make.py --target pipeline
-\endcode
-
-This will generate the binaries, run the tests, do some analysis, etc.
-The binaries can be found in the \c Generated/MyConfiguration/InstallStage subdirectory.
-The project documentation and other information can be found under \c Generated/MyConfiguration/html.
-
-
-
-# Build Scripts #
-
-The CppCodeBase provides three python scripts that wrap underlying calls to CMake in order
-to reduce the amount manually stated command line arguments. These scripts and their function
-are described here.
-
-## <tt>0_Configure.py</tt> ##
-
-This script takes an arbitrary configuration name as its main Argument. It can take additional
-definitions of CMake variables as optional arguments.
+To execute a full build run
 
 \code{.bat}
-0_Configure.py VS2015 --DHUNTER_ROOT="C:/MyHunterLibs" --DCPPCODEBASE_TEST_FILES_DIR=="C:/Temp"
+...\ACPFTestProject>python 3_Make.py VS --target pipeline --config Debug
 \endcode
 
-calling the script generates the file \c Configuration/\<configuration\>.cmake where \c \<configuration\>
-would be \c VS2015 in the given example. This file ccbContains the initial values of the mayor cmake cache variables
-of the project. The values of the variables can be initialized by giving the \c --D options. The \c --D option
-is mainly intended to be used on the build-server. In a local development loop it is probably more convenient
-to generate a default configuration file without giving any \c --D options and then change the values of the variables 
-by opening the file in a text editor.
+on Windows or
 
-In contrast to the \c CMakeCache.txt file which fulfills a very similar role, the \c \<configuration\>.cmake file
-is kept outside the build tree. This allows deleting the complete build tree without loosing the manually set 
-configuration.
-
-
-## <tt>1_Generate.py</tt> ##
-
-This script calls cmake to generate the 'make-files' for a given configuration. The script takes a configuration
-name that was defined by a call to the \c 0_Configure.py script as its only argument.
-
-\code{.bat}
-1_Generate.py VS2015
+\code{.sh}
+.../ACPFTestProject>python3 3_Make.py Gcc --target pipeline
 \endcode
 
-This call will generate the build tree root directory under \c Generated/\<configuration\>. It will also initialize
-the cmake cache variables with the values from the configuration file. This means that previously made changes to
-an exiting \c CMakeCache.txt file are lost when calling this script with the \c \<configuration\> argument.
-The \c \<configuration\> argument can be omitted when there is only one \c Configuration/\<configuration\>.cmake
-file available or if only one configuration has a build directory with an existing \c CMakeCache.txt file.
-When the \c \<configuration\> argument is given, the script will clear the build tree before executing cmake.
+on Linux. This will compile the binaries as well as executing extra pipeline tasks like running the tests, do analysis,
+generate the documentation or other steps that your project may have enabled via its configuration file.
 
-Note that the first run of this script will trigger the hunter package manager to download and build the dependencies.
+- Specifying the the cpf-configuration, will cause a fresh rebuild. If no cpf-configuration is specified,
+the script will do an incremental build for the first configuration in the *Generated* directory. 
+- With the \c -\-target option one can specify which target should be build. During development this is useful if only
+a smaller part of the pipeline should be executed. For a list of available targets take a look at the list in the
+\ref CustomTargetsInACPFProject "custom targets section". If the \c -\-target option is omitted completely, 
+the script will only build the binary targets of the project.
+- The \c -\-config option is only required for multi-configuration generators like Visual Studio. If it is not
+specified, the \c Debug configuration will be build.
 
 
-## <tt>2_Make.py</tt> ##
 
-This script calls <tt>cmake --build</tt> in order to compile one of the targets contained in the CppCodeBase. The script
-takes as main argument the \c \<configuration\> that should be build. Before this can be done, you must have run 
-\c 1_Generate.py for that configuration. The script can take the optional argument <tt>--target \<target_name\></tt> and
-the optional argument <tt>--config \<config_name\></tt>. 
 
-\code{.bat}
-2_Make.py VS2015 --target pipeline --config Release
+\section TheAnatomyOfACPFProject The anatomy of a CPF project 
+
+Now that you have built the project, it is time to take a look at the content of the test project.
+
+\subsection DirectoryStructure The directory structure
+
+The CMakeProjectFramework enforces a certain directory structure. Here are the most important parts of that directory layout.
+Note that depending on the configuration that you built not all of the shown directories and files will exist in your project.
+Many of the displayed directories do not exist in a freshly cloned CPF project.
+
+\code{.unparsed}
+ACPFTestProject
+│   .gitignore
+│   .gitmodules
+│   1_Configure.py
+│   2_Generate.py
+│   3_Make.py
+|   ... [other scripts that help with day to day tasks]
+|
+├───Configuration
+│       VS.config.cmake
+│       Gcc.config.cmake
+│       ... [possibly more configuration files]
+│
+├───Generated
+│   ├───VS
+│   │   │   CMakeCache.txt
+│   │   │   CMakeGraphVizOptions.cmake
+│   │   │   CPFDependencies.dot
+│   │   │
+│   │   ├───BuildStage
+│   │   ├───html
+│   │   ├───_CPF
+│   │   ├───_pckg
+│   │   ... [the usual CMake generated directories and files]
+│   │
+│   ├───Gcc
+│   ... [more configuration directories]
+│
+└───Sources
+    │   CMakeLists.txt
+    │   cpfOwnedPackages.cmake
+    │   DoxygenConfig.txt
+    │   DoxygenLayout.xml
+    │
+    ├───CIBuildConfigurations
+    │   cpfCiBuildConfigurations.json
+    │   VS2017-shared.config.cmake
+    │   Gcc-shared-debug.config.cmake    
+    │   ... [more config files]
+    │            
+    ├───documentation
+    │       ACPFTestProjectDocumentation.dox
+    │       ... [more global files]
+    │
+    ├───APackage
+    │   │   CMakeLists.txt
+    │   │   function.cpp
+    │   │   function.h
+    │   │   ... [more package source files]
+    │   │
+    │   ├───MyCustomDirectory
+    │   |   ... [source files in sub-directories]
+    │   |
+    |   ... [more package subdirectories]
+    │  
+    ├───BPackage
+    │
+    ... [more package directories or global file directories]
+
 \endcode
 
-The main \c \<configuration\> argument can be omitted if only one configurations \c CMakeCache.txt file is available.
-When the argument is omitted, cmake will execute an incremental build.
+\subsubsection RootDirectory The root directory
 
-The \c --target option can be used to specify a certain target that shall be build. This typically is the \c pipeline target, which will build all available targets. 
-If no \c --target option is given, the default target is built, which ccbContains only building the binary targets.
-
-The \c --config option is only relevant when using a multi-configuration generator like Visual Studio. In this case the value of this
-argument could be \c Release or \c Debug. If the option is omitted, the \c Debug configuration is build. Do not confuse this compile
-configuration with the project configuration set with the \c 0_Configure.py script.
+The *ACPFTestProject* directory is the root directory of the project. This is the directory that you get when cloning a CPF project.
+Most of the command line operations that are needed to handle the CPF project, are executed in this directory. The directory contains
+scripts to configure and build the project. It also contains the \ref SourcesDirectory "Sources", \ref ConfigurationDirectory "Configuration" and \ref GeneratedDirectory "Generated" directories.
+The \ref SourcesDirectory "Sources" directory is stored in the repository, while the other two are generated when setting up the project.
 
 
-# Notes on the configuration file mechanism. #
+\subsubsection SourcesDirectory The Sources directory
 
-The custom mechanism with the extra configuration file distinguishes the work-flow of the CppCodeBase from the
-standard cmake command-line work-flow, where the configure and generate step are executed at the same time.
-Using the CMake-Gui provides a similar work-flow, where the \c CMakeCache.txt file serves as the file
-that defines the local configuration.
+The *Sources* directory contains all the files that are checked into the repository.
+After cloning a CPF repository, this should be the only existing directory in the cpf-root-directory. The Sources directory contains
+the root \c CMakeLists.txt file of the repository, global files and directories for the packages that contain the *payload* code
+of the project. There is a set of files that are in every CPF project.
 
-Having an extra configuration file creates some duplication. The extra configuration step may 
-also be unexpected to developers who expect the normal cmake behavior.
+- <b>\c CMakeLists.txt:</b> The root \c CMakeLists.txt file creates the CI-project. This is the *host* project that contains the
+package projects that are created by the packages \c CMakeLists.txt files. The creation of the CI-project is done by calling the
+\c cpfInit() function. Packages are added by calling the \c cpfAddPackages() function. Both are provided by the \ref CPFCMakeGroup package.
 
-However, in my experience the need to delete the complete build tree is quite common. Mainly
-when making changes to the cmake code. In these cases it is quite annoying to reconfigure the
-project by giving a possibly long list of cumbersome variables. In these cases it is nice to
-have the configuration stored outside the build tree which removes the need for re-specifying
-local settings whenever the build tree is deleted. The configuration file will typically contain
-no internal variables and will therefore be much smaller then the \c CMakeCache.txt file.
+- <b>\c %cpfOwnedPackages.cmake:</b> This file defines a CMake cache variable that holds a list of package names that are *owned* by this
+CI-project. *Owned* means, that the CI-job that builds this repository is responsible for verifying that all automated checks for
+the package pass before it is marked with a version tag. More information about package ownership can be found \ref PackageOwnership "here".
 
-When the mechanism with the extra configuration file was implemented, I also tried to
-keep the \c CMakeCache.txt file out of the build tree by setting the \c CMAKE_CACHEFILE_DIR
-variables. These attempts did not succeed.
+- <b>\c DoxygenConfig.txt:</b> A configuration file for Doxygen that can be used to pass options to doxygen. Note that this is not
+the final file that is used by doxygen. More information about the documentation generation can be found \ref DocumentationGeneration "here".
+
+- <b>\c DoxygenLayout.xml:</b> A file which can be used to customize the look of the generated documentation.
+
+- <b>\c CIBuildConfigurations:</b> This directory provides the CI job with information about the project configurations that should
+be build by the CI job. These configurations are defined in files like \c VS.config.cmake which contain a
+set of CMake cache variables. More information about the config file mechanism can be found \ref ConfigurationStep "here".
+
+- <b>\c CIBuildConfigurations/cpfCiBuildConfigurations.json:</b> A file that contains a list of configurations that are build by the
+projects CI job. This is only needed if the infrastructure provided by \ref CPFMachinesGroup is used.
+
+- <b>\c documentation:</b> This is an example for user added directories for global files. You can add directories to the *Sources*
+directory that do not contain packages, but are rather used to order your global files, like project wide documentation, etc.
+
+- <b>\c APackage:</b> A directory that contains a package. The name of the package directory can be chosen by the user. 
+It also defines the name of the main library or executable that is created by this package. A CPF project can have multiple package directories.
+The package directory contains all source files that belong to the package. These can hold the production code, test code or 
+the package documentation. The package directory must contain a \c CMakeLists.txt file that calls the
+\c cpfInitPackageProject() and \c cpfAddPackage() functions. The directory structure within the package directory can be chosen freely.
+The relative directories of source files must be prepended when adding the files to the packages \c CMakeLists.txt file.
 
 
-## Build pipeline and custom targets ##
+\subsubsection ConfigurationDirectory The Configuration directory
 
-The build pipeline consists of a number of 'jobs' that accomplish the following tasks:
+The *Configuration* directory contains CMake files that define the locally used configurations of the project. This directory is
+generated by calling the \c 1_Configure.py script in the \ref ConfigurationStep "configuration step". 
+This directory is used to keep manually created project configurations out of the potentially short lived *Generated* directory.
 
-- Automatically <b>retrieving and building all C++ dependencies</b> before the code of the CppCodeBase is build.
-Internally this is done with the <a href="https://github.com/ruslo/hunter">hunter package manger</a>.
-- <b>Build the code.</b> This is done with a combination of CMake and platform specific build tools.
-- <b>Run tests.</b>
-- <b>Run static Analysis.</b> This is currently only done on Linux with the \em Clang-Tidy tool.
-- <b>Run dynamic Analysis.</b> On Linux this step runs the automated tests with the \em Valgrind tool to find possible
-memory leaks. On Windows this step runs the automated tests with \em OpenCppCoverage tool to create a test coverage report.
-- <b>Generate Documentation.</b> This step runs \em Doxygen to create the HTML documentation.
 
-Most of the jobs are implemented as CMake targets. This has the advantage that we can use the
-parallelization and 'incremental-build' functionality that is already implemented by the build-system.
-This also may allow conveniently building specific targets by using the GUI of the IDE.
-A disadvantage is that depending on the underlying build-system the output is more or
-less mixed-up and it often takes some time to parse the output until the error that caused
-the build to fail is found.
+\subsubsection GeneratedDirectory The Generated directory
 
-There is also a groovy script that defines the jenkins build-job. Development on this script
-tends to be slow because each iteration requires a commit, push and re-run of the pipeline.
-That is another reason to keep the script as small as possible.
+The *Generated* directory contains all files that are generated by the \ref GenerateStep "generate-" and \ref BuildStep "build step".
+All contents of that directory can be deleted without loosing any manual work.
+However you will have to re-execute the *generate* and *build* step after deleting this directory.
 
+The *Generated* directory contains one subdirectory for each configuration for which the *generate* step is executed. 
+The configuration directories are the CMake *build* directories, that contain the usual CMake generated files as well 
+as some special directories that are created by the CMake code of the **CPF**.
+
+#### CPF specific build directory content ####
+
+- <b>\c html:</b> The primary output directory of the project. It contains created distribution packages in the \c Downloads subdirectory.
+The \c doxygen subdirectory contains the entry page of the generated project page, which leads to the documentation and other optionally generated
+html pages like coverage report.
+
+- <b>\c BuildStage:</b> This directory contains all the binaries that are generated when building the project. When running an
+executable during debugging or automated testing, it is run from within this directory.
+
+- <b>\c _CPF:</b> A directory that is used for all internal files that are generated by the custom targets of the CPFCMake package.
+If everything goes well, the contents are only of interest when developing the CPFCMake package itself.
+
+- <b>\c _pckg:</b> A directory that is used to accumulate the contents of the created distribution packages.
+If everything goes well, the contents are only of interest when developing the CPFCMake package itself.
+
+
+\subsection CIProjectAndPackageProjects CI project vs. package projects
+
+The CPF tries to implement a system that can not only be used for managing one repository that is worked on by a single team.
+It also tries to support a C++ code base that is split up in small packages that can be re-used by other projects. To achieve
+this, a CPF project has two CMake project levels. The CI project is created in the root \c CMakeLists.txt file. It provides
+the interface for the CI-job and the developers to build a set of packages. It also provides information, about which
+configurations are build by the CI system and possibly some higher level documentation that does not really belong to a single
+package.
+
+In the *Sources* subdirectory we have the package directories that contain the \c CMakeLists.txt files that define the package
+projects. Each package creates one main binary that is supposed to be used by consumers. This can be a library or an executable.
+The package can also contain binaries that are used for testing and its own documentation.
+
+\subsubsection PackageOwnership Package ownership
+
+A package can be owned by a CI project or be an external package. If a package is owned by a CI project it means, that this
+CI project is responsible for running the automated tests of the package and defining the officially supported build configurations
+of that the package. When using the CPFMachines CI-job, it will also be the entity that marks successful builds of owned packages
+with version tags. An owned package can either be included in the CI projects git repository, or it can be a git submodule with
+its own repository. If it uses a git submodule it is called a *loose owned package*. In this case it's version number can advance independently
+of the CI-repository. Packages that are intended to be used in other projects, should be *loose* packages with their own 
+repository to allow other projects to include the package as a git submodule. *Loose* packages lead to more and more complex *git work*,
+meaning that more git operations will be necessary in the day to day work. 
+If packages are executables or not used in other projects, it is therefore recommended to make them *fixed* packages and check them 
+directly into the CI repository.
+
+External packages are always git submodules. The CI projects build-pipeline will not run the tests for these packages and exclude
+them when generating the documentation. An external project should have another CI project that owns that package.
+
+#### Example ####
+
+In the ACPFTestProject we have quite number of packages. The owned packages are *APackage*, *CPackage*, *DPackage* and *EPackage*.
+All the other packages are external packages. These are *BPackage*, *CPFBuildscripts*, *CPFCMake*, *CPFMachines*, *FPackage*, *GPackage*
+and *libSwitchWarningsOff*. The only *fixed* package is *CPackage*. All other packages are included as git submodules.
+
+\section CustomTargetsInACPFProject The custom targets in a CPF project
+
+The build pipeline of a CPF project is implemented with CMake *custom-targets*. In order to execute
+one of those tasks separately from the whole pipeline, one has to build that *target* with the
+\ref BuildStep "3_Make.py" script. The advantage of the custom-target mechanism is, that the used build-system
+handles dependency issues, rebuilding outdated targets and parallelizing task execution.
+
+The availability of custom-targets in a CPF project depends on the projects configuration and its source files.
+Most custom targets can be disabled via the configuration file. This may be helpful if a custom implementation of the
+task is preferred. Some tasks require a test executable which is only created if the package has
+a source file that defines the main function of a test-executable.
+
+The following sections provide lists of target names that can be used with the \ref BuildStep "3_Make.py" script.
+The lists do not contain some private targets of the CPF that are only created as sub-steps of the
+targets that are of interest to the user.
+
+In some IDEs like Visual Studio or KDevelop, targets are visualized and can be directly *build*
+from within the IDE. This may sometimes be preferred to building the targets from the command line.
+
+
+\subsection GlobalTargets Global targets
+
+A CPF project contains some targets that operate on the global level.
+They either execute operations that can not be done for each package
+in separation or *bundle* up a certain kind of per-package targets.
+In this case building the bundle target will simply build all
+per-package targets of that kind.
+
+Here is a list of targets that can exist once per CPF project.
+
+- \ref documentation
+- \ref distributionPackages
+- \ref dynamicAnalysis
+- \ref pipeline
+- \ref runAllTests
+- \ref runFastTests
+- \ref staticAnalysis
+- \ref versionCompatibilityChecks
+- \ref INSTALL
+- \ref ALL_BUILD
+- \ref ZERO_CHECK
+
+
+\subsection PackageTargets Package targets
+
+Here is a list of targets that can exist once per CPF package.
+
+- \ref package
+- \ref package_tests
+- \ref package_fixtures
+- \ref distributionPackages_package
+- \ref dynamicAnalysis_package
+- \ref install_package
+- \ref runAllTests_package
+- \ref runFastTests_package
+- \ref staticAnalysis_package
+- \ref checkAbiCompatibility_binary_target
+
+
+\subsection TargetAnnotations Target annotations
+
+\subsubsection documentation documentation
+
+This target runs doxygen to generate the documentation for all owned packages.
+It can be disabled with the \c CPF_ENABLE_DOXYGEN_TARGET variable.
+
+\subsubsection distributionPackages distributionPackages
+
+This target bundles the \ref distributionPackages_package targets.
+
+\subsubsection dynamicAnalysis dynamicAnalysis
+
+This target bundles the \ref dynamicAnalysis_package targets.
+
+\subsubsection pipeline pipeline
+
+The top-level bundle target that will make sure that all other targets are built.
+
+\subsubsection runAllTests runAllTests
+
+This target bundles the \ref runAllTests_package targets.
+
+\subsubsection runFastTests runFastTests
+
+This target bundles the \ref runFastTests_package targets. This target is not
+contained in the \ref pipeline target which always builds the \ref runAllTests target.
+
+\subsubsection staticAnalysis staticAnalysis
+
+This target bundles the \ref runFastTests_package targets. It also
+checks that the dependency graph of the projects binary targets is acyclic.
+
+\subsubsection versionCompatibilityChecks versionCompatibilityChecks
+
+This target bundles the \ref checkAbiCompatibility_binary_target targets.
+
+\subsubsection INSTALL INSTALL
+
+This target bundles the \ref install_package targets.
+
+\subsubsection ALL_BUILD ALL_BUILD
+
+This target builds all binary targets.
+
+\subsubsection ZERO_CHECK ZERO_CHECK
+
+This target re-runs the cmake generate step.
+
+\subsubsection package \&lt;package\&gt;
+
+The main binary target of the package.
+
+\subsubsection package_tests \&lt;package\&gt;_tests
+
+The test executable that belongs to the package. This target is only created
+if the \c addPackage() function has the \c TEST_FILES argument set. The executable
+should run automated tests when executed.
+
+\subsubsection package_fixtures \&lt;package\&gt;_fixtures
+
+An additional library that can be used to share test utility code between packages.
+It is only created if the \c addPackage() function has the \c FIXTURE_FILES and \c PUBLIC_FIXTURE_HEADER arguments set.
+
+\subsubsection distributionPackages_package distributionPackages_\&lt;package\&gt;
+
+Creates all *distribution packages* of the package. A *distribution package* is a file that is
+distributed to users of the package. This can be a zip file that contains the binaries or sources or 
+an installer. The target is only created if the \c addPackage() function has the \c DISTRIBUTION_PACKAGES
+argument set.
+
+\subsubsection dynamicAnalysis_package dynamicAnalysis_\&lt;package\&gt;
+
+This target runs the test executable with OpenCppCoverage tool on Windows.
+This adds a test coverage report to the html output.
+On Linux it runs the test executable with the Valgrind tool. This can detect
+memory leaks and undefined behavior.
+
+The target can be disabled with the \c CPF_ENABLE_DYNAMIC_ANALYSIS_TARGET config variable.
+
+\subsubsection install_package install_\&lt;package\&gt;
+
+This target copies the packages binary files and public headers to the
+\c ${CMAKE_INSTALL_PREFIX}/\<package\> directory.
+
+\todo Check if this can still be used like the Linux \c {make install} step without breaking the
+creation of the distribution packages.
+
+\subsubsection runAllTests_package runAllTests_\&lt;package\&gt;
+
+This target runs all the tests in the \ref package_tests executable.
+
+The target can be disabled with the \c CPF_ENABLE_RUN_TESTS_TARGET config variable.
+
+\subsubsection runFastTests_package runFastTests_\&lt;package\&gt;
+
+This target runs all the tests in the \ref package_tests executable that have either
+the word *FastFixture* or *FastTests* included in their name. It is the the users
+responsibility to make sure that the tests with those names are really fast tests.
+
+The purpose of the target is to provide a way of executing only tests that are run quickly
+an which are therefor useful when working in a tight test-driven development cycle.
+
+The target can be disabled with the \c CPF_ENABLE_RUN_TESTS_TARGET config variable.
+
+\subsubsection staticAnalysis_package staticAnalysis_\&lt;package\&gt;
+
+This target only exists when compiling on Linux with the clang compiler.
+It runs the \c clang-tidy tool on the packages source files.
+
+The target can be disabled with the \c CPF_ENABLE_STATIC_ANALYSIS_TARGET config variable.
+
+\subsubsection checkAbiCompatibility_binary_target checkAbiCompatibility_\&lt;binary_target\&gt;
+
+The target only exists when compiling on Linux with Gcc and with debug output. It runs the
+Abi-Compliance-Checker tool on abi-dump files that are contained in the packages distribution targets.
+The tool will add ABI/API compatibility reports to the html output directory.
+
+This target is somewhat fragile, because it requires the abi-dump files of the last internal and release
+version of the package. These must be provided by the web-server that is setup by the CPFMachines infrastructure.
+
+The target can be disabled with the \c CPF_ENABLE_ABI_API_COMPATIBILITY_CHECK_TARGETS config variable.
 
 */

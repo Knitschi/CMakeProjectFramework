@@ -6,7 +6,7 @@
 The **CMakeProjectFramework** framework provides a solution for organizing a cross-platform Git and CMake based C++ software project. 
 At the low level it implements the execution of additional tasks like test-execution, packaging or documentation generation. 
 This part is implemented with CMake and can be used without the higher level part, which implements a Jenkins based CI-infrastructure that can
-be used to provide continous integration services for a CPF project.
+be used to provide continuous integration services for a CPF project.
 
 \note This project is work in progress. Currently there are no automated tests that guarantee it to be in a working condition.
 
@@ -26,42 +26,42 @@ The CMakeProjectFramework tries to solve the above mentioned problems by using a
 ecosystem. The third party tools used by the CMakeProjectFramework are:
 
 - <a href="https://git-scm.com/downloads">Git</a>                                       (code versioning)
-- <a href="https://cmake.org/download/">CMake</a>                                       (metabuildsystem)
-- <a href="https://github.com/ruslo/hunter">Hunter package manager</a>                  (automatic dependeny retrieval)
-- <a href="https://github.com/sakra/cotire">Cotire</a>                                  (cmake module for precompiled headers)
+- <a href="https://cmake.org/download/">CMake</a>                                       (meta-buildsystem)
+- <a href="https://github.com/ruslo/hunter">Hunter package manager</a>                  (automatic dependency retrieval)
+- <a href="https://github.com/sakra/cotire">Cotire</a>                                  (CMake module for pre-compiled headers)
 - <a href="https://jenkins.io/">Jenkins</a>                                             (CI server)
 - <a href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a>                           (documentation generator)
-- <a href="http://clang.llvm.org/extra/clang-tidy/">clang-tidy</a>                      (static code analyis)
+- <a href="http://clang.llvm.org/extra/clang-tidy/">clang-tidy</a>                      (static code analysis)
 - <a href="http://valgrind.org/">valgrind</a>                                           (dynamic code analysis)
 - <a href="https://github.com/OpenCppCoverage/OpenCppCoverage">OpenCppCoverage</a>      (measure test coverage)
 - <a href="https://github.com/lvc/abi-compliance-checker">Abi Compliance Checker</a>    (visualize changes in the API/ABI between package versions)
 - <a href="https://www.graphviz.org/">Graphviz</a>                                      (used to create a dependency graph of the project)
 
 Using the **CPF** should relieve you of writing your own higher level CMake code or other additional scripts to implement pipeline tasks.
-It can additionaly provide a Jenkins CI infrasturcture that is (in the future) completely generated from text-files.
+It can additionally provide a Jenkins CI infrastructure that is (in the future) completely generated from text-files.
 
 
 ## Motivation ##
 
-In the smaller sized teams and companies that I have worked with, improving the CI system was often a somewhat neglegted part of the development. Although the eco-system
+In the smaller sized teams and companies that I have worked with, improving the CI system was often a somewhat neglected part of the development. Although the eco-system
 provides a number of open source tools that do the heavy lifting, it is still quite some work to integrate all the tools into a full featured CI production 
 system. Implementing new features often had higher priority then the work on the infrastructure. In the worst case this meant that the team had to work
-without a CI server or that the CI server only did the most basic jobs like building and packaging the projekt.
+without a CI server or that the CI server only did the most basic jobs like building and packaging the project.
 
 This situation bugged me and I started to implement a CI pipeline and infrastructure for my own C++ toy code-base. At some point the *project* code started
 to get bigger then the C++ *payload* code. I decided to pull out that *project* code into its own repository which now has become the **CMakeProjectFramework**.
 
 At its current state the project is not battle tested. As far as I know I am the only user and the project currently lacks the generality to be useful
-to everybody. However, I am interested in changing that and making the project usefull to hobby developers or small teams that have not yet a CI pipeline in place.
+to everybody. However, I am interested in changing that and making the project useful to hobby developers or small teams that have not yet a CI pipeline in place.
 If you are interested in using the project or joining its development, feel free to contact me via Github.
 
 
-## Further reading ##
+## Further Content ##
 
-- If you cloned an existing CPF based project and want to know how to work with it, read: \ref WorkingWithCPF
-- If you want to create your own CPF based C++ project, read: \ref SettingUpACPFProject
-- If you want to setup the CI infratstructure for a CPF based project, read: \ref SettingUpTheInfrastructure
-- If you are interested in the CMakeProjectFramework code itself, read: \ref CPFDeveloperDocs
+- If you cloned an existing CPF based project and want to know how to work with it, read: \ref AA_WorkingWithCPF
+- If you want to create your own CPF based C++ project, read: \ref AB_SettingUpACPFProject
+- If you want to setup the CI infrastructure for a CPF based project, read: \ref AC_SettingUpTheInfrastructure
+- If you are interested in the CMakeProjectFramework code itself, read: \ref AD_CPFDeveloperDocs
 
 
 ## Limitations ##
@@ -69,9 +69,21 @@ If you are interested in using the project or joining its development, feel free
 1. The CMakeProjectFramework is currently only developed on Linux and Windows. In the long run I would also like to support development on MacOS, 
 and cross-compiling to any other platform that is supported by CMake.
 
-2. Setting up the CI infratstructure currently requires still a lot of manual work.
+2. Setting up the CI infrastructure currently requires still a lot of manual work.
 
 3. I do not know if *custom* pipeline steps can be easily added to the pipeline.
+
+4. When using the **CPF** on windows, one can easily run into the 260 character limit for filesystem paths. If this is hit, the only fix is to
+reduce the length of package names and the project name.
+
+
+## Similar projects ## 
+
+Here is a non complete list of projects that have a similar goal.
+
+- <a href="https://github.com/cmake-basis/BASIS">BASIS</a> 
+
+
 */
 
 
