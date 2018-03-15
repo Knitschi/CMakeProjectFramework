@@ -102,7 +102,7 @@ use case. Some of the values in the configuration file, like library locations o
 be need to set to values that are specific to the machine onto which the project was cloned. 
 After running the script you have the chance to edit the default values in the created config file in order to change the values to something
 that is adequate for the local build. On a CI server it may sometimes be useful to set non default values of variables directly with the command line
-call. This can be done by adding \c -\-D options to the script call.
+call. This can be done by adding \c -D options to the script call.
 
 \code{.bat}
 ...\ACPFTestProject>1_Configure.py VS --inherits VS2017-shared --DHUNTER_ROOT="C:/MyHunterLibs" --DCPF_TEST_FILES_DIR=="C:/Temp"
@@ -493,7 +493,7 @@ This target builds all binary targets.
 
 \subsubsection ZERO_CHECK ZERO_CHECK
 
-This target re-runs the cmake generate step.
+This target re-runs the CMake generate step.
 
 \subsubsection package \&lt;package\&gt;
 
@@ -568,5 +568,10 @@ This target is somewhat fragile, because it requires the abi-dump files of the l
 version of the package. These must be provided by the web-server that is setup by the CPFMachines infrastructure.
 
 The target can be disabled with the \c CPF_ENABLE_ABI_API_COMPATIBILITY_CHECK_TARGETS config variable.
+
+
+\section CommonGitOperations Common Git operations on a CPF project
+
+\todo Describe updates and pushes.
 
 */
