@@ -10,7 +10,7 @@ to work with Git.
 \section StepByStep Step by step tutorial for creating a CPF project
 
 This tutorial will walk you through the steps that are required to set-up a CPF project.
-It will start with a very simple project that will then be extended to show more advanced features.
+It starts with a very simple project that will then be extended to show more advanced features.
 The goal of the tutorial is not only to create a new CPF project, but also to explain some of it's details
 in the process. If you already know your way around a CPF project and you just want to create a new one, it is probably
 quicker if you simply copy the example project and remove the stuff that you do not need and rename the rest.
@@ -20,17 +20,18 @@ scripts from the command line without prepending the extra \c python command. If
 on Linux, you have to use the base *Linux* configuration in the configuration step instead of the *Windows* configuration.
 You may also want to choose different names for your generated configurations like *VS* &rarr; *Gcc* and *VS2017-shared* &rarr; *Gcc-shared*. 
 
+Until not stated differently, all commands should be executed in the projects root directory.
 
 \subsection CreateRepositories 1. Create the repository
 
-First you need a Git repository that will hold your CI project. For simplicity sake we create the *remote* git repository on the same machine
+First you need a Git repository that will hold your CI project. For simplicity's sake we create the *remote* git repository on the same machine
 that we use for working on the cloned repository. If you are familiar with setting up remote Git repositories you can
 also create it on a different machine.
 
 Navigate to a directory that is suited for holding the repositories. If you are on
-Windows, make sure that it is a short directory name. The configuration name is used in multiple nested directories within
-the build directory of the project, which can blow up the the 260 character path limit. Create
-the directory \c MyCPFPRoject.git. This will contain the *remote* repository.
+Windows, make sure that it is a short path. Because of the deep nested directory structure, your CPF project may get into trouble with
+the 260 character path limit.
+Create the directory \c MyCPFPRoject.git. This will contain the *remote* repository.
 Now open a command line, and create the remote repository by executing the following commands:
 
 \code{.unparsed}
@@ -130,6 +131,7 @@ The tag is required by the CPF to determine the version number of the packages. 
 will later cause errors.
 
 \code{.unparsed}
+>git add .gitignore Sources/CMakeLists.txt
 >git commit . -m"Add basic files"
 >git tag -a 0.0.0 -m"The initial version"
 \endcode
@@ -142,9 +144,9 @@ However, you do not have those functions yet available in your project. To chang
 as git submodules. Open a command line and navigate to the *Sources* directory. Then run:
 
 \code{.unparsed}
->git submodule add https://github.com/Knitschi/CPFCMake.git
->git submodule add https://github.com/Knitschi/CPFBuildscripts.git
->git submodule add https://github.com/Knitschi/cotire.git
+Sources>git submodule add https://github.com/Knitschi/CPFCMake.git
+Sources>git submodule add https://github.com/Knitschi/CPFBuildscripts.git
+Sources>git submodule add https://github.com/Knitschi/cotire.git
 \endcode
 
 The submodules \ref CPFCMakeGroup and \ref CPFBuildscriptsGroup are part of the CMakeProjectFramework. 
@@ -197,6 +199,7 @@ The files \c %cpfOwnedPackages.cmake, \c DoxygenConfig.txt and \c DoxygenLayout.
 They are only generated when they do not exists and are intended to be edited by the developers. Run
 
 \code{.unparsed}
+>git add Sources/DoxygenConfig.txt Sources/DoxygenLayout.xml Sources/cpfOwnedPackages.cmake
 >git commit . -m"Add more project files."
 \endcode
 
@@ -364,18 +367,22 @@ Lower level packages must come first.\
 Finally commit the new files to the repository by running:
 
 \code{.unparsed}
+>git add Sources/MyApp
 >git commit . -m"Add the MyApp package."
 \endcode
 
 \subsubsection BuildTheSinglePackageProject Build the project
 
-With all the files in place we can now build our package by executing the \ref BuildStep "build step".
-If it succeeded you can also start the application
+With all the files in place we can now generate and build the project. Note that you have to run a complete generate
+whenever you change the \c cpfOwnedPackages.cmake file. A *complete* generate is executed when the configuration
+option is given to the \c 2_Generate.py script. After the re-generate you can build and run the application.
 
 \code{.unparsed}
+>2_Generate.py VS
 >3_Make.py --target pipeline
->Generated/VS/BuildStage/Debug/MyApp/MyApp-debug.exe
-MyApp (version 0.0.0.3-73cc-dirty) greets the world!
+>cd Generated/VS/BuildStage/Debug/MyApp
+.../MyApp>MyApp-debug
+MyApp (version 0.0.0.2-73cc-dirty) greets the world!
 \endcode
 
 Your actual version number will be different and depends on the current
@@ -395,26 +402,33 @@ In this section we add our own default configuration to the project. For demonst
 the configuration to build shared libraries instead of static libraries. 
 To create the new default configuration execute the following steps.
 
-- First we create a new configuration file by running <tt>%1_Configure.py VS2017-shared --inherits Windows -D BUILD_SHARED_LIBS=ON</tt>.
+\code{.unparsed}
+>1_Configure.py VS2017-shared --inherits Windows -D BUILD_SHARED_LIBS=ON
+>mkdir Sources\CIBuildConfigurations
+>move Configuration\VS2017-shared.config.cmake Sources\CIBuildConfigurations
+>rmdir /s /q Configuration
+>1_Configure.py VS --inherits VS2017-shared
+>2_Generate.py VS
+>git add Sources\CIBuildConfigurations
+>git commit . -m"Add default configuration VS2017-shared."
+\endcode
+
+- First we create a new configuration file that sets a different value for variable \c BUILD_SHARED_LIBS.
 This variable is used to tell CMake to build shared libraries instead of static ones. For now this has no effect because we have no
 library packages yet. Instead of using the \c -D command line options, you can also
 edit the configuration file with a text-editor, which may be more comfortable if multiple values are changed.
-
-- Now create the directory \c Sources/CIBuildConfigurations and move the new configuration file at \c Configuration/VS2017-shared.config.cmake
-into it.
-
-- Commit the new configuration file to the repository.
+- Then we move the new configuration to the projects default configurations directory \c Sources/CIBuildConfigurations.
+- With the second configure step we use the new default configuration as our new local *VS* configuration.
+- When making changes to our configuration, we have to do a fresh generate.
+- At the end we commit the new configuration file to the repository.
 
 Developers can now use the default configuration of the project without the need of manually setting any CMake variables.
-In order to use your new default configuration delete the old configuration file in the *Configuration* directory
-and create a new one by calling. <tt>1_Configure.py VS --inherits VS2017-shared</tt>. Then also re-run the
-generate step by calling <tt>2_Generate.py VS</tt>.
 
 
 \subsection CPFAddALibraryPackage 7. Add the library package MyLib
 
 As your C++ project grows, it will at some point become reasonable to split it into multiple libraries.
-In the CPF we create libraries by adding a library package. In this example we assume that our library
+With the CPF we create libraries by adding a library package. In this example we assume that our library
 will be used by other projects. To Allow this, we create a separate repository for the library package.
 We then add this repository as a git submodule to our *MyCPFProject* repository.
 If you do not know if a library will be shared between projects, you can first add it directly to the 
@@ -549,9 +563,10 @@ Now add, commit and push all files in the *MyLib* repository. We also add an ini
 version tag for the *MyLib* repository.
 
 \code{.unparsed}
->git commit . -m"Add package files"
->git tag -a 0.0.0 -m"The initial version"
->git push --all
+MyLib>git add .
+MyLib>git commit . -m"Add package files"
+MyLib>git tag -a 0.0.0 -m"The initial version"
+MyLib>git push --all --tags
 \endcode
 
 
@@ -629,17 +644,19 @@ namespace ma
 }
 \endcode
 
-You now have to regenerate the make-files in order to finish adding the library package.
+You now have to commit the changes to *MyCPFProject* and regenerate the make-files in order to finish adding the library package.
 
 \code{.unparsed}
+>git commit . -m"Add MyLib submodule and use it in MyApp."
 >2_Generate.py VS
 >3_Make.py
->Generated/VS/BuildStage/Debug/MyApp/MyApp-debug.exe
+>Generated\VS\BuildStage\Debug\MyApp\MyApp-debug.exe
 MyLib (version 0.0.0) greets the world!
-MyApp (version 0.0.0.6-3d31) greets the world!
+MyApp (version 0.0.0.3-3d31) greets the world!
 
 \endcode
 
+You can see that *MyApp* successfully calls the new function from MyLib.
 Again, your version numbers will be different. MyLib has a different version then then MyApp
 because it lives in a different repository.
 
@@ -737,6 +754,11 @@ library for example. In this example our test executable does not depend on any 
 You can now build and run your test executable by calling:
 \code{.unparsed}
 >3_Make.py --target runAllTests
+...
+Run tests for MyLib
+
+MyLib (version 0.0.0.0-dirty) greets the world!
+...
 \endcode
 
 Somewhere in the output you should see the text output of the executable. Note that tests will not
@@ -752,7 +774,7 @@ For more information about the test targets of a CPF package see: \ref CPFCMakeT
 When writing a lot of automated tests, it may become necessary to re-use test utility code from one package
 in another. This could be fake or mock classes that you provide to replace the real objects in tests.
 To make that possible, the CPF can create an extra *fixture* library per package that can contain reusable
-test code. To demonstrate this, add two files \c Sources/MyLib/Tests/fixture.h and \c Sources/MyLib/Tests/fixture.cpp to the
+test code. To demonstrate this, add two files \c function_fixture.h and \c function_fixture.cpp to the
 MyLib package with the following content and add them to the \c CMakeLists.txt file as shown below.
 
 
@@ -866,7 +888,7 @@ int main(int, char**)
 You can now compile and run your tests by calling
 
 \code{.unparsed}
->3_Make --target runAllTests
+>3_Make.py --target runAllTests
 ...
 Run tests for MyLib
 
