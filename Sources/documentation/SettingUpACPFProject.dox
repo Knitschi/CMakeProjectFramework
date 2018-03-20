@@ -20,7 +20,12 @@ scripts from the command line without prepending the extra \c python command. If
 on Linux, you have to use the base *Linux* configuration in the configuration step instead of the *Windows* configuration.
 You may also want to choose different names for your generated configurations like *VS* &rarr; *Gcc* and *VS2017-shared* &rarr; *Gcc-shared*. 
 
-Until not stated differently, all commands should be executed in the projects root directory.
+Until not stated differently, all commands should be executed in the projects root directory. When running things on Linux there are a few differences.
+
+* Executables are generated in a slightly different directory with an additional \c bin subdirectory.
+* When running executables you have to prepend \c ./ to the executable file.
+* At some places you may have to replace \c \\ with \c /.
+* You will have to replace commands for filesystem operations with their Linux equivalents.
 
 \subsection CreateRepositories 1. Create the repository
 
@@ -159,7 +164,7 @@ Now that we have acquired the CPF packages we can generate some more project fil
 Run the following commands in the project root directory.
 
 \code{.unparsed}
->Sources\CPFBuildscripts\0_Copyscripts.py
+>Sources\CPFBuildscripts\0_CopyScripts.py
 >1_Configure.py VS --inherits Windows
 >2_Generate.py
 \endcode
@@ -285,6 +290,20 @@ no dependencies so the list is empty.
 a CPF package. The bigger part of \ref CPFCMakeGroup "CPFCMake's" functionality lies beneath this function.
 
 
+#### function.h ####
+
+\code{.cpp}
+// file MyCPFProject/Sources/MyApp/function.h
+
+#pragma once
+
+namespace ma
+{
+    bool function();
+}
+
+\endcode
+
 #### function.cpp ####
 
 This is a simple C++ file that implements a function. It represents your C++ code.
@@ -311,20 +330,6 @@ namespace ma
 The file includes the generated file \c cpfPackageVersion_MyApp.h header which provides function \c ma::getPackageVersion() that returns the current version number.
 Note that the include directories and the project directory structure in the CPF is laid-out that all includes can uniformly be
 written with <tt>\#include <package/file.h></tt>. As recommended in the section for the \c CMakeLists.txt file we put our package functions into namespace *ma*.
-
-#### function.h ####
-
-\code{.cpp}
-// file MyCPFProject/Sources/MyApp/function.h
-
-#pragma once
-
-namespace ma
-{
-    bool function();
-}
-
-\endcode
 
 #### main.cpp ####
 
@@ -380,8 +385,7 @@ option is given to the \c 2_Generate.py script. After the re-generate you can bu
 \code{.unparsed}
 >2_Generate.py VS
 >3_Make.py --target pipeline
->cd Generated/VS/BuildStage/Debug/MyApp
-.../MyApp>MyApp-debug
+>Generated\VS\BuildStage\Debug\MyApp\MyApp-debug
 MyApp (version 0.0.0.2-73cc-dirty) greets the world!
 \endcode
 
@@ -566,7 +570,8 @@ version tag for the *MyLib* repository.
 MyLib>git add .
 MyLib>git commit . -m"Add package files"
 MyLib>git tag -a 0.0.0 -m"The initial version"
-MyLib>git push --all --tags
+MyLib>git push --all
+MyLib>git push --tags
 \endcode
 
 
@@ -638,7 +643,7 @@ namespace ma
     {
         ml::function();
 
-        std::cout << "MyApp (version " + getPackageVersion() + ") greets the world!";
+        std::cout << "MyApp (version " + getPackageVersion() + ") greets the world!" << std::endl;
         return true;
     }
 }
@@ -753,6 +758,7 @@ library for example. In this example our test executable does not depend on any 
 
 You can now build and run your test executable by calling:
 \code{.unparsed}
+>2_Generate.py
 >3_Make.py --target runAllTests
 ...
 Run tests for MyLib
