@@ -25,8 +25,8 @@ When setting up a C++ Software project multiple tasks besides writing the actual
 The CMakeProjectFramework tries to solve the above mentioned problems by using a combination of common open source tools from the C++
 ecosystem. The third party tools used by the CMakeProjectFramework are:
 
-- <a href="https://git-scm.com/downloads">Git</a>                                       (code versioning)
-- <a href="https://cmake.org/download/">CMake</a>                                       (meta-buildsystem)
+- <a href="https://git-scm.com">Git</a>                                       (code versioning)
+- <a href="https://cmake.org">CMake</a>                                       (meta-buildsystem)
 - <a href="https://github.com/ruslo/hunter">Hunter package manager</a>                  (automatic dependency retrieval)
 - <a href="https://github.com/sakra/cotire">Cotire</a>                                  (CMake module for pre-compiled headers)
 - <a href="https://jenkins.io/">Jenkins</a>                                             (CI server)
@@ -58,10 +58,10 @@ If you are interested in using the project or joining its development, feel free
 
 ## Further Content ##
 
-- If you cloned an existing CPF based project and want to know how to work with it, read: \ref AA_WorkingWithCPF
-- If you want to create your own CPF based C++ project, read: \ref AB_SettingUpACPFProject
-- If you want to setup the CI infrastructure for a CPF based project, read: \ref AC_SettingUpTheInfrastructure
-- If you are interested in the CMakeProjectFramework code itself, read: \ref AD_CPFDeveloperDocs
+- If you cloned an existing CPF based project and want to know how to work with it, read: \ref WorkingWithCPF
+- If you want to create your own CPF based C++ project, read: \ref SettingUpACPFProject
+- If you want to setup the CI infrastructure for a CPF based project, read: \ref SettingUpTheInfrastructure
+- If you are interested in the CMakeProjectFramework code itself, read: \ref CPFDeveloperDocs
 
 
 ## Limitations ##

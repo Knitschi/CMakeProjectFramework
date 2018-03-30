@@ -1,9 +1,9 @@
 /**
-\page AB_SettingUpACPFProject Setting up a CPF project 
+\page SettingUpACPFProject Setting up a CPF project 
 
 This section shows how to create a CPF based project. Before doing so, it is recommended
 that you get acquainted with the *CMakeProjectFramework* by building the example project as
-described on the \ref AA_WorkingWithCPF page. You should also have basic knowledge on how
+described on the \ref WorkingWithCPF page. You should also have basic knowledge on how
 to work with Git.
 
 
