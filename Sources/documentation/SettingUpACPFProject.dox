@@ -1,9 +1,9 @@
 /**
-\page SettingUpACPFProject Setting up a CPF project 
+\page CPFSettingUpACPFProject Setting up a CPF project
 
 This section shows how to create a CPF based project. Before doing so, it is recommended
 that you get acquainted with the *CMakeProjectFramework* by building the example project as
-described on the \ref WorkingWithCPF page. You should also have basic knowledge on how
+described on the \ref CPFWorkingWithCPF page. You should also have basic knowledge on how
 to work with Git.
 
 
@@ -125,7 +125,7 @@ used in the next line. Alternatively you can set your own minimum version that m
 higher then the version that is required by the CPF.
 - <tt>include("CPFCMake/cpfInit.cmake")</tt>: This file provides the \c cpfInit() and \c cpfAddPackages() functions.
 - <tt>project(MyCPFProject)</tt>: This creates the so called *CI project*.
-- <tt>cpfInit()</tt>: This function from \ref CPFCMakeGroup defines custom target properties, set some CMake policies 
+- <tt>cpfInit()</tt>: This function from \ref CPFCMake defines custom target properties, set some CMake policies 
 and search for some of the tools that are required by the CPF pipeline.
 - <tt>cpfAddPackages()</tt>: This function adds the packages and global files to the CI project. We add
 the basic packages *cotire*, *CPFCMake* and *CPFBuildscripts* that are required for each CPF project.
@@ -154,7 +154,7 @@ Sources>git submodule add https://github.com/Knitschi/CPFBuildscripts.git
 Sources>git submodule add https://github.com/Knitschi/cotire.git
 \endcode
 
-The submodules \ref CPFCMakeGroup and \ref CPFBuildscriptsGroup are part of the CMakeProjectFramework. 
+The submodules \ref CPFCMake and \ref CPFBuildscripts are part of the CMakeProjectFramework. 
 <i>Cotire</i> is an internal third party dependency of the CPF that implements the automatic use of pre-compiled headers.  
 
 
@@ -287,7 +287,7 @@ a \c CMakeLists.txt file after all ;-).
 - <tt>set( PACKAGE_LINKED_LIBRARIES ...</tt>: A list with targets on which the created package depends. For now we have
 no dependencies so the list is empty.
 - <tt>cpfAddPackage( ...</tt>: This function creates the package project and all the custom targets that belong to
-a CPF package. The bigger part of \ref CPFCMakeGroup "CPFCMake's" functionality lies beneath this function.
+a CPF package. The bigger part of \ref CPFCMake "CPFCMake's" functionality lies beneath this function.
 
 
 #### function.h ####
@@ -390,7 +390,7 @@ MyApp (version 0.0.0.2-73cc-dirty) greets the world!
 \endcode
 
 Your actual version number will be different and depends on the current
-state of your repository. You can read more about the CPF versioning \ref Versioning "here".
+state of your repository. You can read more about the CPF versioning \ref CPFVersioning "here".
 The pipeline target will also generate the documentation web-page. To take a look at it open the file \c MyCPFProject/Generated/VS/html/doxygen/index.html.
 In the *Modules* tab you will find a section for *MyApp*. If you follow the link you can see the automatically generated package main page
 that contains the package descriptions from the \c CMakeLists.txt file. The links in the lower part will not work, because our

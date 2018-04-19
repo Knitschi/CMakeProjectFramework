@@ -1,10 +1,9 @@
 /**
-
-\page SettingUpTheInfrastructure "Setting up the CPF CI infrastructure"
+\page CPFSettingUpTheInfrastructure Setting up the CPF CI infrastructure
 
 This page contains a tutorial on how to use the scripts provided by the *CPFMachines* package to
 set up a continuous integration server infrastructure for you CPF projects. The tutorial assumes
-that you are familiar with the \ref WorkingWithCPF and the \ref SettingUpACPFProject tutorials.
+that you are familiar with the \ref CPFWorkingWithCPF and the \ref CPFSettingUpACPFProject tutorials.
 The tutorial also assumes that you have a CPF project provided by a remote git repository that
 can be pulled and pushed to via the SSH protocol. It assumes you can clone that repository with
 
@@ -159,9 +158,8 @@ We now have done all the manual preparations that are necessary to install the s
 \endcode
 
 Running the script may take quite some time, as some of the required tools are freshly compiled when running the script.
-If the script fails to run successfully, see if you can find the problem on the trouble shooting page \ref CPFMachinesTroubleShooting "here".
+If the script fails to run successfully, see if you can find the problem on the trouble shooting page \ref CPFMachinesProblems "here".
 
 
 \subsection CPFAddCommitHooks 6. Add commit hooks to your repositories
-
 */

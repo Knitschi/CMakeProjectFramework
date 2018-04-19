@@ -1,5 +1,5 @@
 /**
-\mainpage The CMakeProjectFramework
+\mainpage Overview
 
 # The CMakeProjectFramework #
 
@@ -9,6 +9,18 @@ This part is implemented with CMake and can be used without the higher level par
 be used to provide continuous integration services for a CPF project.
 
 \note This project is work in progress. Currently there are no automated tests that guarantee it to be in a working condition.
+
+
+## Index ##
+
+- \subpage CPFWorkingWithCPF - A tutorial on how to work with an existing CPF project.
+- \subpage CPFSettingUpACPFProject - A tutorial on how to create your own CPF project.
+- \subpage CPFSettingUpTheInfrastructure - A tutorial on how to set up the build- and web-server for a CPF project.
+- \subpage CPFProjectOrganisation - An overview of the packages that make up the CMakeProjectFramework.
+- \subpage CPFCMake - More detailed information about the CPFCMake package.
+- \subpage CPFBuildscripts - More detailed information about the CPFBuildscripts package.
+- \subpage CPFMachines - More detailed information about the CPFMachines package.
+
 
 
 ## Introduction ##
@@ -54,14 +66,6 @@ to get bigger then the C++ *payload* code. I decided to pull out that *project* 
 At its current state the project is not battle tested. As far as I know I am the only user and the project currently lacks the generality to be useful
 to everybody. However, I am interested in changing that and making the project useful to hobby developers or small teams that have not yet a CI pipeline in place.
 If you are interested in using the project or joining its development, feel free to contact me via Github.
-
-
-## Further Content ##
-
-- If you cloned an existing CPF based project and want to know how to work with it, read: \ref WorkingWithCPF
-- If you want to create your own CPF based C++ project, read: \ref SettingUpACPFProject
-- If you want to setup the CI infrastructure for a CPF based project, read: \ref SettingUpTheInfrastructure
-- If you are interested in the CMakeProjectFramework code itself, read: \ref CPFDeveloperDocs
 
 
 ## Limitations ##
