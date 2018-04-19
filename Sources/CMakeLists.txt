@@ -17,7 +17,7 @@ set( externalPackages
 
 set( globalFiles
 	documentation/CMakeProjectFrameworkDocumentation.dox
-	documentation/CPFDeveloperDocs.dox
+	documentation/ProjectOrganisation.dox
 	documentation/SettingUpACPFProject.dox
 	documentation/SettingUpTheCPFCIInfrastructure.dox
 	documentation/WorkingWithACPFProject.dox
