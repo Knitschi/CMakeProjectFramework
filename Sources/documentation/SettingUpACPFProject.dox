@@ -188,27 +188,33 @@ MyCPFProject
 └───Sources
     │   CMakeLists.txt
     │   cpfOwnedPackages.cmake
-    │   DoxygenConfig.txt
-    │   DoxygenLayout.xml
     │
     ├───cotire
     │       ...
+    │
     ├───CPFBuildscripts
     │       ...
-    └───CPFCMake
-            ...
-    
+    │
+    ├───CPFCMake
+    |       ...
+    │
+    └───documentation
+            DoxygenConfig.txt
+            DoxygenLayout.xml
+            DoxygenStylesheet.css
 \endcode
 
-The files \c %cpfOwnedPackages.cmake, \c DoxygenConfig.txt and \c DoxygenLayout.xml need to be committed to the repository.
-They are only generated when they do not exists and are intended to be edited by the developers. Run
+The files \c %cpfOwnedPackages.cmake, \c documentation/DoxygenConfig.txt, \c documentation/DoxygenLayout.xml
+and \c documentation/DoxygenStylesheet.xml need to be committed to the repository because they are
+generated when the generate step is run for the first time. Run
 
 \code{.unparsed}
->git add Sources/DoxygenConfig.txt Sources/DoxygenLayout.xml Sources/cpfOwnedPackages.cmake
->git commit . -m"Add more project files."
+>git add Sources/documentation/DoxygenConfig.txt Sources/documentation/DoxygenLayout.xml Sources/documentation/DoxygenStylesheet.xml Sources/cpfOwnedPackages.cmake 
+>git commit . -m"Add auto generated project files."
 \endcode
 
 to add them to the repository.
+
 
 \subsection BasicPackageFiles 5. Add the MyApp application package
 

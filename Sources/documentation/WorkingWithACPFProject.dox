@@ -4,7 +4,6 @@
 This page provides information on how to do the day to day tasks that arise when working with a **CPF** project.
 To illustrate the required steps, the text refers to an example project that can be retrieved on Github.
 
-
 \section Prerequisites Setting up the environment
 
 Before you start, you have to install the basic tools that are used by the CMakeProjectFramework.
@@ -16,7 +15,6 @@ Windows
 - Git
 - Python3
 - CMake 3.10
-
 - OpenCppCoverage (optional)
 
 Linux
@@ -24,7 +22,6 @@ Linux
 - Git
 - Python3
 - CMake 3.10
-
 - Clang (optional)
 - Valgrind (optional)
 
@@ -157,7 +154,8 @@ It will create the build-directory \c Generated/VS that holds the created *make-
 in the config file. In the example this is the Visual Studio solution for the Windows case and the make files
 in the Linux case.
 
-Note that during this step the hunter package manager may retrieve and compile external dependencies of the project. 
+Note that during this step the hunter package manager may retrieve and compile external dependencies of the project.
+The ACPFTestProject for example depends on the <a href="https://github.com/hunter-packages/googletest">googletest</a> package.
 This means that this step may take quite some time when running it for the first time. After the first run, hunter-package
 build results are cached and subsequent executions of this step should be much faster.
 
@@ -195,8 +193,6 @@ the script will only build the binary targets of the project.
 specified, the \c Debug configuration will be build.
 
 
-
-
 \section TheAnatomyOfACPFProject The anatomy of a CPF project 
 
 Now that you have built the project, it is time to take a look at the content of the test project.
@@ -219,7 +215,7 @@ ACPFTestProject
 ├───Configuration
 │       VS.config.cmake
 │       Gcc.config.cmake
-│       ... [possibly more configuration files]
+│       ... [more configuration files]
 │
 ├───Generated
 │   ├───VS
@@ -239,8 +235,7 @@ ACPFTestProject
 └───Sources
     │   CMakeLists.txt
     │   cpfOwnedPackages.cmake
-    │   DoxygenConfig.txt
-    │   DoxygenLayout.xml
+    |   ... [more global files]
     │
     ├───CIBuildConfigurations
     │   cpfCiBuildConfigurations.json
@@ -250,7 +245,10 @@ ACPFTestProject
     │            
     ├───documentation
     │       ACPFTestProjectDocumentation.dox
-    │       ... [more global files]
+    │       DoxygenConfig.txt
+    │       DoxygenLayout.xml
+    |       DoxygenStylesheet.css
+    │       ... [more global documentation files]
     │
     ├───APackage
     │   │   CMakeLists.txt
@@ -304,8 +302,9 @@ set of CMake cache variables. More information about the config file mechanism c
 - <b>\c CIBuildConfigurations/cpfCiBuildConfigurations.json:</b> A file that contains a list of configurations that are build by the
 projects CI job. This is only needed if the infrastructure provided by \ref CPFMachines is used.
 
-- <b>\c documentation:</b> This is an example for user added directories for global files. You can add directories to the *Sources*
-directory that do not contain packages, but are rather used to order your global files, like project wide documentation, etc.
+- <b>\c documentation:</b> The CPF adds this directory for global files that are involved in the documentation generation.
+You can add other directories for global files to the *Sources* directory that do not contain packages, 
+but are rather used to order your global files, like project wide documentation, etc.
 
 - <b>\c APackage:</b> A directory that contains a package. The name of the package directory can be chosen by the user. 
 It also defines the name of the main library or executable that is created by this package. A CPF project can have multiple package directories.
@@ -360,6 +359,7 @@ package.
 In the *Sources* subdirectory we have the package directories that contain the \c CMakeLists.txt files that define the package
 projects. Each package creates one main binary that is supposed to be used by consumers. This can be a library or an executable.
 The package can also contain binaries that are used for testing and its own documentation.
+
 
 \subsubsection PackageOwnership Package ownership
 
