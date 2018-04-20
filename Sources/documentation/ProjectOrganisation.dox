@@ -17,8 +17,11 @@ Here is a simplified graph the illustrates the dependencies between the packages
 
 \dot
 digraph G {
+  node [ fontsize=11, fontname="Helvetica-Bold" ]
+  edge [ fontsize=11, fontname="Helvetica" ]
   {
-    node [shape=box, font="", fontcolor="#4665C0", fontsize=10];
+    
+    node [shape=box, fontcolor="#4665C0"];
     CPFBuildscripts [ URL="\ref CPFBuildscripts"];
     CPFCMake [ URL="\ref CPFCMake"];
     CPFMachines [ URL="\ref CPFMachines"];
