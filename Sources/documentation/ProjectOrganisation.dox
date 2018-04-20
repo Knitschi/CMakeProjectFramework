@@ -15,7 +15,7 @@ The packages are:
 
 Here is a simplified graph the illustrates the dependencies between the packages of the CMakeProjectFramework. 
 
-\dot 
+\dot
 digraph G {
   {
     node [shape=box, font="", fontcolor="#4665C0"];
