@@ -14,3 +14,7 @@
 	path = Sources/CPFMachines
 	url = https://github.com/Knitschi/CPFMachines.git
 	branch = master
+[submodule "Sources/CPFTests"]
+	path = Sources/CPFTests
+	url = https://github.com/Knitschi/CPFTests.git
+	branch = master
