@@ -20,7 +20,7 @@ be used to provide continuous integration services for a CPF project.
 - \subpage CPFCMake - More detailed information about the CPFCMake package.
 - \subpage CPFBuildscripts - More detailed information about the CPFBuildscripts package.
 - \subpage CPFMachines - More detailed information about the CPFMachines package.
-
+- \subpage CPFTests - High-level tests for the complete CMakeProjectFramework.
 
 
 ## Introduction ##
