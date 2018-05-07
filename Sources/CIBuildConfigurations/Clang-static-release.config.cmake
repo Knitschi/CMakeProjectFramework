@@ -1,7 +1,7 @@
 
 include(${CMAKE_CURRENT_LIST_DIR}/../CPFCMake/DefaultConfigurations/Linux.config.cmake)
 
-set(CPF_CONFIG "Clang" CACHE STRING "the config name" FORCE)
+set(CPF_CONFIG "Clang-static-release" CACHE STRING "the config name" FORCE)
 
 # GENERATOR AND TOOLCHAIN
 set( CMAKE_GENERATOR "Ninja" CACHE STRING "The CMake generator" FORCE)
