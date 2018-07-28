@@ -19,6 +19,7 @@ set( externalPackages
 )
 
 set( globalFiles
+	${CPF_DOCUMENTATION_DIR}/BasicConcepts.dox
 	${CPF_DOCUMENTATION_DIR}/CMakeProjectFrameworkDocumentation.dox
 	${CPF_DOCUMENTATION_DIR}/ProjectOrganisation.dox
 	${CPF_DOCUMENTATION_DIR}/SettingUpACPFProject.dox

@@ -1,8 +1,8 @@
 /**
 \page CPFWorkingWithCPF Working with a CPF project
 
-This page provides information on how to do the day to day tasks that arise when working with a **CPF** project.
-To illustrate the required steps, the text refers to an example project that can be retrieved on Github.
+This page provides practical information on how to do the day to day tasks that arise when working with a *CPF* project.
+To illustrate the required steps, the text refers to an example project that can be retrieved from Github.
 
 \section Prerequisites Setting up the environment
 
@@ -186,9 +186,8 @@ generate the documentation or other steps that your project may have enabled via
 - Specifying the the cpf-configuration, will cause a fresh rebuild. If no cpf-configuration is specified,
 the script will do an incremental build for the first configuration in the *Generated* directory. 
 - With the \c -\-target option one can specify which target should be build. During development this is useful if only
-a smaller part of the pipeline should be executed. For a list of available targets take a look at the list in the
-\ref CustomTargetsInACPFProject "custom targets section". If the \c -\-target option is omitted completely, 
-the script will only build the binary targets of the project.
+a smaller part of the pipeline should be executed. Here is a \ref CPFCustomTargets "list of available custom targets".
+If the \c -\-target option is omitted completely, the script will only build the binary targets of the project.
 - The \c -\-config option is only required for multi-configuration generators like Visual Studio. If it is not
 specified, the \c Debug configuration will be build.
 
@@ -347,62 +346,36 @@ If everything goes well, the contents are only of interest when developing the C
 If everything goes well, the contents are only of interest when developing the CPFCMake package itself.
 
 
-\subsection CIProjectAndPackageProjects CI project vs. package projects
+\subsection CIProjectAndPackageProjectsPractice CI project, package projects and package ownership in practice
 
-The CPF tries to implement a system that can not only be used for managing one repository that is worked on by a single team.
-It also tries to support a C++ code base that is split up in small packages that can be re-used by other projects. To achieve
-this, a CPF project has two CMake project levels. The CI project is created in the root \c CMakeLists.txt file. It provides
-the interface for the CI-job and the developers to build a set of packages. It also provides information, about which
-configurations are build by the CI system and possibly some higher level documentation that does not really belong to a single
-package.
+The \ref CIProjectAndPackageProjects "basic concepts" page mentions, that the *CPF* wants to separate CI-functionality from production code.
+In the repository this is reflected by the two layers of \c CMakeLists.txt files. The CI-project is defined by
+the root \c CMakeLists.txt file in the *Sources* directory. The package projects are defined by the \c CMakeLists.txt files
+in the *Sources\<package>* directories.
 
-In the *Sources* subdirectory we have the package directories that contain the \c CMakeLists.txt files that define the package
-projects. Each package creates one main binary that is supposed to be used by consumers. This can be a library or an executable.
-The package can also contain binaries that are used for testing and its own documentation.
+In the *ACPFTestProject* we have quite number of packages. The packages *APackage*, *CPackage*, *DPackage* and *EPackage*.
+are listed in the \c Sources/cpfOwnedPackages.cmake file, which defines them as *owned* packages. This means that
+it is this CI-project's responsibility to provide their *official* build-job that increment their version tags.
+CPackage is the only *fixed* package, which means that is in the same repository as the CI-project. It is called
+*fixed*, because its version is fixed to the CI-projects version. The other owned packages are *loose*, because
+they are pulled in via the git-submodule mechanism which allows them to have their version incremented independently
+from the other packages.
 
-
-\subsubsection PackageOwnership Package ownership
-
-A package can be owned by a CI project or be an external package. If a package is owned by a CI project it means, that this
-CI project is responsible for running the automated tests of the package and defining the officially supported build configurations
-of that the package. When using the CPFMachines CI-job, it will also be the entity that marks successful builds of owned packages
-with version tags. An owned package can either be included in the CI projects git repository, or it can be a git submodule with
-its own repository. If it uses a git submodule it is called a *loose owned package*. In this case it's version number can advance independently
-of the CI-repository. Packages that are intended to be used in other projects, should be *loose* packages with their own 
-repository to allow other projects to include the package as a git submodule. *Loose* packages lead to more and more complex *git work*,
-meaning that more git operations will be necessary in the day to day work. 
-If packages are executables or not used in other projects, it is therefore recommended to make them *fixed* packages and check them 
-directly into the CI repository.
-
-External packages are always git submodules. The CI projects build-pipeline will not run the tests for these packages and exclude
-them when generating the documentation. An external project should have another CI project that owns that package.
-
-#### Example ####
-
-In the ACPFTestProject we have quite number of packages. The owned packages are *APackage*, *CPackage*, *DPackage* and *EPackage*.
-All the other packages are external packages. These are *BPackage*, *CPFBuildscripts*, *CPFCMake*, *CPFMachines*, *FPackage*, *GPackage*
-and *libSwitchWarningsOff*. The only *fixed* package is *CPackage*. All other packages are included as git submodules.
-
-
-\section CustomTargetsInACPFProject The custom targets in a CPF project
-
-The build pipeline of a CPF project is implemented with CMake *custom-targets*. In order to execute
-one of those tasks separately from the whole pipeline, one has to build that *target* with the
-\ref BuildStep "3_Make.py" script. The advantage of the custom-target mechanism is, that the used build-system
-handles dependency issues, rebuilding outdated targets and parallelizing task execution.
-
-The availability of custom-targets in a CPF project depends on the projects configuration and its source files.
-Most custom targets can be disabled via the configuration file. This may be helpful if a custom implementation of the
-task is preferred. Some tasks require a test executable which is only created if the package has
-a source file that defines the main function of a test-executable.
-
-You can find a list of target names that can be used with the \ref BuildStep "3_Make.py" script \ref CPFCustomTargets "here".
-In some IDEs like Visual Studio or KDevelop, targets are visualized and can be directly *build*
-from within the IDE. This may sometimes be preferred to building the targets from the command line.
-
+The packages *BPackage*, *CPFBuildscripts*, *CPFCMake*, *CPFMachines*, *FPackage*, *GPackage*
+and *libSwitchWarningsOff* are external packages. External packages are always pulled in via the git-submodule mechanism.
 
 \section CommonGitOperations Common Git operations on a CPF project
 
-\todo Describe updates and pushes.
+\todo Describe to most common git operations. (update of packages etc. )
+
+\section ConsumingAPackage Consuming binary library packages created by a CPF project
+
+The \ref cpfAddPackage "\c cpfAddPackage() function" allows you to create binary packages for your library targets.
+These packages contain *.cmake* files that can be used by other *CMake* based projects to consume
+your libraries with the \c find_package( ... CONFIG ... ) function.
+
+\note Currently binary packages with \ref CPFInternalVersion "internal versions" are not consumable
+by other cmake projects. This is because the standard package files do not know how to handle the internal
+version number format of the *CPF*.
 
 */

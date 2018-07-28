@@ -13,6 +13,7 @@ be used to provide continuous integration services for a CPF project.
 
 ## Index ##
 
+- \subpage CPFBasicConcepts - Some fundamental design concepts of the project.
 - \subpage CPFWorkingWithCPF - A tutorial on how to work with an existing CPF project.
 - \subpage CPFSettingUpACPFProject - A tutorial on how to create your own CPF project.
 - \subpage CPFSettingUpTheInfrastructure - A tutorial on how to set up the build- and web-server for a CPF project.
