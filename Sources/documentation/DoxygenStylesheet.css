@@ -98,7 +98,7 @@ div.qindex, div.navtab{
 	text-align: center;
 }
 
-div.qindex, div.navpath {
+div.qindex, div.navpath-cpf {
 	width: 100%;
 	line-height: 140%;
 }
@@ -946,40 +946,38 @@ table.fieldtable {
 	top: 0px;
 	left: 10px;
 	height: 36px;
-	background-image: url('tab_b.png');
+	background-color: #00529B;
 	z-index: 101;
 	overflow: hidden;
 	font-size: 13px;
+	visibility: hidden;
 }
 
-.navpath ul
+.navpath-cpf ul
 {
 	font-size: 11px;
-	background-image:url('tab_b.png');
-	background-repeat:repeat-x;
-	background-position: 0 -5px;
 	height:30px;
 	line-height:30px;
-	color:#ABABAB;
-	border:solid 1px #D3D3D3;
+	color:#00529B;
+	border:solid 1px #00529B;
+	background-color: #00529B;
 	overflow:hidden;
 	margin:0px;
 	padding:0px;
 }
 
-.navpath li
+.navpath-cpf li
 {
 	list-style-type:none;
 	float:left;
 	padding-left:10px;
 	padding-right:15px;
-	background-image:url('bc_s.png');
-	background-repeat:no-repeat;
-	background-position:right;
 	color:#595959;
+	background-color: #00529B;
 }
 
-.navpath li.navelem a
+
+.navpath-cpf li.navelem a
 {
 	height:32px;
 	display:block;
@@ -991,12 +989,13 @@ table.fieldtable {
 	text-decoration: none;        
 }
 
-.navpath li.navelem a:hover
+.navpath-cpf li.navelem a:hover
 {
 	color:#929292;
 }
 
-.navpath li.footer
+
+.navpath-cpf li.footer
 {
         list-style-type:none;
         float:right;
@@ -1005,7 +1004,7 @@ table.fieldtable {
         background-image:none;
         background-repeat:no-repeat;
         background-position:right;
-        color:#595959;
+	color:#ffffff;
         font-size: 8pt;
 }
 
@@ -1185,12 +1184,12 @@ dl.section dd {
 
 #titlearea
 {
-	padding: 0px;
+	padding: 5px;
 	margin: 0px;
 	width: 100%;
-	border-bottom: 1px solid #848484;
-        visibility: hidden;
-        height: 0px;
+	color: rgb(255, 255, 255);
+	border-bottom: 1px solid #00529B;
+	background-color: #00529B;
 }
 
 .image

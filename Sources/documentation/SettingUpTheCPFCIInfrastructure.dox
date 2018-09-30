@@ -1,5 +1,5 @@
 /**
-\page CPFSettingUpTheInfrastructure Setting up the CPF CI infrastructure
+\page CPFSettingUpTheInfrastructure Setting up the CPF CI server infrastructure
 
 This page contains a tutorial on how to use the scripts provided by the *CPFMachines* package to
 set up a continuous integration server infrastructure for you CPF projects. The tutorial assumes

@@ -21,6 +21,15 @@ set( externalPackages
 set( globalFiles
 	${CPF_DOCUMENTATION_DIR}/BasicConcepts.dox
 	${CPF_DOCUMENTATION_DIR}/CMakeProjectFrameworkDocumentation.dox
+	${CPF_DOCUMENTATION_DIR}/CPFLogo.png
+	${CPF_DOCUMENTATION_DIR}/CPFLogo.svg
+	${CPF_DOCUMENTATION_DIR}/CPFLogoSmall.png
+	${CPF_DOCUMENTATION_DIR}/CPFLogoSmall.svg
+	${CPF_DOCUMENTATION_DIR}/DoxygenConfig.txt
+	${CPF_DOCUMENTATION_DIR}/DoxygenLayout.xml
+	${CPF_DOCUMENTATION_DIR}/DoxygenStylesheet.css
+	${CPF_DOCUMENTATION_DIR}/footer.html
+	${CPF_DOCUMENTATION_DIR}/header.html
 	${CPF_DOCUMENTATION_DIR}/ProjectOrganisation.dox
 	${CPF_DOCUMENTATION_DIR}/SettingUpACPFProject.dox
 	${CPF_DOCUMENTATION_DIR}/SettingUpTheCPFCIInfrastructure.dox
