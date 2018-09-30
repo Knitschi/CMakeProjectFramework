@@ -175,8 +175,8 @@ pre.fragment {
 div.fragment {
         padding: 0px;
         margin: 4px 8px 4px 2px;
-	background-color: #FCFCFC;
-	border: 1px solid #D5D5D5;
+	background-color: rgb(221, 221, 221);
+	border: 1px solid rgb(126, 126, 126);
 }
 
 div.line {
