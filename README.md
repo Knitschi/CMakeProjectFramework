@@ -1,3 +1,6 @@
+
+<img width="200" height="200" style="float:center" alt="CPF logo" src="./Sources/documentation/CPFLogo.png">   
+
 # Welcome to the CMakeProjectFramework
 
 - [Project documentation](https://knitschi.github.io/CMakeProjectFramework/doxygen/index.html)
