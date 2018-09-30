@@ -13,8 +13,6 @@
    width="1280"
    height="300"
    viewBox="0 0 1280 300"
-   style="enable-background:new 0 0 1280 800;"
-   xml:space="preserve"
    version="1.1"
    id="svg8"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
@@ -151,8 +149,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="593.2092"
-     inkscape:cy="-1.6613848"
+     inkscape:cx="1063.6465"
+     inkscape:cy="-0.039658068"
      inkscape:document-units="px"
      inkscape:current-layer="layer3"
      showgrid="false"
@@ -199,6 +197,13 @@
        height="300"
        x="539.65027"
        y="1224.5212" />
+    <rect
+       style="fill:none;fill-opacity:0;stroke:#000000;stroke-width:0;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect842"
+       width="1279.9141"
+       height="299.59695"
+       x="52.925739"
+       y="1224.8619" />
   </g>
   <g
      inkscape:groupmode="layer"
