@@ -110,13 +110,13 @@ div.navtab {
 /* @group Link Styling */
 
 a {
-	color: #646464;
+	color: #00529B;
 	font-weight: normal;
 	text-decoration: none;
 }
 
 .contents a:visited {
-	color: #747474;
+	color: #6b6b6b;
 }
 
 a:hover {
@@ -146,11 +146,11 @@ a.elRef {
 }
 
 a.code, a.code:visited, a.line, a.line:visited {
-	color: #4665A2; 
+	color: #464646;
 }
 
 a.codeRef, a.codeRef:visited, a.lineRef, a.lineRef:visited {
-	color: #4665A2; 
+	color: #464646;
 }
 
 /* @end */
