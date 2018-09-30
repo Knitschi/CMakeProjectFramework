@@ -13,24 +13,36 @@ A list of problems that are solved by the current CPF version.
 
 \subsection CPFDeveloperProblems Problems during development
 
-- **Problem:** When using vanilla CMake, user defined configurations get lost when deleting the build-tree.<br>
-<b>Solution:</b> The \ref CPFConfiguration "CPF config file mechanics".
+- **Problem:** Your are new to the fascinating world of C++ and maybe even programming.
+You want to set up your long term cross-platform C++ codebase, but you have enough trouble 
+with getting your source code to compile. You have no experience in defining a directory
+structure for your code, splitting your code into libraries or providing binary packages
+for your users.
+<b>Solution:</b> The CPF does this and more for you. If you set up a new code-base you should
+try the CPF.
 
-- **Problem:** Defining huge configurations via the command line with CMake is not user friendly.
-The user has to know the names of cache variables and type long commands.<br>
-<b>Solution:</b> The \ref CPFConfiguration "CPF config file mechanics" or the CMake GUI.
+- **Problem:** You would like to use the latest CMake features in your project but you
+are not to eager to spend the time become a CMake expert and update your CMake code.<br>
+<b>Solution:</b> The CPF hides all the implementation details of a modern CMake project behind
+a relatively small interface. I may not be a CMake expert, but I have spend quite some time with
+it now and I try to keep the CPF's CMake code at the state of the art. Feel free to inform me
+if you think that something in the CPF could be done better than it is done today.
+
+- **Problem:** When using vanilla CMake, the project configurations that you defined with CMakes
+<code>-D</code> options are lost when you delete your build-tree.<br>
+<b>Solution:</b> The \ref CPFConfiguration "CPF config file mechanics" keeps your configuration
+out of the build-tree.
+
+- **Problem:** You are not the youngest anymore and you have trouble remembering long lists
+of CMake cache variable names that you need when configuring your project with CMake on
+the command line. You also fall asleep while trying to enter the long commands in the console.<br>
+<b>Solution:</b> The \ref CPFConfiguration "CPF config file mechanics" keeps the command lines
+short and lets you edit your configuration in a text-file that already lists all available variables.
 
 - **Problem:** You dont want to specify the source and build directories whenever you have
 to re-generate your make-files with CMake.<br>
 <b>Solution:</b> A CPF project has defined locations for the source- and build-tree. This allows
 it to remove the need for specifying them when calling its CMake wrapper scripts.
-
-- **Problem:** You would like to use the latest CMake features in your project but you
-are not to eager to spend the time become a CMake expert and update your CMake code.
-<b>Solution:</b> The CPF hides all the implementation details of a modern CMake project behind
-a relatively small interface. I may not be a CMake expert, but I have spend quite some time with
-it now and I try to keep the CPF's CMake code at the state of the art. Feel free to inform me
-if you think that something in the CPF could be done better than it is done today.
 
 
 \todo Is that all here?
@@ -54,7 +66,7 @@ your build-times to explode when you added additional pipeline tasks.<br>
 <b>Solution:</b> The CPF uses CMakes custom target mechanism to implement all build-steps.
 This allows your build-tool to run tasks in parallel that do not depend on each other.
 
-- **Problem:** While implementing your CI pipeline with linear scripts your realized that
+- **Problem:** While implementing your CI pipeline with linear scripts you realized that
 you would like to automatically re-execute your pipeline steps when source files change
 and to not re-execute them when they are up to date. You really do not have the time
 to implement a frame-work for this.<br>
@@ -95,7 +107,7 @@ it somehow gets lost. The scripts also document how the machines are set up.
 
 A list of problems that we would like to solve in the future.
 
-- **Problem:** When working on a large codebase, we would like import packages that
+- **Problem:** When working on a large codebase, we would like to import packages that
 we do not change as binary packages in order to reduce build times. Sometimes it turns
 out that we need to change those packages after all, maybe in order to fix a bug.
 Now we would prefer if the package was inlined in our projects source tree in order
