@@ -8,7 +8,7 @@ At the low level it implements the execution of additional tasks like test-execu
 This part is implemented with CMake and can be used without the higher level part, which implements a Jenkins based CI-infrastructure that can
 be used to provide continuous integration services for a CPF project.
 
-\note This project is work in progress. Currently there are no automated tests that guarantee it to be in a working condition.
+\note This project is work in progress. The release 1.0 has yet to come.
 
 
 ## Index ##
