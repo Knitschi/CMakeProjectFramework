@@ -33,6 +33,7 @@ set( globalFiles
 	${CPF_DOCUMENTATION_DIR}/ProjectOrganisation.dox
 	${CPF_DOCUMENTATION_DIR}/SettingUpACPFProject.dox
 	${CPF_DOCUMENTATION_DIR}/SettingUpTheCPFCIInfrastructure.dox
+	${CPF_DOCUMENTATION_DIR}/SolvedProblems.dox
 	${CPF_DOCUMENTATION_DIR}/WorkingWithACPFProject.dox
 )
 
