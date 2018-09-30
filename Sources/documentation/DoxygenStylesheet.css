@@ -110,13 +110,13 @@ div.navtab {
 /* @group Link Styling */
 
 a {
-	color: #646464;
+	color: #00529B;
 	font-weight: normal;
 	text-decoration: none;
 }
 
 .contents a:visited {
-	color: #747474;
+	color: #6b6b6b;
 }
 
 a:hover {
@@ -146,11 +146,11 @@ a.elRef {
 }
 
 a.code, a.code:visited, a.line, a.line:visited {
-	color: #4665A2; 
+	color: #464646;
 }
 
 a.codeRef, a.codeRef:visited, a.lineRef, a.lineRef:visited {
-	color: #4665A2; 
+	color: #464646;
 }
 
 /* @end */
@@ -287,10 +287,10 @@ body {
 
 div.contents {
         margin-bottom: 10px;
-        padding: 12px;
+        padding: 30px;
         margin-left: auto;
         margin-right: auto;
-        width: 1000px;
+        width: 964px;
         background-color: white;
         -moz-border-radius-bottomleft: 8px;
         -moz-border-radius-bottomright: 8px;
