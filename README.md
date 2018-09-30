@@ -1,5 +1,5 @@
-
-<img width="200" height="200" style="float:center" alt="CPF logo" src="./Sources/documentation/CPFLogo.png">   
+ 
+![Blub](Sources/documentation/CPFLogo.svg)
 
 # Welcome to the CMakeProjectFramework
 
