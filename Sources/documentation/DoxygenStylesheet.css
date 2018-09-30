@@ -173,7 +173,7 @@ pre.fragment {
 }
 
 div.fragment {
-        padding: 0px;
+        padding: 4px;
         margin: 4px 8px 4px 2px;
 	background-color: rgb(221, 221, 221);
 	border: 1px solid rgb(126, 126, 126);
