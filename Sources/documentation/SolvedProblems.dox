@@ -25,6 +25,14 @@ to re-generate your make-files with CMake.<br>
 <b>Solution:</b> A CPF project has defined locations for the source- and build-tree. This allows
 it to remove the need for specifying them when calling its CMake wrapper scripts.
 
+- **Problem:** You would like to use the latest CMake features in your project but you
+are not to eager to spend the time become a CMake expert and update your CMake code.
+<b>Solution:</b> The CPF hides all the implementation details of a modern CMake project behind
+a relatively small interface. I may not be a CMake expert, but I have spend quite some time with
+it now and I try to keep the CPF's CMake code at the state of the art. Feel free to inform me
+if you think that something in the CPF could be done better than it is done today.
+
+
 \todo Is that all here?
 
 
