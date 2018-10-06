@@ -926,7 +926,7 @@ To enable creating distribution packages you have to add one more argument to th
 # file MyCPFProject/Sources/MyLib/CMakeLists.txt
 ...
 set( archiveDevPackageOptions
-	DISTRIBUTION_PACKAGE_CONTENT_TYPE 	BINARIES_DEVELOPER
+	DISTRIBUTION_PACKAGE_CONTENT_TYPE 	CT_DEVELOPER
 	DISTRIBUTION_PACKAGE_FORMATS 		7Z TGZ
 )
 ...
