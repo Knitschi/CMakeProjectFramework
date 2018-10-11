@@ -85,8 +85,9 @@ reduce the length of package names and the project name.
 
 ## Similar projects ## 
 
-Here is a non complete list of projects that have a similar goal.
+Here is a non complete list of projects that have functionality overlaps with the CPF.
 
+- <a href="https://github.com/mesonbuild/meson">Meson</a>
 - <a href="https://github.com/cmake-basis/BASIS">BASIS</a>
 - <a href="https://github.com/DevSolar/jaws>JAWS</a>
 
