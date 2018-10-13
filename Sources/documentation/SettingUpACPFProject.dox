@@ -241,7 +241,7 @@ The new files in the MyApp directory should have the following content.
 \code{.cmake}
 # file MyCPFProject/Sources/MyApp/CMakeLists.txt
 
-include(cpfAddPackage)
+include(cpfAddCppPackage)
 
 # define namespace name for module
 set( PACKAGE_NAMESPACE ma )
@@ -264,7 +264,7 @@ set( PACKAGE_LINKED_LIBRARIES
 )
 
 ############################################## Add Package #################################
-cpfAddPackage( 
+cpfAddCppPackage( 
 	PACKAGE_NAME			${PACKAGE_NAME}
 	PACKAGE_NAMESPACE		${PACKAGE_NAMESPACE}
 	TYPE					CONSOLE_APP
@@ -275,7 +275,7 @@ cpfAddPackage(
 )
 \endcode
 
-- <tt>include(cpfAddPackage)</tt>: Provides the \c cpfInitPackageProject() and \c cpfAddPackage() functions.
+- <tt>include(cpfAddCppPackage)</tt>: Provides the \c cpfInitPackageProject() and \c cpfAddCppPackage() functions.
 - <tt>set( PACKAGE_NAMESPACE myapp )</tt>: The package namespace should be a short abbreviation of the package name.
 It is used in multiple places.
     - As a part of the generated EXPORT MACRO that is used to publish symbol names in shared libraries.
@@ -292,7 +292,7 @@ and \c .h files that provide CMake and C++ code with the current package version
 a \c CMakeLists.txt file after all ;-).
 - <tt>set( PACKAGE_LINKED_LIBRARIES ...</tt>: A list with targets on which the created package depends. For now we have
 no dependencies so the list is empty.
-- <tt>cpfAddPackage( ...</tt>: This function creates the package project and all the custom targets that belong to
+- <tt>cpfAddCppPackage( ...</tt>: This function creates the package project and all the custom targets that belong to
 a CPF package. The bigger part of \ref CPFCMake "CPFCMake's" functionality lies beneath this function.
 
 
@@ -470,7 +470,7 @@ MyLib
 \code{.cmake}
 # file MyLib/CMakeLists.txt
 
-include(cpfAddPackage)
+include(cpfAddCppPackage)
 
 # define namespace name for module
 set( PACKAGE_NAMESPACE ml )
@@ -495,7 +495,7 @@ set( PACKAGE_LINKED_LIBRARIES
 )
 
 ############################################## Add Package #################################
-cpfAddPackage( 
+cpfAddCppPackage( 
 	PACKAGE_NAME			${PACKAGE_NAME}
 	PACKAGE_NAMESPACE		${PACKAGE_NAMESPACE}
 	TYPE					LIB
@@ -710,7 +710,7 @@ to this:
 \code{.cmake}
 # file MyCPFProject/Sources/MyLib/CMakeLists.txt
 
-include(cpfAddPackage)
+include(cpfAddCppPackage)
 
 # define namespace name for module
 set( PACKAGE_NAMESPACE ml )
@@ -742,7 +742,7 @@ set( PACKAGE_LINKED_TEST_LIBRARIES
 )
 
 ############################################## Add Package #################################
-cpfAddPackage( 
+cpfAddCppPackage( 
 	PACKAGE_NAME			${PACKAGE_NAME}
 	PACKAGE_NAMESPACE		${PACKAGE_NAMESPACE}
 	TYPE					LIB
@@ -757,7 +757,7 @@ cpfAddPackage(
 \endcode
 
 We added two new lists, \c PACKAGE_TEST_FILES and \c PACKAGE_LINKED_TEST_LIBRARIES and handed them
-to the \c cpfAddPackage() function. The \c PACKAGE_TEST_FILES list should contain all source
+to the \c cpfAddCppPackage() function. The \c PACKAGE_TEST_FILES list should contain all source
 files that are used to build the test executable. the \c PACKAGE_LINKED_TEST_LIBRARIES list
 can be used to add linked libraries that are only used by the test executable. This could be a test-framework
 library for example. In this example our test executable does not depend on any other library so we leave this empty.
@@ -831,7 +831,7 @@ namespace ml
 #### Sources/MyLib/CMakeLists.txt ####
 
 For the fixture library we have to distinguish between public header files and other source files.
-Add the new files to new list variables and as arguments to the \c cpfAddPackage() call as shown below.
+Add the new files to new list variables and as arguments to the \c cpfAddCppPackage() call as shown below.
 
 \code{.cmake}
 # file MyCPFProject/Sources/MyLib/CMakeLists.txt
@@ -845,7 +845,7 @@ set( PACKAGE_FIXTURE_FILES
 )
 ...
 
-cpfAddPackage( 
+cpfAddCppPackage( 
 	PACKAGE_NAME			${PACKAGE_NAME}
 	PACKAGE_NAMESPACE		${PACKAGE_NAMESPACE}
 	TYPE					LIB
@@ -918,7 +918,7 @@ this is usually just a ZIP archive that either holds the complete source code or
 In the CPF nomenclature we call these package files *distribution packages* in order to distinguish them from the
 CPF code packages in the *Sources* directory.
 
-To enable creating distribution packages you have to add one more argument to the \c cpfAddPackage() function.
+To enable creating distribution packages you have to add one more argument to the \c cpfAddCppPackage() function.
 
 #### Sources/MyLib/CMakeLists.txt ####
 
@@ -930,7 +930,7 @@ set( archiveDevPackageOptions
 	DISTRIBUTION_PACKAGE_FORMATS 		7Z TGZ
 )
 ...
-cpfAddPackage( 
+cpfAddCppPackage( 
 	PACKAGE_NAME			${PACKAGE_NAME}
 	PACKAGE_NAMESPACE		${PACKAGE_NAMESPACE}
 	TYPE					LIB

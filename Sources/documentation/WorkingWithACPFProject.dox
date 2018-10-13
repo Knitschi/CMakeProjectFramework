@@ -309,7 +309,7 @@ but are rather used to order your global files, like project wide documentation,
 It also defines the name of the main library or executable that is created by this package. A CPF project can have multiple package directories.
 The package directory contains all source files that belong to the package. These can hold the production code, test code or 
 the package documentation. The package directory must contain a \c CMakeLists.txt file that calls the
-\c cpfInitPackageProject() and \c cpfAddPackage() functions. The directory structure within the package directory can be chosen freely.
+\c cpfInitPackageProject() and \c cpfAddCppPackage() functions. The directory structure within the package directory can be chosen freely.
 The relative directories of source files must be prepended when adding the files to the packages \c CMakeLists.txt file.
 
 
@@ -370,7 +370,7 @@ and *libSwitchWarningsOff* are external packages. External packages are always p
 
 \section ConsumingAPackage Consuming binary library packages created by a CPF project
 
-The \ref cpfAddPackage "\c cpfAddPackage() function" allows you to create binary packages for your library targets.
+The \ref cpfAddCppPackage "\c cpfAddCppPackage() function" allows you to create binary packages for your library targets.
 These packages contain *.cmake* files that can be used by other *CMake* based projects to consume
 your libraries with the \c find_package( ... CONFIG ... ) function.
 
