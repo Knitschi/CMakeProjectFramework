@@ -87,6 +87,7 @@ reduce the length of package names and the project name.
 
 Here is a non complete list of projects that have functionality overlaps with the CPF.
 
+- <a href="https://build2.org">build2</a>
 - <a href="https://github.com/mesonbuild/meson">Meson</a>
 - <a href="https://github.com/cmake-basis/BASIS">BASIS</a>
 - <a href="https://github.com/DevSolar/jaws>JAWS</a>
