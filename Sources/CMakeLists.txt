@@ -8,15 +8,10 @@ include(cpfConstants)
 cmake_minimum_required(VERSION ${CPF_MINIMUM_CMAKE_VERSION})
 include(cpfInit)
 
-##################################### CREATE PROJECT ########################################
+##################################### CREATE CI-PROJECT ########################################
+
 project(CMakeProjectFramework)
+
 cpfInit()
-
-####################################### ADD Packages #############################################
-
-set( externalPackages
-	cotire
-)
-
-cpfAddPackages( "${externalPackages}" "")
+cpfAddPackages( "" )
 
