@@ -187,7 +187,7 @@ MyCPFProject
 │
 └───Sources
     │   CMakeLists.txt
-    │   cpfOwnedPackages.cmake
+    │   cppPackages.cmake
     │
     ├───cotire
     │       ...
@@ -204,12 +204,12 @@ MyCPFProject
             DoxygenStylesheet.css
 \endcode
 
-The files \c %cpfOwnedPackages.cmake, \c documentation/DoxygenConfig.txt, \c documentation/DoxygenLayout.xml
+The files \c %cpfPackages.cmake, \c documentation/DoxygenConfig.txt, \c documentation/DoxygenLayout.xml
 and \c documentation/DoxygenStylesheet.xml need to be committed to the repository because they are
 generated when the generate step is run for the first time. Run
 
 \code{.unparsed}
->git add Sources/documentation/DoxygenConfig.txt Sources/documentation/DoxygenLayout.xml Sources/documentation/DoxygenStylesheet.xml Sources/cpfOwnedPackages.cmake 
+>git add Sources/documentation/DoxygenConfig.txt Sources/documentation/DoxygenLayout.xml Sources/documentation/DoxygenStylesheet.xml Sources/cpfPackages.cmake 
 >git commit . -m"Add auto generated project files."
 \endcode
 
@@ -358,10 +358,10 @@ This is done to allow linking the complete functionality to a test executable th
 \subsubsection AddPackageToCIProject Add the owned package to the CI project
 
 We now have to tell the CI-project that we added an *owned package*. We do this by adding *MyApp* to the
-\c %cpfOwnedPackages.cmake file.
+\c %cpfPackages.cmake file.
 
 \code{.cmake}
-# file MyCPFProject/Sources/cpfOwnedPackages.cmake
+# file MyCPFProject/Sources/cpfPackages.cmake
 
 set( CPF_OWNED_PACKAGES
 "\
@@ -385,7 +385,7 @@ Finally commit the new files to the repository by running:
 \subsubsection BuildTheSinglePackageProject Build the project
 
 With all the files in place we can now generate and build the project. Note that you have to run a complete generate
-whenever you change the \c cpfOwnedPackages.cmake file. A *complete* generate is executed when the configuration
+whenever you change the \c cpfPackages.cmake file. A *complete* generate is executed when the configuration
 option is given to the \c 2_Generate.py script. After the re-generate you can build and run the application.
 
 \code{.unparsed}
@@ -593,13 +593,13 @@ by running
 in the \c MyCPFProject/Sources directory. This will yield a *MyCPFPRoject/Sources/MyLib* directory
 that contains the files that you created in the above section. To finish the process edit some files in *MyCPFPRoject*.
 
-#### %cpfOwnedPackages.cmake ####
+#### %cpfPackages.cmake ####
 
-We add the *MyLib* package as owned package to CI project by adding it in the \c %cpfOwnedPackages.cmake file.
+We add the *MyLib* package as owned package to CI project by adding it in the \c %cpfPackages.cmake file.
 As the variable description states, it is essential that *MyLib* is added to the list before *MyApp*. 
 
 \code{.cmake}
-# file MyCPFProject/Sources/cpfOwnedPackages.cmake
+# file MyCPFProject/Sources/cpfPackages.cmake
 
 set( CPF_OWNED_PACKAGES
 "\
