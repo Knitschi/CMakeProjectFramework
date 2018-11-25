@@ -6,7 +6,7 @@ list(APPEND CMAKE_MODULE_PATH
 )
 include(cpfConstants)
 cmake_minimum_required(VERSION ${CPF_MINIMUM_CMAKE_VERSION})
-include(cpfInit)
+include(cpfAddPackages)
 
 ##################################### CREATE CI-PROJECT ########################################
 
