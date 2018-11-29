@@ -25,3 +25,4 @@
 [submodule "Sources/CPFDoxygenConfig"]
 	path = Sources/CPFDoxygenConfig
 	url = https://github.com/Knitschi/CPFDoxygenConfig.git
+	branch = master
