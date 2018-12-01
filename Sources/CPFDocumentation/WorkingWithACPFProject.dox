@@ -233,7 +233,7 @@ ACPFTestProject
 │
 └───Sources
     │   CMakeLists.txt
-    │   cpfPackages.cmake
+    │   packages.cmake
     |   ... [more global files]
     │
     ├───CIBuildConfigurations
@@ -285,7 +285,7 @@ of the project. There is a set of files that are in every CPF project.
 package projects that are created by the packages \c CMakeLists.txt files. The creation of the CI-project is done by calling the
 \c cpfInit() function. Packages are added by calling the \c cpfAddPackages() function. Both are provided by the \ref CPFCMake package.
 
-- <b>\c %cpfPackages.cmake:</b> This file defines a CMake cache variable that holds a list of package names that are *owned* by this
+- <b>\c %packages.cmake:</b> This file defines a CMake cache variable that holds a list of package names that are *owned* by this
 CI-project. *Owned* means, that the CI-job that builds this repository is responsible for verifying that all automated checks for
 the package pass before it is marked with a version tag. More information about package ownership can be found \ref PackageOwnership "here".
 
@@ -354,7 +354,7 @@ the root \c CMakeLists.txt file in the *Sources* directory. The package projects
 in the *Sources\<package>* directories.
 
 In the *ACPFTestProject* we have quite number of packages. The packages *APackage*, *CPackage*, *DPackage* and *EPackage*.
-are listed in the \c Sources/cpfPackages.cmake file, which defines them as *owned* packages. This means that
+are listed in the \c Sources/packages.cmake file, which defines them as *owned* packages. This means that
 it is this CI-project's responsibility to provide their *official* build-job that increment their version tags.
 CPackage is the only *fixed* package, which means that is in the same repository as the CI-project. It is called
 *fixed*, because its version is fixed to the CI-projects version. The other owned packages are *loose*, because
