@@ -11,6 +11,7 @@ set( sources
     CPFLogo.png
     CPFLogo.svg
     CPFLogoSmall.png
+    Introduction.dox
     ProjectOrganisation.dox
     SettingUpACPFProject.dox
     SettingUpTheCPFCIInfrastructure.dox

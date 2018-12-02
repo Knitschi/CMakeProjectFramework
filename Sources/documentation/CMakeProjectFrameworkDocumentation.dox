@@ -13,11 +13,17 @@ be used to provide continuous integration services for a CPF project.
 
 ## Index ##
 
+### Introduction to the CPF ###
+- \subpage CPFIntroduction - A short overview over what the CPF does.
 - \subpage CPFSolvedProblems - Read this if you want to know why you should use the CPF.
 - \subpage CPFBasicConcepts - Some fundamental design concepts of the project.
+
+### Tutorials ###
 - \subpage CPFWorkingWithCPF - A tutorial on how to work with an existing CPF project.
 - \subpage CPFSettingUpACPFProject - A tutorial on how to create your own CPF project.
 - \subpage CPFSettingUpTheInfrastructure - A tutorial on how to set up the build- and web-server for a CPF project.
+
+### Developer references ###
 - \subpage CPFProjectOrganisation - An overview of the packages that make up the CMakeProjectFramework.
 - \subpage CPFCMake - More detailed information about the CPFCMake package.
 - \subpage CPFBuildscripts - More detailed information about the CPFBuildscripts package.
@@ -25,62 +31,29 @@ be used to provide continuous integration services for a CPF project.
 - \subpage CPFTests - High-level tests for the complete CMakeProjectFramework.
 
 
-## Introduction ##
-
-When setting up a C++ Software project multiple tasks besides writing the actual C++ code arise.
-
-- Organizing the code-base into smaller packages.
-- Versioning of the packages.
-- Automatic acquisition of external software dependencies.
-- Setting up a build pipeline that also does additional tasks like running automated test, static/dynamic analysis, generate documentation, etc.
-- Setting up a CI-server to run the pipeline.
-- Setting up a homepage for the project that hosts the documentation.
-
-The CMakeProjectFramework tries to solve the above mentioned problems by using a combination of common open source tools from the C++
-ecosystem. The third party tools used by the CMakeProjectFramework are:
-
-- <a href="https://git-scm.com">Git</a>                                       (code versioning)
-- <a href="https://cmake.org">CMake</a>                                       (meta-buildsystem)
-- <a href="https://github.com/ruslo/hunter">Hunter package manager</a>                  (automatic dependency retrieval)
-- <a href="https://github.com/sakra/cotire">Cotire</a>                                  (CMake module for pre-compiled headers)
-- <a href="https://jenkins.io/">Jenkins</a>                                             (CI server)
-- <a href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a>                           (documentation generator)
-- <a href="http://clang.llvm.org/extra/clang-tidy/">clang-tidy</a>                      (static code analysis)
-- <a href="http://valgrind.org/">valgrind</a>                                           (dynamic code analysis)
-- <a href="https://github.com/OpenCppCoverage/OpenCppCoverage">OpenCppCoverage</a>      (measure test coverage)
-- <a href="https://github.com/lvc/abi-compliance-checker">Abi Compliance Checker</a>    (visualize changes in the API/ABI between package versions)
-- <a href="https://www.graphviz.org/">Graphviz</a>                                      (used to create a dependency graph of the project)
-
-Using the **CPF** should relieve you of writing your own higher level CMake code or other additional scripts to implement pipeline tasks.
-It can additionally provide a Jenkins CI infrastructure that is (in the future) completely generated from text-files.
-
-
 ## Motivation ##
 
 In the smaller sized teams and companies that I have worked with, improving the CI system was often a somewhat neglected part of the development. Although the eco-system
 provides a number of open source tools that do the heavy lifting, it is still quite some work to integrate all the tools into a full featured CI production 
-system. Implementing new features often had higher priority then the work on the infrastructure. In the worst case this meant that the team had to work
-without a CI server or that the CI server only did the most basic jobs like building and packaging the project.
+system. Implementing new features in the production code often had higher priority then the work on the infrastructure.
 
-This situation bugged me and I started to implement a CI pipeline and infrastructure for my own C++ toy code-base. At some point the *project* code started
-to get bigger then the C++ *payload* code. I decided to pull out that *project* code into its own repository which now has become the **CMakeProjectFramework**.
+This situation bugged me and I started to implement a CI pipeline and infrastructure for my own C++ toy code-base. At some point the *infrastructure* code started
+to get bigger then the C++ *payload* code. I decided to pull the *infrastructure* code out into its own repository which now has become the **CMakeProjectFramework**.
 
-At its current state the project is not battle tested. As far as I know I am the only user and the project currently lacks the generality to be useful
+At it's current state the project is not battle tested. As far as I know I am the only user and the project currently lacks the generality to be useful
 to everybody. However, I am interested in changing that and making the project useful to hobby developers or small teams that have not yet a CI pipeline in place.
 If you are interested in using the project or joining its development, feel free to contact me via Github.
 
 
 ## Limitations ##
 
-1. The CMakeProjectFramework is currently only developed on Linux and Windows. In the long run I would also like to support development on MacOS, 
+- The CMakeProjectFramework is currently only developed on Linux and Windows. In the long run I would also like to support development on MacOS, 
 and cross-compiling to any other platform that is supported by CMake.
 
-2. Setting up the CI infrastructure currently requires still a lot of manual work.
+- Setting up the CI infrastructure currently requires still a lot of manual work.
 
-3. I do not know if *custom* pipeline steps can be easily added to the pipeline.
-
-4. When using the **CPF** on windows, one can easily run into the 260 character limit for filesystem paths. If this is hit, the only fix is to
-reduce the length of package names and the project name.
+- When using the **CPF** on Windows, one can easily run into the 260 character limit for filesystem paths. If this is hit, the only fix is to
+reduce the length of package names and the project name. On Windows 10 the limit can be switched off though.
 
 
 ## Similar projects ## 

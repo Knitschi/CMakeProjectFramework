@@ -5,5 +5,5 @@ set( CPF_PACKAGES
     OWNED CPFBuildscripts
     OWNED CPFMachines
     OWNED CPFTests
-    OWNED CPFDocumentation
+    OWNED documentation
 )

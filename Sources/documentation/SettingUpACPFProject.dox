@@ -983,30 +983,19 @@ uses <tt>CPF_ENABLE_PRECOMPILED_HEADER=OFF</tt>. This configuration will fail to
 if you forget to include any headers that are also included with the prefix header.
 
 
-\subsection CPFAddDoxygenPackage 12. Add a doxygen package to generate the documentation of your CI-project
-
-\todo Rework CPFAddDoxygenPackage
+\subsection CPFAddDoxygenPackage 12. Add a Doxygen package to generate the documentation of your CI-project
 
 This is an optional feature and you can skip this step if you do not want to use Doxygen as a documentation generator.
-In order to use this feature you have to download and install doxygen to your developer machine and add it to
+In order to use this feature you have to download and install Doxygen on your developer machine and add it to
 the \c PATH so you can run it from the command line.
 
 The CPF provides you with the \ref cpfAddDoxygenPackage function that can be used to add a custom target
 that runs <a href="http://www.doxygen.nl/index.html">Doxygen</a> on your CI-project.
 Doxygen parses your source files for special comments and generates an html documentation from it.
 
-The appearance of the generated html pages can be customized by passing doxygen a couple of configuration files.
-If you want full control over the style of your documentation, you should keep your own copies of those files.
-Here we will use the same files that the CPF uses for its own documentation.
-We add these files as another git submodule to our CI-project.
-
-\code{.unparsed}
-Sources>git submodule add https://github.com/Knitschi/CPFDoxygenConfig.git
-\endcode
-
-We now add our own package that holds files for our global documentation. In practice you will
-have documentation files directly in your packages and documentation files that do not really
-belong to a single package. These can be put in the global *documentation* package.
+We now add our own package that holds files for our global documentation. This package
+contains the doxygen configuration files and files that contain global documentation that does
+not really belong to any of your packages.
 
 Now add the following files.
 
@@ -1017,6 +1006,11 @@ Sources
         CMakeLists.txt
         MyProject.dox
 \endcode
+
+#### CMakeLists.txt ####
+
+In this \c CMakeLists.txt file we add a custom-target package instead of
+the C++ packages that we added in the previous steps.
 
 \code{.cmake}
 # file MyCPFProject/Sources/documentation/CMakeLists.txt
@@ -1037,6 +1031,10 @@ cpfAddDoxygenPackage(
     SOURCES ${sources}
 )
 \endcode
+
+#### MyProject.dox ####
+
+This is an example of a file that contains global documentation.
 
 \code{.unparsed}
 # file MyCPFProject/Sources/documentation/MyProject.dox
@@ -1061,17 +1059,20 @@ MyCPFProject\Sources\documentation>doxygen -w html header.html footer.html Doxyg
 
 You can change these files to customize the content and looks of the generated html pages.
 For further information refer to the Doxygen documentation.
-Finally we add the packages to the repository and the \c packages.cmake file.
+Finally we add the package to the repository and the \c packages.cmake file.
 
 \code{.unparsed}
-Sources>git add documentation
-Sources>git commit . -m"Adds the project doxygen documentation"
+>git add Sources/documentation
+>git commit . -m"Adds the project doxygen documentation"
 \endcode
+
+#### packages.cmake ####
 
 \code{.cmake}
 # file MyCPFProject/Sources/packages.cmake
  
 set( CPF_PACKAGES
+    EXTERNAL cotire
     EXTERNAL CPFCMake
     EXTERNAL CPFBuildscripts
     OWNED MyLib
@@ -1096,13 +1097,13 @@ the *CMakeLists.txt* files. To activate this feature we add the *GENERATE_PACKAG
 ...
 cpfAddCppPackage( 
 	...
-    DISTRIBUTION_PACKAGES       ${sourcePackageOptions}
     GENERATE_PACKAGE_DOX_FILES
 )
 \endcode
 
 You can now re-build your documentation target and the html-page should contain *Modules* sub-pages
-for the *MyLib* and *MyApp* packages that contain the description strings.
+for the *MyLib* and *MyApp* packages that contain the description strings and some links to other
+generated content.
 
 For more details see: \ref CPFDocumentationGeneration
 

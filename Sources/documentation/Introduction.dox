@@ -1,0 +1,31 @@
+/**
+\page CPFIntroduction Introduction
+
+When setting up a C++ Software project multiple tasks besides writing the actual C++ code arise.
+
+- Organizing the code-base into smaller packages.
+- Versioning of the packages.
+- Automatic acquisition of external software dependencies.
+- Creating distribution packages that can be consumed by others.
+- Setting up a build pipeline that also does additional tasks like running automated test, static/dynamic analysis, generate documentation, etc.
+- Setting up a CI-server to run the pipeline.
+- Setting up a homepage for the project that hosts the documentation.
+
+The CMakeProjectFramework tries to solve the above mentioned problems by using a combination of common open source tools from the C++
+ecosystem. The third party tools used by the CMakeProjectFramework are:
+
+- <a href="https://git-scm.com">Git</a>                                                 (code versioning)
+- <a href="https://cmake.org">CMake</a>                                                 (meta-buildsystem)
+- <a href="https://github.com/sakra/cotire">Cotire</a>                                  (CMake module for pre-compiled headers)
+- <a href="https://jenkins.io/">Jenkins</a>                                             (CI server)
+- <a href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a>                           (documentation generator)
+- <a href="http://clang.llvm.org/extra/clang-tidy/">clang-tidy</a>                      (static code analysis)
+- <a href="http://valgrind.org/">valgrind</a>                                           (dynamic code analysis)
+- <a href="https://github.com/OpenCppCoverage/OpenCppCoverage">OpenCppCoverage</a>      (measure test coverage)
+- <a href="https://github.com/lvc/abi-compliance-checker">Abi Compliance Checker</a>    (visualize changes in the API/ABI between package versions)
+- <a href="https://www.graphviz.org/">Graphviz</a>                                      (used to create a dependency graph of the project)
+
+Using the **CPF** should relieve you of writing your own higher level CMake code or other additional scripts to implement pipeline tasks.
+It can additionally provide a Jenkins CI infrastructure that is (in the future) completely generated from text-files.
+
+*/
