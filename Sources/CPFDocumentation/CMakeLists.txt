@@ -3,16 +3,9 @@
 include(cpfInitPackageProject)
 include(cpfAddDoxygenPackage)
 
-cpfInitPackageProject( CPFDoc )
-
-set(doxygenHeader header.html)
-set(doxygenFooter footer.html)
-set(smallProjectLogo CPFLogoSmall.svg)
+cpfInitPackageProject()
 
 set( sources
-    ${doxygenHeader}
-    ${doxygenFooter}
-    ${smallProjectLogo}
     BasicConcepts.dox
     CMakeProjectFrameworkDocumentation.dox
     CPFLogo.png
@@ -25,14 +18,14 @@ set( sources
     WorkingWithACPFProject.dox
 )
 
-get_property( doxygenConfigFiles TARGET CPFDoxygenConfig PROPERTY CPF_DOXYGEN_CONFIG_FILES )
-
 cpfAddDoxygenPackage(
     SOURCES ${sources}
-    ${doxygenConfigFiles}
-    HTML_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/${doxygenHeader}"
-    HTML_FOOTER "${CMAKE_CURRENT_SOURCE_DIR}/${doxygenFooter}"
-    PROJECT_LOGO "${CMAKE_CURRENT_SOURCE_DIR}/${smallProjectLogo}"
+    DOXYGEN_CONFIG_FILE "${CMAKE_CURRENT_SOURCE_DIR}/DoxygenConfig.txt"
+    DOXYGEN_LAYOUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/DoxygenLayout.xml"
+    DOXYGEN_STYLESHEET_FILE "${CMAKE_CURRENT_SOURCE_DIR}/DoxygenStylesheet.css"
+    HTML_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/header.html"
+    HTML_FOOTER "${CMAKE_CURRENT_SOURCE_DIR}/footer.html"
+    PROJECT_LOGO "${CMAKE_CURRENT_SOURCE_DIR}/CPFLogoSmall.svg"
 )
 
 
