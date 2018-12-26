@@ -1081,7 +1081,7 @@ set( CPF_PACKAGES
 )
 \endcode
 
-To harvest the fruits of your hard labour run
+To harvest the fruits of your hard labor run
 
 \code{.unparsed}
 >3_Make.py --target documentation
