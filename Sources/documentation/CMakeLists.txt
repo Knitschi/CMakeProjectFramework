@@ -8,9 +8,7 @@ cpfInitPackageProject()
 set( sources
     BasicConcepts.dox
     CMakeProjectFrameworkDocumentation.dox
-    CPFLogo.png
     CPFLogo.svg
-    CPFLogoSmall.png
     Introduction.dox
     ProjectOrganisation.dox
     SettingUpACPFProject.dox
@@ -26,7 +24,7 @@ cpfAddDoxygenPackage(
     DOXYGEN_STYLESHEET_FILE "${CMAKE_CURRENT_SOURCE_DIR}/DoxygenStylesheet.css"
     HTML_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/header.html"
     HTML_FOOTER "${CMAKE_CURRENT_SOURCE_DIR}/footer.html"
-    PROJECT_LOGO "${CMAKE_CURRENT_SOURCE_DIR}/CPFLogoSmall.svg"
+    PROJECT_LOGO "${CMAKE_CURRENT_SOURCE_DIR}/CPFLogo.svg"
     RUN_DOXYINDEXER
 )
 
