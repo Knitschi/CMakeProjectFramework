@@ -1007,6 +1007,10 @@ Sources
         MyProject.dox
 \endcode
 
+It is not required to use \c documentation as the name of the package.
+The name of the package directory is also the name of the target that
+is later build to generate the documentation.
+
 #### CMakeLists.txt ####
 
 In this \c CMakeLists.txt file we add a custom-target package instead of
@@ -1022,6 +1026,8 @@ cpfInitPackageProject()
 
 set( sources
     MyProject.dox
+    footer.html
+    header.html
 )
 
 cpfAddDoxygenPackage(
@@ -1048,13 +1054,13 @@ bli bla blub
 */
 \endcode
 
-We use doxygen to create the default versions of its config files \c DoxygenConfig.txt, \c DoxygenLayout.xml, <tt>DoxygenStylesheet.css</tt>
+We use doxygen to create the default versions of the config files \c DoxygenConfig.txt, \c DoxygenLayout.xml, <tt>DoxygenStylesheet.css</tt>
 <tt>header.html</tt> and <tt>footer.html</tt>.
 
 \code{.unparsed}
-MyCPFProject\Sources\documentation>doxygen -g DoxygenConfig.txt
-MyCPFProject\Sources\documentation>doxygen -l DoxygenLayout.xml
-MyCPFProject\Sources\documentation>doxygen -w html header.html footer.html DoxygenStylesheet.css
+Sources/documentation>doxygen -g DoxygenConfig.txt
+Sources/documentation>doxygen -l DoxygenLayout.xml
+Sources/documentation>doxygen -w html header.html footer.html DoxygenStylesheet.css
 \endcode
 
 You can change these files to customize the content and looks of the generated html pages.
@@ -1087,7 +1093,7 @@ To harvest the fruits of your hard labor run
 >3_Make.py --target documentation
 \endcode
 
-You can now open \c Generated/VS/html/doxygen/index.html in your browser to take a look at the generated html-page.
+You can now open \c Generated/VS/html/doxygen/html/index.html in your browser to take a look at the generated html-page.
 There is not much to see here, because we have not added much content yet.
 The CPF can generate a standard doxygen documentation for your C++ packages that contains the descriptions from
 the *CMakeLists.txt* files. To activate this feature we add the *GENERATE_PACKAGE_DOX_FILES* options to the
