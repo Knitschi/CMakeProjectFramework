@@ -27,6 +27,7 @@ cpfAddDoxygenPackage(
     HTML_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/header.html"
     HTML_FOOTER "${CMAKE_CURRENT_SOURCE_DIR}/footer.html"
     PROJECT_LOGO "${CMAKE_CURRENT_SOURCE_DIR}/CPFLogoSmall.svg"
+    RUN_DOXYINDEXER
 )
 
 
