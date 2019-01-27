@@ -24,6 +24,7 @@ be used to provide continuous integration services for a CPF project.
 - \subpage CPFSettingUpTheInfrastructure - A tutorial on how to set up the build- and web-server for a CPF project.
 
 ### Developer references ###
+- <a href="https://github.com/knitschi/CMakeProjectFramework"><b>CPF on GitHub</b></a> - The project's GitHub page.
 - \subpage CPFProjectOrganisation - An overview of the packages that make up the CMakeProjectFramework.
 - \subpage CPFCMake - More detailed information about the CPFCMake package.
 - \subpage CPFBuildscripts - More detailed information about the CPFBuildscripts package.
