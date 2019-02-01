@@ -272,22 +272,22 @@ After cloning a CPF repository, this should be the only existing directory in th
 the root \c CMakeLists.txt file of the repository, global files and directories for the packages that contain the *payload* code
 of the project. There is a set of files that are in every CPF project.
 
-- <b>\c CMakeLists.txt:</b> The root \c CMakeLists.txt file creates the CI-project. This is the *host* project that contains the
+- <b><code>CMakeLists.txt</code>:</b> The root \c CMakeLists.txt file creates the CI-project. This is the *host* project that contains the
 package projects that are created by the packages \c CMakeLists.txt files. The CPF dependencies are pulled in by including
 \ref cpfInitModule "cpfInit.cmake". The Packages are added by calling the \ref cpfAddPackages function. Both are provided by the \ref CPFCMake package.
 
-- <b>\c packages.cmake:</b> This file defines a CMake variable that holds a list of package names that are \c OWNED by this
+- <b><code>packages.cmake</code>:</b> This file defines a CMake variable that holds a list of package names that are \c OWNED by this
 CI-project or are \c EXTERNAL packages. *Owned* means, that the CI-job that builds this repository is responsible for verifying that all automated checks for
 the package pass before it is marked with a version tag. More information about package ownership can be found \ref PackageOwnership "here".
 
-- <b>\c CIBuildConfigurations:</b> This directory provides the CI job with information about the project configurations that should
+- <b><code>CIBuildConfigurations</code>:</b> This directory provides the CI job with information about the project configurations that should
 be build by the CI job. These configurations are defined in files like \c VS.config.cmake which contain a
 set of CMake cache variables. More information about the config file mechanism can be found \ref ConfigurationStep "here".
 
-- <b>\c CIBuildConfigurations/cpfCiBuildConfigurations.json:</b> A file that contains a list of configurations that are build by the
+- <b><code>CIBuildConfigurations/cpfCiBuildConfigurations.json</code>:</b> A file that contains a list of configurations that are build by the
 projects CI job. This is only needed if the infrastructure provided by \ref CPFMachines is used.
 
-- <b>\c APackage:</b> A directory that contains a package. The name of the package directory can be chosen by the user. 
+- <b><code>APackage</code>:</b> A directory that contains a package. The name of the package directory can be chosen by the user. 
 It also defines the name of the main library, executable or custom target that is created by this package. 
 A CPF project can have multiple package directories.
 The package directory contains all source files that belong to the package. These can hold the production code, test code or 
