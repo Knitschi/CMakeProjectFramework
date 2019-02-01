@@ -7,9 +7,9 @@ that you are familiar with the \ref CPFWorkingWithCPF and the \ref CPFSettingUpA
 The tutorial also assumes that you have a CPF project provided by a remote git repository that
 can be pulled and pushed to via the SSH protocol. It assumes you can clone that repository with
 
-\code{.unparsed}
+\verbatim
 >git clone --recursive ssh://myuser@mydebianpc:/home/myuser/repositories/MyCPFProject.git
-\endcode
+\endverbatim
 
 
 \section CPFMachinesTutorial Step by step tutorial for setting up the CPF CI infrastructure
@@ -30,20 +30,20 @@ that will define some basic properties of your server setup. It is not necessary
 that you add these files to a git repository. You can also use this repository to add other
 files with helper scripts and such that you use for handling your infrastructure.
 
-\code{.unparsed}
+\verbatim
 >mkdir MyCPFMachines.git
 >cd MyCPFMachines.git
 >git init --bare --share
 >cd ..
 >git clone MyCPFMachines.git
-\endcode 
+\endverbatim 
 
 We now add the *CPFMachines* package as a git submodule.
 
-\code{.unparsed}
+\verbatim
 >cd MyCPFMachines
 >git submodule add https://github.com/Knitschi/CPFMachines.git
-\endcode 
+\endverbatim 
 
 
 \subsection CPFProvideMachinesWithSSHAccess 3. Provide host machines with SSH access
@@ -68,10 +68,10 @@ attached to the local network.
 
 The further steps assume that you can now run
 
-\code{.unparsed} 
+\verbatim 
 >ssh myuser@mydebianpc "echo blub"
 >ssh myuser@mywindowspc "echo blub"
-\endcode
+\endverbatim
 
 on the machine that you want to use to run the \c setup.py script. Replace the user and machine names with the ones
 that you actually use.
@@ -85,7 +85,7 @@ content:
 
 #### MyConfig.json ####
 
-\code{.unparsed}
+\verbatim
 {
   "CPFMachinesVersion": "0.0.0",
   "HostMachines": [
@@ -138,7 +138,7 @@ content:
     "SSHDir": "/home/myuser/.ssh"
   }
 }
-\endcode
+\endverbatim
 
 With this configuration you will get the jenkins master server, a jenkins linux agent and the web-server on the *mydebianpc* machine.
 The *mywindowspc* will be used to run a jenkins windows agent. Jenkins will be configured to have one build job *MyCPFProject* that
@@ -153,9 +153,9 @@ the inconvenience that you have to re-enter them whenever you want to run the \c
 
 We now have done all the manual preparations that are necessary to install the servers.
 
-\code{.unparsed} 
+\verbatim 
 >python -m CPFMachines.setup MySetup.json
-\endcode
+\endverbatim
 
 Running the script may take quite some time, as some of the required tools are freshly compiled when running the script.
 If the script fails to run successfully, see if you can find the problem on the trouble shooting page \ref CPFMachinesProblems "here".

@@ -36,9 +36,9 @@ A CPF project must be based on a git repository. The CMake code relies on it whe
 handling packages that can be contained in git submodules. Because of the contained submodules the repository
 must be cloned by using:
 
-\code{.bat}
+\verbatim
 git clone --recursive https://github.com/Knitschi/ACPFTestProject.git
-\endcode
+\endverbatim
 
 
 \section ConfigureGenerateBuild Configure, generate and build a CPF project 
@@ -61,9 +61,9 @@ If this is not the case, make sure the <TT>python -\-version</TT>  call returns 
 
 In order to execute the copy step run
 
-\code{.bat}
+\verbatim
 ...\ACPFTestProject>python Sources/CPFBuildscripts/0_CopyScripts.py
-\endcode
+\endverbatim
 
 in the project root directory.
 
@@ -77,15 +77,15 @@ once after cloning the repository.
 
 In order to generate a configuration file run
 
-\code{.bat}
+\verbatim
 .../ACPFTestProject>python 1_Configure.py VS --inherits VS2017-shared
-\endcode
+\endverbatim
 
 on Windows or 
 
-\code{.sh}
+\verbatim{.sh}
 .../ACPFTestProject>python3 1_Configure.py Gcc --inherits Gcc-shared-debug
-\endcode
+\endverbatim
 
 on Linux in the project root directory.
 
@@ -102,9 +102,9 @@ After running the script you have the chance to edit the default values in the c
 that is adequate for the local build. On a CI server it may sometimes be useful to set non default values of variables directly with the command line
 call. This can be done by adding \c -D options to the script call.
 
-\code{.bat}
+\verbatim
 ...\ACPFTestProject>1_Configure.py VS --inherits VS2017-shared -D HUNTER_ROOT="C:/MyHunterLibs" -D CPF_TEST_FILES_DIR=="C:/Temp"
-\endcode
+\endverbatim
 
 A project can have multiple configurations in parallel. This can be achieved by running the \c 1_Configure.py script, multiple times
 with different configuration names. However, if only one configuration is available, the configuration argument can be omitted
@@ -139,15 +139,15 @@ to define *officially* supported compiler configurations and platforms.
 
 To execute the generate step run
 
-\code{.bat}
+\verbatim
 ...\ACPFTestProject>python 2_Generate.py VS
-\endcode
+\endverbatim
 
 on Windows or
 
-\code{.sh}
+\verbatim{.sh}
 .../ACPFTestProject>python3 2_Generate.py Gcc
-\endcode
+\endverbatim
 
 on Linux in the project root directory.
 
@@ -168,15 +168,15 @@ the files and do a faster *incremental* generate instead.
 
 To execute a full build run
 
-\code{.bat}
+\verbatim
 ...\ACPFTestProject>python 3_Make.py VS --target pipeline --config Debug
-\endcode
+\endverbatim
 
 on Windows or
 
-\code{.sh}
+\verbatim{.sh}
 .../ACPFTestProject>python3 3_Make.py Gcc --target pipeline
-\endcode
+\endverbatim
 
 on Linux. This will compile the binaries as well as executing extra pipeline tasks like running the tests, do analysis,
 generate the documentation or other steps that your project may have enabled via its configuration file.
@@ -200,7 +200,7 @@ The CMakeProjectFramework enforces a certain directory structure. Here are the m
 Note that depending on the configuration that you built not all of the shown directories and files will exist in your project.
 Many of the displayed directories do not exist in a freshly cloned CPF project.
 
-\code{.unparsed}
+\verbatim
 ACPFTestProject
 │   .gitignore
 │   .gitmodules
@@ -255,7 +255,7 @@ ACPFTestProject
     │
     ... [more package directories or global file directories]
 
-\endcode
+\endverbatim
 
 \subsubsection RootDirectory The root directory
 

@@ -170,16 +170,15 @@ dl.el {
 }
 
 pre.fragment {
-        border: 1px solid #C4CFE5;
-        background-color: #FBFCFD;
+	background-color: rgb(221, 221, 221);
+	border: 1px solid rgb(126, 126, 126);
         padding: 4px 6px;
         margin: 4px 8px 4px 2px;
         overflow: auto;
         word-wrap: break-word;
-        font-size:  9pt;
         line-height: 125%;
         font-family: monospace, fixed;
-        font-size: 105%;
+        font-size: 95%;
 }
 
 div.fragment {

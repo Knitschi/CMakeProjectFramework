@@ -1,6 +1,7 @@
 /**
 \mainpage Overview
 
+
 # The CMakeProjectFramework #
 
 The **CMakeProjectFramework** framework provides a solution for organizing a cross-platform Git and CMake based C++ software project. 
