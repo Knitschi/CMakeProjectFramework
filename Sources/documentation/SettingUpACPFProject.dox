@@ -136,6 +136,7 @@ set( CPF_PACKAGES
 
 For now we have no packages available so the value of the package list \c CPF_PACKAGES stays empty.
 We will modify this file later when we add our first packages.
+Read more about the file in \ref CPFPackagesCMakeFile.
 
 
 ### Add the basic files to the repository ###
