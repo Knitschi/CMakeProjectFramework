@@ -1,22 +1,29 @@
 # This package contains the global documentation files of the CMakeProjectFramework.
 
 include(cpfInitPackageProject)
-include(cpfAddDoxygenPackage)
+include(cpfAddSphinxPackage)
 
 cpfInitPackageProject()
 
 set( sources
-    BasicConcepts.dox
-    CMakeProjectFrameworkDocumentation.dox
+	BasicConcepts.rst
     CPFLogo.svg
-    Introduction.dox
-    ProjectOrganisation.dox
-    SettingUpACPFProject.dox
-    SettingUpTheCPFCIInfrastructure.dox
-    SolvedProblems.dox
-    WorkingWithACPFProject.dox
+	Introduction.rst
+    ProjectOrganisation.rst
+    SettingUpACPFProject.rst
+    SettingUpTheCPFCIInfrastructure.rst
+	SolvedProblems.rst
+	WorkingWithACPFProject.rst
+	index.rst
+	cmake.py
+	colors.py
+	conf.py
+	create_identifiers.py
+	.static/cmake.css
+	.templates/layout.html
 )
 
+#[[
 cpfAddDoxygenPackage(
     SOURCES ${sources}
     DOXYGEN_CONFIG_FILE "${CMAKE_CURRENT_SOURCE_DIR}/DoxygenConfig.txt"
@@ -27,5 +34,16 @@ cpfAddDoxygenPackage(
     PROJECT_LOGO "${CMAKE_CURRENT_SOURCE_DIR}/CPFLogo.svg"
     RUN_DOXYINDEXER
 )
+
+]]
+cpfAddSphinxPackage(
+	#CONFIG_FILE conf.py
+	OTHER_FILES ${sources}
+	ADDITIONAL_SPHINX_ARGUMENTS "-W"
+	OUTPUT_SUBDIR html
+)
+
+
+
 
 

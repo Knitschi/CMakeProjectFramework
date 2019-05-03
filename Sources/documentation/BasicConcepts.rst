@@ -1,42 +1,45 @@
-/**
-\page CPFBasicConcepts Basic Concepts
+
+Basic Concepts
+==============
 
 This pages describes the general ideas behind the *CMakeProjectFramework*.
 It introduces some terms that are used throughout the documentation of this
 project.
 
 
-\section Concepts Concepts
+Concepts
+--------
 
 The CPF follows the following key concepts. 
 
 - Provide a \ref MultiRepositoryApproach approach that allows the distribution
-of the code base over multiple repositories.
+  of the code base over multiple repositories.
 - Define the build infrastructure completely in text-files that can be
-held in a repository. This allows to quickly set up the infrastructure from a small
-amount of data. The repository also provides the change history for the system.
+  held in a repository. This allows to quickly set up the infrastructure from a small
+  amount of data. The repository also provides the change history for the system.
 - Hide all CMake features behind a smaller declarative interface. While cmake offers
-the functionality to solve all problems that occur when setting up a C++ code-base,
-it is still quite some work to implement a solution. The CPF wants to take that burden
-from its users, while trying not to loose too much of the generality that a custom
-implementation would offer. 
+  the functionality to solve all problems that occur when setting up a C++ code-base,
+  it is still quite some work to implement a solution. The CPF wants to take that burden
+  from its users, while trying not to loose too much of the generality that a custom
+  implementation would offer. 
 - Keep files of three different live expectancies in three different directories.
-Sources, Configurations and generated files. Keeping the generated files out of the source-tree 
-has become the norm when using CMake. This allows deleting the *build-tree* in order
-to guarantee a fresh system. However, in the standard CMake workflow, the generated files
-also contain the manually defined project configuration within the \c CMakeCache.txt file.
-For complex projects, defining a configuration may take some time and deleting it together
-with the generated files is undesirable. The *CPF* therefore puts the configuration information
-in a directory that is parallel to the *build-* and *source-tree*. It also allows defining multiple
-configurations at the same time.
+  Sources, Configurations and generated files. Keeping the generated files out of the source-tree 
+  has become the norm when using CMake. This allows deleting the *build-tree* in order
+  to guarantee a fresh system. However, in the standard CMake workflow, the generated files
+  also contain the manually defined project configuration within the \c CMakeCache.txt file.
+  For complex projects, defining a configuration may take some time and deleting it together
+  with the generated files is undesirable. The *CPF* therefore puts the configuration information
+  in a directory that is parallel to the *build-* and *source-tree*. It also allows defining multiple
+  configurations at the same time.
 - Let the build system handle parallelism and up-to-date checks. The *CPF* takes advantage of *CMake's* custom target
-mechanism. This way the advanced tasks like test-runs, code-analysis or documentation generation
-may be run in parallel and are only re-run when they are outdated. 
+  mechanism. This way the advanced tasks like test-runs, code-analysis or documentation generation
+  may be run in parallel and are only re-run when they are outdated. 
 - Separate the CI-code from the production code by putting it into
-the CI-project repository. Read more in \ref CIProjectAndPackageProjects.
+  the CI-project repository. Read more in \ref CIProjectAndPackageProjects.
 
 
-\subsection CIProjectAndPackageProjects CI project vs. package projects
+CI Project vs. Package Projects
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In a CPF project, the code that implements the CI-job is separated from the *payload* code.
 The *payload* code can be split up into multiple packages. 
@@ -52,7 +55,8 @@ The package can also contain other arbitrary files like test-code, image resourc
 belongs to that piece of functionality.
 
 
-\subsection MultiRepositoryApproach Multi repository approach
+Multi Repository Approach
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 For small code bases it is practical to keep all files in a single repository.
 This avoids version conflicts and keeps the project nice and simple.
@@ -71,10 +75,11 @@ Each CI-project repository defines a CI-build-job for multiple packages, and eac
 can have its own repository which is recommended for packages that are consumed by multiple
 CI-projects.
 
-\todo Add a nice diagram of a monolithic project vs. a distributed one.
+.. todo:: Add a nice diagram of a monolithic project vs. a distributed one.
 
 
-\subsection PackageOwnership Package ownership
+Package Ownership
+^^^^^^^^^^^^^^^^^
 
 A package can be owned by a CI project or be an external package. If a package is owned by a CI project it means, that this
 CI project is responsible for running the automated tests of the package and defining the officially supported build configurations
@@ -90,4 +95,3 @@ directly into the CI repository.
 External packages are always git submodules. The CI project's build-pipeline will not run the tests for these packages and exclude
 them when generating the documentation. An external project should have another CI project that owns that package.
 
-*/
