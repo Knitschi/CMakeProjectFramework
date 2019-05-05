@@ -1,5 +1,7 @@
 
 
+
+
 The |project|
 =============
 
@@ -19,29 +21,27 @@ Index
   :maxdepth: 1
   :caption: Introduction to the CPF:
 
-  Introduction
-  SolvedProblems
-  BasicConcepts
+  documentation/Introduction
+  documentation/SolvedProblems
+  documentation/BasicConcepts
 
 .. toctree::
   :maxdepth: 1
   :caption: Tutorials:
 
-  WorkingWithACPFProject
-  SettingUpACPFProject
-  SettingUpTheCPFInfrastructure
+  documentation/WorkingWithACPFProject
+  documentation/SettingUpACPFProject
+  documentation/SettingUpTheCPFCIInfrastructure
 
 .. toctree::
   :maxdepth: 1
   :caption: Developer References:
 
-  `CPFDocumentation`_
-  ProjectOrganisation
-  ../CPFCMake/documentation/CPFCMake
-  ../CPFBuildscripts/documentation/CPFBuildscripts
-  ../CPFMachines/documentation/CPFMachines
-  ../CPFTests/documentation/CPFTests
-
+  documentation/ProjectOrganisation
+  CPFCMake/documentation/CPFCMake
+  CPFBuildscripts/documentation/CPFBuildscripts
+  CPFMachines/documentation/CPFMachines
+  CPFTests/documentation/CPFTests
 
 Motivation
 ----------
@@ -88,5 +88,5 @@ Here is an incomplete list of projects that have functionality overlaps with the
 .. _Meson: https://github.com/mesonbuild/meson
 .. _BASIS: https://github.com/cmake-basis/BASIS
 .. _JAWS: https://github.com/DevSolar/jaws
-.. _CPFDocumentation: https://knitschi.github.io/CMakeProjectFramework/html/index.html
+
 

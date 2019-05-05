@@ -14,7 +14,7 @@ set( sources
     SettingUpTheCPFCIInfrastructure.rst
 	SolvedProblems.rst
 	WorkingWithACPFProject.rst
-	index.rst
+	../index.rst
 	cmake.py
 	colors.py
 	conf.py

@@ -15,16 +15,26 @@ When setting up a C++ Software project multiple tasks besides writing the actual
 The CMakeProjectFramework tries to solve the above mentioned problems by using a combination of common open source tools from the C++
 ecosystem. The third party tools used by the CMakeProjectFramework are:
 
-- `Git`_ (code versioning)
+
+Required
+""""""""
+
 - `CMake`_ (meta-buildsystem)
-- `Cotire`_ (CMake module for pre-compiled headers)
+- `Git`_ (code version control system)
+
+
+Optional
+""""""""
+
 - `Jenkins`_ (CI server)
+- `Cotire`_ (CMake module for pre-compiled headers)
 - `Sphinx`_ (documentation generator)
 - `clang-tidy`_ (static code analysis)
 - `valgrind`_ (dynamic code analysis)
-- `OpenCppCoverage`_ (measure test coverage)
+- `OpenCppCoverage`_ (test coverage visualization)
 - `Abi Compliance Checker`_ (visualize changes in the API/ABI between package versions)
-- `Graphviz`_ (used to create a dependency graph of the project)
+- `Graphviz`_ (generates pictures of graphs from text-based definitions)
+
 
 Using the **CPF** should relieve you of writing your own higher level CMake code or other additional scripts to implement pipeline tasks.
 It can additionally provide a Jenkins CI infrastructure that is (in the future) completely generated from text-files.

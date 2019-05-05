@@ -18,7 +18,9 @@ import re
 import glob
 
 sys.path.insert(0, os.path.abspath('.'))
-sys.path.insert(0, os.path.abspath('../../'))
+sys.path.insert(0, os.path.abspath('../..'))   # required to use CPFBuildscripts modules
+# sys.path.insert(0, os.path.abspath('../CPFCMake/documentation'))
+
 
 from Sources.CPFBuildscripts.python import projectutils
 from Sources.CPFBuildscripts.python import filelocations
@@ -55,6 +57,7 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
+    'sphinx.ext.graphviz',
     'cmake',
     #'breathe',
     #'exhale',
@@ -244,3 +247,4 @@ primary_domain = 'cpp'
 
 # Tell sphinx what the pygments highlight language should be.
 highlight_language = 'cpp'
+
