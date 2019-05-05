@@ -1,4 +1,6 @@
 
+.. _basicConcepts:
+
 Basic Concepts
 ==============
 
@@ -12,7 +14,7 @@ Concepts
 
 The CPF follows the following key concepts. 
 
-- Provide a \ref MultiRepositoryApproach approach that allows the distribution
+- Provide a :ref:`multi repository approach <multirepositoryapproach>` that allows the distribution
   of the code base over multiple repositories.
 - Define the build infrastructure completely in text-files that can be
   held in a repository. This allows to quickly set up the infrastructure from a small
@@ -26,7 +28,7 @@ The CPF follows the following key concepts.
   Sources, Configurations and generated files. Keeping the generated files out of the source-tree 
   has become the norm when using CMake. This allows deleting the *build-tree* in order
   to guarantee a fresh system. However, in the standard CMake workflow, the generated files
-  also contain the manually defined project configuration within the \c CMakeCache.txt file.
+  also contain the manually defined project configuration within the :code:`CMakeCache.txt` file.
   For complex projects, defining a configuration may take some time and deleting it together
   with the generated files is undesirable. The *CPF* therefore puts the configuration information
   in a directory that is parallel to the *build-* and *source-tree*. It also allows defining multiple
@@ -35,8 +37,10 @@ The CPF follows the following key concepts.
   mechanism. This way the advanced tasks like test-runs, code-analysis or documentation generation
   may be run in parallel and are only re-run when they are outdated. 
 - Separate the CI-code from the production code by putting it into
-  the CI-project repository. Read more in \ref CIProjectAndPackageProjects.
+  the CI-project repository. Read more in :ref:`CIProjectAndPackageProjects`.
 
+
+.. _CIProjectAndPackageProjects:
 
 CI Project vs. Package Projects
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -44,16 +48,18 @@ CI Project vs. Package Projects
 In a CPF project, the code that implements the CI-job is separated from the *payload* code.
 The *payload* code can be split up into multiple packages. 
 
-To achieve this, a CPF project has two CMake project levels. The CI project is created in the root \c CMakeLists.txt file. It provides
+To achieve this, a CPF project has two CMake project levels. The CI project is created in the root :code:`CMakeLists.txt` file. It provides
 the interface for the CI-job and the developers to build a set of packages and defines which configurations are build by the CI-system.
 The project repository can also contain some higher level documentation that does not really belong to a single
 package, but rather the group of packages that is *owned* by the CI project.
 
-In the *Sources* subdirectory we have the package directories that contain the \c CMakeLists.txt files that define the package
+In the *Sources* subdirectory we have the package directories that contain the :code:`CMakeLists.txt` files that define the package
 projects. Each package creates one main binary that is supposed to be used by consumers. This can be a library or an executable.
 The package can also contain other arbitrary files like test-code, image resources, documentation and everything else that
 belongs to that piece of functionality.
 
+
+.. _multirepositoryapproach:
 
 Multi Repository Approach
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -61,7 +67,7 @@ Multi Repository Approach
 For small code bases it is practical to keep all files in a single repository.
 This avoids version conflicts and keeps the project nice and simple.
 This means however, that a change in a a lower lever library must always be
-*pulled through* for all components that use the library. A change in one \c .cpp file
+*pulled through* for all components that use the library. A change in one :code:`.cpp` file
 will always trigger the build-job for the *whole world*. One can imagine that this
 does not scale for a growing code-base.
 
@@ -77,6 +83,7 @@ CI-projects.
 
 .. todo:: Add a nice diagram of a monolithic project vs. a distributed one.
 
+.. _packageOwnership:
 
 Package Ownership
 ^^^^^^^^^^^^^^^^^
