@@ -4,8 +4,8 @@ Setting up a CPF project
 
 This section shows how to create a CPF based project. Before doing so, it is recommended
 that you get acquainted with the *CMakeProjectFramework* by building the example project as
-described on the \ref CPFWorkingWithCPF page. Basic knowledge of CMake and how
-to work with Git is probably helpful but it should be possible to step through this
+described on the :ref:`WorkingWithACPFProject` page. Basic knowledge of CMake and how
+to work with Git is helpful but it should be possible to work through this
 tutorial without any preexisting knowledge of those tools.
 
 
@@ -13,22 +13,26 @@ Step by step tutorial for creating a CPF project
 ------------------------------------------------
 
 This tutorial will walk you through the steps that are required to create a CPF project.
-It starts with a very simple project that will then be extended to show more advanced features.
-The goal of the tutorial is not only to create a new CPF project, but also to explain some of it's details
+It starts with a very simple project that will then be extended to demonstrate more advanced features.
+The goal of the tutorial is to show you what must be done to create a new CPF project and to explain some details
 in the process. If you already know your way around a CPF project and you just want to create a new one, it is probably
 quicker if you simply copy the example project and remove the stuff that you do not need and rename the rest.
 
 This tutorial assumes that you work on Windows with Visual Studio 2017. It also assumes that you can run CMake and the python
 scripts from the command line without prepending the extra :code:`python` command. If you want to run this tutorial
 on Linux, you have to use the base *Linux* configuration in the configuration step instead of the *Windows* configuration.
-You may also want to choose different names for your generated configurations like *VS* &rarr; *Gcc* and *VS2017-shared* &rarr; *Gcc-shared*. 
+Until not stated differently, all commands should be executed in the projects root directory.
 
-Until not stated differently, all commands should be executed in the projects root directory. When running things on Linux there are a few differences.
+.. note::
 
-- The build output directory for the example executables is a slightly different directory with an additional \c bin subdirectory.
-- When running executables you have to prepend \c ./ to the executable file.
-- At some places you may have to replace \c \\ with \c /.
-- You will have to replace commands for filesystem operations with their Linux equivalents.
+  **Differences on Linux**
+  
+   When working on Linux there are a few differences.
+
+  - The build output directory for the example executables is a slightly different directory with an additional :code:`bin` subdirectory.
+  - When running executables you have to prepend :code:`./` to the executable file.
+  - At some places you may have to replace :code:`\\` with :code:`/`.
+  - You will have to replace commands for filesystem operations with their Linux equivalents.
 
 1. Create the repository
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -37,27 +41,26 @@ First you need a Git repository that will hold your CI project. For simplicity's
 that we use for working on the cloned repository. If you are familiar with setting up remote Git repositories you can
 also create it on a different machine.
 
-Navigate to a directory that is suited for holding the repositories. If you are on
-Windows, make sure that it is a short path. Because of the deep nested directory structure, your CPF project may get into trouble with
+To create the remote repository navigate to a directory that is suited for holding the example repositories. If work with an older
+Windows version, make sure that it is a short path. Because of the deep nested directory structure, your CPF project may get into trouble with
 the 260 character path limit.
-Create the directory \c MyCPFProject.git. This will contain the *remote* repository.
-Now open a command line, and create the remote repository by executing the following commands:
+Create the directory :code:`MyCPFProject.git`, open a command line and create the remote repository by executing the following commands:
 
-.. code-block:: bash
+.. code-block:: none
 
-  >cd MyCPFProject.git
-  >git init --share --bare
-
-
-Clone the *remote* repository by executing the following commands:
-
-.. code-block:: bash
-
-  >cd ..
-  >git clone MyCPFProject.git
+  > cd MyCPFProject.git
+  > git init --share --bare
 
 
-This will create the \c MyCPFProject directory. This is the root directory of your project
+Clone the *remote* repository with:
+
+.. code-block:: none
+
+  > cd ..
+  > git clone MyCPFProject.git
+
+
+This will create the :code:`MyCPFProject` directory. This is the root directory of your project
 that we will use to add and edit source files. In the next section we will add some basic files to that
 repository.
 
@@ -68,7 +71,7 @@ We now have the repository that will hold the files of our project.
 First we add the basic files that are required for a CPF project.
 You now have to create the files 
 
-.. code-block:: bash
+.. code-block:: none
 
   MyCPFProject
   │   .gitignore
@@ -86,7 +89,7 @@ with the following content:
 The file will make sure that directories and files that are generated by the CPF
 are ignored by git.
 
-.. code-block:: bash
+.. code-block:: none
 
   # file MyCPFProject/.gitignore
 
@@ -102,7 +105,7 @@ are ignored by git.
 CMakeLists.txt
 """"""""""""""
 
-This is the root \c CMakeLists.txt file of your CPF project. 
+This is the root :code:`CMakeLists.txt` file of your CPF project. 
 
 .. code-block:: cmake
 
@@ -116,25 +119,23 @@ This is the root \c CMakeLists.txt file of your CPF project.
   cpfAddPackages()
 
 
-- <tt>include("CPFCMake/cpfInit.cmake")</tt>: Including \ref cpfInitModule "cpfInit.cmake" provides us with the \c CPF_MINIMUM_CMAKE_VERSION that is
+- :code:`include("CPFCMake/cpfInit.cmake")`: Including :ref:`cpfInit.cmake <cpfInitModule>` provides us with the :code:`CPF_MINIMUM_CMAKE_VERSION` variable that is
   used in the next line. Alternatively you can set your own minimum version that must be equal or 
-  higher then the version that is required by the CPF. The \ref cpfInitModule "cpfInit.cmake" file also includes further
-  files to make the \ref cpfAddPackages function available that is used later. \ref cpfInitModule "cpfInit.cmake"
-  also adds the cmake modules of the CPF to the \c <a href="https://cmake.org/cmake/help/latest/variable/CMAKE_MODULE_PATH.html">CMAKE_MODULE_PATH</a>
-  which allows you to use the short include syntax from here on.
+  higher then the version that is required by the CPF. The :ref:`cpfInit.cmake <cpfInitModule>` module also includes further
+  files to make the :ref:`cpfAddPackages` function available that is used later. :ref:`cpfInit.cmake <cpfInitModule>`
+  also adds the cmake modules of the CPF to the `CMAKE_MODULE_PATH`_ which allows you to use the short include syntax from here on.
 
-- <tt>project(MyCPFProject)</tt>: This creates the so called *CI project*.
+- :code:`project(MyCPFProject)`: This creates the so called *CI project*.
 
-- <tt>\ref cpfAddPackages</tt>: This function adds the packages to the CI project. The function reads the value of the \c CPF_PACKAGES
-  variable in the \c packages.cmake file and adds them to the project by calling 
-  <a href="https://cmake.org/cmake/help/latest/command/add_subdirectory.html">add_subdirectory()</a>.
-  \ref cpfAddPackages also initiates some global variables and targets of the CPF.
+- :code:`cpfAddPackages()`: This function adds the packages to the CI project. The function reads the value of the :code:`CPF_PACKAGES`
+  variable in the :code:`packages.cmake` file and adds them to the project by calling `add_subdirectory()`_.
+  :ref:`cpfAddPackages` also initiates some global variables and targets of the CPF.
 
 
 packages.cmake
 """"""""""""""
 
-This file defines which packages are added with the call of \ref cpfAddPackages.
+This file defines which packages are added with the call of :ref:`cpfAddPackages`.
 
 .. code-block:: cmake
 
@@ -144,40 +145,41 @@ This file defines which packages are added with the call of \ref cpfAddPackages.
   )
 
 
-For now we have no packages available so the value of the package list \c CPF_PACKAGES stays empty.
+For now we have no packages available so the value of the package list :code:`CPF_PACKAGES` stays empty.
 We will modify this file later when we add our first packages.
-Read more about the file in \ref CPFPackagesCMakeFile.
+Read more about the file in chapter :ref:`PackagesCMake`.
 
 
 Add the basic files to the repository
 """""""""""""""""""""""""""""""""""""
 
-After creating the files you should now commit them to the repository and add a first version tag.
+After creating the listed files you should now commit them to the repository and add a first version tag.
 The tag is required by the CPF to determine the version number of the packages. If it is missing, the CPF
 will later cause errors.
 
-.. code-block:: bash
+.. code-block:: none
 
-  >git add .
-  >git commit . -m"Adds basic files"
-  >git tag -a 0.0.0 -m"The initial version"
+  > git add .
+  > git commit . -m"Adds basic files"
+  > git tag -a 0.0.0 -m"The initial version"
 
 
 3. Add the CPF packages
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-In the last section you added a \c CMakeLists.txt file that uses some functions from the *CPFCMake* package.
+In the last section you added a :code:`CMakeLists.txt` file that uses some functions from the *CPFCMake* package.
 However, you do not have those functions yet available in your project. To change that we now add two packages 
-as git submodules. Open a command line and navigate to the *Sources* directory. Then run:
+in form of `git submodules`_. Open a command line and navigate to the :code:`Sources` directory. Then run:
 
-\verbatim
-Sources>git submodule add https://github.com/Knitschi/CPFCMake.git
-Sources>git submodule add https://github.com/Knitschi/CPFBuildscripts.git
-\endverbatim
+.. code-block:: none
 
-The submodules \ref CPFCMake and \ref CPFBuildscripts are part of the CMakeProjectFramework.
-Adding them to the source tree is not enough. We also have to add them to the \c packages.cmake
-file as \c EXTERNAL packages.
+  Sources> git submodule add https://github.com/Knitschi/CPFCMake.git
+  Sources> git submodule add https://github.com/Knitschi/CPFBuildscripts.git
+
+
+The submodules :ref:`CPFCMake` and :ref:`CPFBuildscripts` are part of the CMakeProjectFramework.
+Adding them to the source tree is not enough. We also have to add them to the :code:`packages.cmake`
+file as :code:`EXTERNAL` packages.
 
 .. code-block:: cmake
 
@@ -195,21 +197,21 @@ file as \c EXTERNAL packages.
 Now that we have acquired the CPF packages we can run the generate step to see if everything works.
 Run the following commands in the project root directory.
 
-.. code-block:: bash
+.. code-block:: none
 
-  >Sources\CPFBuildscripts\0_CopyScripts.py
-  >1_Configure.py VS --inherits Windows
-  >2_Generate.py
+  > Sources\CPFBuildscripts\0_CopyScripts.py
+  > 1_Configure.py VS --inherits Windows
+  > 2_Generate.py
 
 
-This will creates the *Configuration* and *Generated* directories parallel to your *Sources* directory.
+This creates the :code:`Configuration` and :code:`Generated` directories parallel to your :code:`Sources` directory.
 Your file tree should now look like this.
 
-.. code-block:: bash
+.. code-block:: none
 
   MyCPFProject
   │   .gitignore
-  |   .gitmodules
+  │   .gitmodules
   │   1_Configure.py
   │   2_Generate.py
   │   3_Make.py
@@ -236,11 +238,11 @@ Your file tree should now look like this.
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Our CI project is now ready. The only thing that is missing is some actual C++ code.
-In order to add some *payload* code, we add our first package to the *MyCPFProject*
+In order to add some *payload* code, we add our first package to the :code:`MyCPFProject`
 repository. This is a package that creates an executable. Add the following 
-file tree to the *Sources* directory.
+file tree to the :code:`Sources` directory.
 
-.. code-block:: bash
+.. code-block:: none
 
   Sources
   │
@@ -271,9 +273,9 @@ CMakeLists.txt
   ############################## list source files ##############################
 
   set( PACKAGE_PRODUCTION_FILES
-	  main.cpp
-	  function.cpp
-	  function.h
+      main.cpp
+      function.cpp
+      function.h
   )
 
   set( PACKAGE_LINKED_LIBRARIES
@@ -281,28 +283,28 @@ CMakeLists.txt
 
   ################################# add Package #################################
   cpfAddCppPackage( 
-	  PACKAGE_NAMESPACE		ma
-	  TYPE					CONSOLE_APP
-	  BRIEF_DESCRIPTION		${briefDescription}
-	  LONG_DESCRIPTION		${longDescription}
-	  PRODUCTION_FILES		${PACKAGE_PRODUCTION_FILES}
-      LINKED_LIBRARIES        ${PACKAGE_LINKED_LIBRARIES}
+      PACKAGE_NAMESPACE   ma
+      TYPE                CONSOLE_APP
+      BRIEF_DESCRIPTION   ${briefDescription}
+      LONG_DESCRIPTION    ${longDescription}
+      PRODUCTION_FILES    ${PACKAGE_PRODUCTION_FILES}
+      LINKED_LIBRARIES    ${PACKAGE_LINKED_LIBRARIES}
   )
 
 
-- <tt>include(cpfInitPackageProject)</tt>: Provides the \ref cpfInitPackageProject function.
-- <tt>include(cpfAddCppPackage)</tt>: Provides the \ref cpfAddCppPackage function.
-- <tt>\ref cpfInitPackageProject</tt>: This creates the package project and sets the \c PROJECT_VERSION variables.
-- <tt>set( briefDescription ...</tt> and <tt>set( longDescription ...</tt>: Basic descriptions of what your package
+- :code:`include(cpfInitPackageProject)`: Provides the :ref:`cpfInitPackageProject` function.
+- :code:`include(cpfAddCppPackage)`: Provides the :ref:`cpfAddCppPackage` function.
+- :code:`cpfInitPackageProject()`: This creates the package project and sets the :code:`PROJECT_VERSION` variables.
+- :code:`set( briefDescription ...` and :code:`set( longDescription ...`: Basic descriptions of what your package
   does. The values may be used in auto-generated documentation or in distribution packages.
-- <tt>set( PACKAGE_PRODUCTION_FILES ...</tt>: A list with the currently available source files of the package. This is
-  a \c CMakeLists.txt file after all ;-).
-- <tt>set( PACKAGE_LINKED_LIBRARIES ...</tt>: A list with targets on which the created package depends. For now we have
+- :code:`set( PACKAGE_PRODUCTION_FILES ...`: A list with the currently available source files of the package. This is
+  a :code:`CMakeLists.txt` file after all ;-).
+- :code:`set( PACKAGE_LINKED_LIBRARIES ...`: A list with targets on which the created package depends. For now we have
   no dependencies so the list is empty.
-- <tt>\ref cpfAddCppPackage</tt>: This function adds all the binary and custom targets that belong to
-  a CPF C++ package. The bigger part of \ref CPFCMake "CPFCMake's" functionality lies beneath this function.
+- :code:`:ref:`cpfAddCppPackage``: This function adds all the binary and custom targets that belong to
+  a CPF C++ package. Most of :ref:`CPFCMake's <CPFCMake>` functionality lies beneath this function.
 
-
+ 
 function.cpp
 """"""""""""
 
@@ -327,9 +329,9 @@ This is a simple C++ file that implements a function. It represents your C++ cod
   }
 
 
-The file includes the generated file \c cpfPackageVersion_MyApp.h header which provides function \c ma::getPackageVersion() that returns the current version number.
-Note that the include directories and the project directory structure in the CPF is laid-out that all includes can uniformly be
-written with <tt>\#include <package/file.h></tt>. As recommended in the section for the \c CMakeLists.txt file we put our package functions into namespace *ma*.
+The file includes the generated file :code:`cpfPackageVersion_MyApp.h` which provides function :code:`ma::getPackageVersion()` that returns the current version number
+of the package. Note that the include directories and the project directory structure in the CPF is laid-out that all includes can uniformly be
+written as :code:`\#include <package/file.h>`. As recommended in the section for the :code:`CMakeLists.txt` file we put our package functions into namespace :code:`ma`.
 
 
 function.h
@@ -347,15 +349,21 @@ function.h
   }
 
 
-Note the use of the \c MA_EXPORT export macro. The macro is provided by the \c ma_export.h header
-which is generated by CMake. Export macros are normally only needed when building shared libraries. 
-However, it is good practice to let the clients of a library decide whether they want to use it as a shared 
-or static a library. So better make sure that you always add the export macro to symbols that are intended 
-to be used by clients. If you do not add the macro in a shared library, you will get linker errors.
-We get the *MA* prefix because we added the <code>PACKAGE_NAMESPACE ma</code> to the call of \ref cpfAddCppPackage.
+Note the use of the :code:`MA_EXPORT` export macro. The macro is provided by the :code:`ma_export.h` header
+which is generated by CMake. The :code:`MA_` prefix in the macro is derived from the :code:`PACKAGE_NAMESPACE ma` 
+option in the call of :ref:`cpfAddCppPackage`.
 
+.. note::
 
-#### main.cpp ####
+  **Export Macros**
+
+  Export macros are only needed when building shared libraries. 
+  However, it is good practice to let the clients of a library decide whether they want to use the library as a shared 
+  or a static library. So better make sure that you always add the export macro to symbols that are intended 
+  to be used by clients. If you do not add the macro in a shared library, you will get linker errors.
+
+main.cpp
+""""""""
 
 .. code-block:: cpp
 
@@ -369,15 +377,17 @@ We get the *MA* prefix because we added the <code>PACKAGE_NAMESPACE ma</code> to
   }
 
 
-:: note: The CPF expects the main function to be in the file \c main.cpp. In the case of a package that creates
-an executable, the CPF internally creates a static library that contains all sources except the \c main.cpp file.
-This is done to allow linking the complete functionality to a test executable that may also be created.
+The CPF expects the main function to be in the file :code:`main.cpp`. In the case of a package that creates
+an executable, the CPF internally creates an extra library that contains all sources except the :code:`main.cpp` file.
+This is done to allow linking the complete functionality of the package to more than one executable.
+This is required when adding additional test executables to the package.
 
 
-\subsubsection AddPackageToCIProject Add the owned package to the CI project
+Add the owned package to the CI project
+"""""""""""""""""""""""""""""""""""""""
 
-We now have to tell the CI-project that we added an *owned* package. We do this by adding *MyApp* to the
-\c packages.cmake file.
+We now have to tell the CI-project that we added an :code:`OWNED` package. We do this by adding :code:`MyApp` to the
+:code:`packages.cmake` file.
 
 .. code-block:: cmake
 
@@ -392,67 +402,68 @@ We now have to tell the CI-project that we added an *owned* package. We do this 
 
 Finally commit the new files to the repository by running:
 
-.. code-block:: bash
+.. code-block:: none
 
-  >git add Sources/MyApp
-  >git commit . -m"Adds the MyApp package."
+  > git add Sources/MyApp
+  > git commit . -m"Adds the MyApp package."
 
 Build the project
 """""""""""""""""
 
 With all the files in place we can now generate and build the project. Note that you have to run a fresh generate
-whenever you change the \c packages.cmake file. A *fresh* generate is executed when the configuration
-option is given to the \c 2_Generate.py script. After that you can build the pipeline target and run the application.
+whenever you change the :code:`packages.cmake` file. A *fresh* generate is executed when the :code:`--clean`
+option is given to the :code:`2_Generate.py` script. After that you can build the pipeline target and run the application.
 
-.. code-block:: bash
+.. code-block:: none
 
-  >2_Generate.py VS
-  >3_Make.py --target pipeline
-  >Generated\VS\BuildStage\Debug\MyApp\MyApp-debug
+  > 2_Generate.py --clean
+  > 3_Make.py --target pipeline
+  > Generated\VS\BuildStage\Debug\MyApp\MyApp-debug
   MyApp (version 0.0.0.2-73cc-dirty) greets the world!
 
 
 Your actual version number will be different and depends on the current
-state of your repository. You can read more about the CPF versioning \ref CPFVersioning "here".
-At this point our pipeline does not contain a lot of additional functionality. The only thing
-to note here is that \ref cpfAddCppPackage created a library \c libMyApp and the executable
-\c MyApp-debug.
+state of your repository. You can read more about the CPF versioning mechanism :ref:`here <Versioning>`.
+
+At this point our pipeline does not contain a lot of functionality. It only builds the MyApp target.
+The only thing to note here is that :ref:`cpfAddCppPackage` created the library :code:`libMyApp` and the executable
+:code:`MyApp-debug`.
 
 
 6. Add a default configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 For our first build we used one of the default configurations that are shipped with the CPF, *Linux* or *Windows*.
-In this section we add our own default configuration to the project. Default configurations can be though of as
+In this section we add our own default configuration to the project. Default configurations can be thought of as
 configurations that are officially supported by our project. They are typically the configurations that are
 build by the continuous integration server.
-You can find more detailed information about configurations in the CPF \ref CPFConfiguration "here".
+You can find more detailed information about configurations in the CPF :ref:`here <configurationManagement>`.
 For demonstration purposes we change the configuration to build shared libraries instead of static libraries. 
 To create the new default configuration execute the following steps.
 
-.. code-block:: bash
+.. code-block:: none
 
-  >1_Configure.py VS2017-shared --inherits Windows -D BUILD_SHARED_LIBS=ON
- >mkdir Sources\CIBuildConfigurations
- >move Configuration\VS2017-shared.config.cmake Sources\CIBuildConfigurations
- >rmdir /s /q Configuration
- >1_Configure.py VS --inherits VS2017-shared
- >2_Generate.py
- >git add Sources\CIBuildConfigurations
- >git commit . -m"Adds the default configuration VS2017-shared."
+  > 1_Configure.py VS2017-shared --inherits Windows -D BUILD_SHARED_LIBS=ON
+  > mkdir Sources\CIBuildConfigurations
+  > move Configuration\VS2017-shared.config.cmake Sources\CIBuildConfigurations
+  > rmdir /s /q Configuration
+  > 1_Configure.py VS --inherits VS2017-shared
+  > 2_Generate.py
+  > git add Sources\CIBuildConfigurations
+  > git commit . -m"Adds the default configuration VS2017-shared."
 
 
-- First we create a new configuration file that sets a different value for variable \c BUILD_SHARED_LIBS.
+- First we create a new configuration file that sets a different value for variable :code:`BUILD_SHARED_LIBS`.
   This variable is used to tell CMake to build shared libraries instead of static ones. This will change our implementation
-  library \c libMyApp into a shared library. Instead of using the \c -D command line options, you can also
+  library :code:`libMyApp` into a shared library. Instead of using the :code:`-D` command line options, you can also
   edit the configuration file with a text-editor, which may be more convenient if multiple values are changed.
-- Then we move the new configuration to the projects default configurations directory \c Sources/CIBuildConfigurations.
+- Then we move the new configuration to the projects default configurations directory :code:`Sources/CIBuildConfigurations`.
 - With the second configure step we use the new default configuration as our new local *VS* configuration.
 - We regenerate our make-files with the new configuration.
 - At the end we commit the new configuration file to the repository.
 
-Developers can now inherit from the new default configuration \c VS2017-shared instead of 
-manually setting all the required CMake variables in the *1_Configure.py* step.
+Developers can now inherit from the new default configuration :code:`VS2017-shared` instead of 
+manually setting all the required CMake variables in the :code:`1_Configure.py` step.
 
 
 7. Add the library package MyLib
@@ -460,25 +471,25 @@ manually setting all the required CMake variables in the *1_Configure.py* step.
 
 As your C++ project grows, it will at some point be reasonable to split it into multiple libraries.
 With the CPF we create libraries by adding a library package. In this example we assume that our library
-will be used by other projects. To Allow this, we create a separate repository for the library package.
-We then add this repository as a git submodule to our *MyCPFProject* repository.
+will be used by other projects. To allow this, we create a separate repository for the library package.
+We then add this repository as a git submodule to our :code:`MyCPFProject` repository.
 If you do not know if a library will be shared between projects, you can first add it directly to the 
-CI repository to avoid the extra overhead of working with a git submodule. If need be, you can still put it 
+CI repository to avoid the extra overhead of working with a git submodule. You can still put it 
 in it's own repository later. 
 
-Create a new repository with the name *MyLib* using the same steps that you executed when creating the
-<i>MyCPFProject</i> repository. You should end up with two empty repositories, *MyLib.git* and *MyLib*. 
-Both lie besides the *MyCPFProject.git* and *MyCPFProject* directories. We will first add some files to
-the *MyLib* repository and then add it as git submodule to *MyCPFPRoject*.
+Create a new repository with the name :code:`MyLib` using the same steps that you executed when creating the
+:code:`MyCPFProject` repository. You should end up with two empty repositories, :code:`MyLib.git` and :code:`MyLib`. 
+Both lie besides the :code:`MyCPFProject.git and :code:`MyCPFProject` directories. We will first add some files to
+the :code:`MyLib` repository and then add it as a git submodule to :code:`MyCPFPRoject`.
 
 
 Add content to the MyLib repository
 """""""""""""""""""""""""""""""""""
 
-Add the following text-files to the *MyLib* repository and set the content as listed
+Add the following text-files to the :code:`MyLib` repository and set the content as listed
 in the sections below.
 
-.. code-block:: bash
+.. code-block:: none
 
   MyLib
       CMakeLists.txt
@@ -487,7 +498,8 @@ in the sections below.
 
 
 
-#### CMakeLists.txt ####
+CMakeLists.txt
+""""""""""""""
 
 .. code-block:: cmake
 
@@ -526,16 +538,17 @@ in the sections below.
   )
 
 
-This file has some differences compared to the \c MyApp\CMakeLists.txt file.
+This file has some differences compared to the :code:`MyApp\CMakeLists.txt` file.
 
 - We changed the name of the namespace and the description of the package.
-- We changed the \c TYPE argument in the \ref cpfAddCppPackage call in order to create a library package. 
-- We added the \c PUBLIC_HEADER argument to the \ref cpfAddCppPackage call. Libraries must provide
-  public headers for consumers. With the argument we can say which of our headers are supposed to be public.
+- We changed the :code:`TYPE argument` in the :ref:`cpfAddCppPackage` call in order to create a library package. 
+- We added the :code:`PUBLIC_HEADER` argument to the :ref:`cpfAddCppPackage` call. Libraries must provide
+  public headers for consumers. With the argument we can define which of our headers are supposed to be public.
   Each library needs at least one public header or the project will fail to build.
 
 
-#### function.cpp ####
+function.cpp
+""""""""""""
 
 .. code-block:: cpp
 
@@ -557,7 +570,8 @@ This file has some differences compared to the \c MyApp\CMakeLists.txt file.
 
 
 
-#### function.h ####
+function.h
+""""""""""
 
 .. code-block:: cpp
 
@@ -573,38 +587,43 @@ This file has some differences compared to the \c MyApp\CMakeLists.txt file.
   }
 
 
-### Add the new files to the MyLib repository ###
+Add the new files to the MyLib repository
+"""""""""""""""""""""""""""""""""""""""""
 
-Now add, commit and push all files in the *MyLib* repository. We also add an initial
-version tag for the *MyLib* repository.
+Now add, commit and push all files in the :code:`MyLib` repository. We also add an initial
+version tag for the :code:`MyLib` repository.
 
-\verbatim
-MyLib>git add .
-MyLib>git commit . -m"Adds package files"
-MyLib>git tag -a 0.0.0 -m"The initial version"
-MyLib>git push --all
-MyLib>git push --tags
-\endverbatim
+.. code-block:: none
+
+  MyLib> git add .
+  MyLib> git commit . -m"Adds package files"
+  MyLib> git tag -a 0.0.0 -m"The initial version"
+  MyLib> git push --all
+  MyLib> git push --tags
 
 
-\subsubsection CPFAddLibPackageToProject Add the MyLib package to the MyCPFProject repository.
 
-Now add *MyLib* as a *loose owned* package to *MyCPFProject* as a git submodule
+Add the MyLib package to the MyCPFProject repository
+""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Now add :code:`MyLib` as a *loose owned* package to :code:`MyCPFProject` as a git submodule
 by running 
 
-\verbatim
-.../MyCPFProject/Sources>git submodule add <your full path>/MyLib.git
-\endverbatim
+.. code-block:: none
 
-in the \c MyCPFProject/Sources directory. This will yield a \c MyCPFProject/Sources/MyLib directory
+  .../MyCPFProject/Sources> git submodule add <your full path>/MyLib.git
+
+
+in the :code:`MyCPFProject/Sources` directory. This will yield a :code:`MyCPFProject/Sources/MyLib` directory
 that contains the files that you created in the above section. To finish the process of adding the MyLib package
-we have to extend some files in *MyCPFProject*.
+we have to extend some files in :code:`MyCPFProject`.
 
-#### packages.cmake ####
+packages.cmake
+""""""""""""""
 
-We add the *MyLib* package as owned package to CI project by adding it in the \c packages.cmake file.
-As the variable description states, it is essential that *MyLib* is added to the list before *MyApp*
-or cmake will not be able to find *MyLib* when it adds *MyApp*. 
+We add the :code:`MyLib` package as owned package to CI project by adding it in the :code:`packages.cmake` file.
+As the variable description states, it is essential that :code:`MyLib` is added to the list before :code:`MyApp`
+or cmake will not be able to find :code:`MyLib` when it adds :code:`MyApp`. 
 
 .. code-block:: cmake
 
@@ -619,26 +638,28 @@ or cmake will not be able to find *MyLib* when it adds *MyApp*.
 
 
 
-#### MyApp/CMakeLists.txt ####
+MyApp/CMakeLists.txt
+""""""""""""""""""""
 
-To make the functionality of *MyLib* available in *MyApp*,
-we have to add it to the linked libraries of *MyApp*.
+To make the functionality of :code:`MyLib` available in :code:`MyApp`,
+we have to add it to the linked libraries of :code:`MyApp`.
 
 .. code-block:: cmake
 
   # file MyCPFProject/Sources/MyApp/CMakeLists.txt
 
   ...
-  set(PACKAGE_LINKED_LIBRARIES
-	  MyLib
+  set( PACKAGE_LINKED_LIBRARIES
+      MyLib
   )
   ...
 
 
 
-#### MyApp/function.cpp ####
+MyApp/function.cpp
+""""""""""""""""""
 
-We extend our original \c ma::function() to also call the \c ml::function() from *MyLib*.
+We extend our original :code:`ma::function()` to also call :code:`ml::function()` from :code:`MyLib`.
 
 .. code-block:: cpp
 
@@ -662,29 +683,29 @@ We extend our original \c ma::function() to also call the \c ml::function() from
   }
 
 
-You now have to commit the changes to *MyCPFProject* and regenerate the make-files in order to finish adding the library package.
+You now have to commit the changes to :code:`MyCPFProject` and regenerate the make-files in order to finish adding the library package.
 
-.. code-block:: bash
+.. code-block:: none
 
-  >git commit . -m"Adds MyLib submodule and uses it in MyApp."
-  >2_Generate.py
-  >3_Make.py
-  >Generated\VS\BuildStage\Debug\MyApp\MyApp-debug.exe
+  > git commit . -m"Adds MyLib submodule and uses it in MyApp."
+  > 2_Generate.py
+  > 3_Make.py
+  > Generated\VS\BuildStage\Debug\MyApp\MyApp-debug.exe
   MyLib (version 0.0.0) greets the world!
   MyApp (version 0.0.0.3-3d31) greets the world!
 
 
-You can see that *MyApp* successfully calls the new function from MyLib.
-Again, your version numbers will be different. MyLib has a different version then MyApp
+You can see that :code:`MyApp` successfully calls the new function from MyLib.
+Again, your version numbers will be different. MyLib has a different version than MyApp
 because it lives in a different repository.
 
 
 8. Add a test executable to MyLib
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The CPF packages are designed to create an extra executable that runs automated tests for the packages
-production code. This section will show you how to enable such a test executable for the *MyLib* package.
-Add the new file *MyLib_tests_main.cpp* to a new *Tests* directory with the content
+The CPF packages are designed to contain an extra executable that runs automated tests for the packages
+production code. This section will show you how to enable such a test executable for the :code:`MyLib` package.
+Add the new file :code:`MyLib_tests_main.cpp` to a new :code:`Tests` directory with the content
 
 .. code-block:: cpp
 
@@ -711,8 +732,8 @@ Add the new file *MyLib_tests_main.cpp* to a new *Tests* directory with the cont
 
 
 In a real project you would probably use the main function that is provided by your test-framework
-instead of writing your own. Note that we placed the file into the arbitrary *Tests* subdirectory
-which allows us to keep some order in our package. Change the packages \c CMakeLists.txt file content
+instead of writing your own. Note that we placed the file into the arbitrary :code:`Tests` subdirectory
+which allows us to keep some order in our package. Change the packages :code:`CMakeLists.txt` file content
 to this:
 
 .. code-block:: cmake
@@ -761,18 +782,18 @@ to this:
   )
 
 
-We added two new lists, \c PACKAGE_TEST_FILES and \c PACKAGE_LINKED_TEST_LIBRARIES and handed them
-to the \c cpfAddCppPackage() function. The \c PACKAGE_TEST_FILES list should contain all source
-files that are used to build the test executable. the \c PACKAGE_LINKED_TEST_LIBRARIES list
+We added two new lists, :code:`PACKAGE_TEST_FILES` and :code:`PACKAGE_LINKED_TEST_LIBRARIES` and handed them
+to the :code:`cpfAddCppPackage()` function. The :code:`PACKAGE_TEST_FILES` list should contain all source
+files that are used to build the test executable. the :code:`PACKAGE_LINKED_TEST_LIBRARIES` list
 can be used to add linked libraries that are only used by the test executable. This could be a test-framework
 library for example. In this example our test executable does not depend on any other library so we leave this empty.
 
 You can now build and run your test executable by calling:
 
-.. code-block:: bash
+.. code-block:: none
 
-  >2_Generate.py
-  >3_Make.py --target runAllTests
+  > 2_Generate.py
+  > 3_Make.py --target runAllTests
   ...
   Run tests for MyLib
   
@@ -785,20 +806,21 @@ be re-run if you execute the build command a second time. You have to edit at le
 file of the package in order to outdate the test-run. If you then rebuild the *runAllTests* target
 it will automatically create new binaries and run the tests with those.
 
-For more information about the test targets of a CPF package see: \ref CPFCMakeTestTargets
+For more information about the test targets of a CPF package see: :ref:`TestTargets`
 
 
 9. Add a fixture library to MyLib
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 When writing a lot of automated tests, it may become necessary to re-use test utility code from one package
-in another. This could be fake or mock classes that you provide to replace the real objects in tests.
+in another. For example this can be fake or mock classes that you provide to replace real implementations in tests.
 To make that possible, the CPF can create an extra *fixture* library per package that can contain reusable
-test code. To demonstrate this, add two files \c function_fixture.h and \c function_fixture.cpp to the
-MyLib package with the following content and add them to the \c CMakeLists.txt file as shown below.
+test code. To demonstrate this, add two files :code:`function_fixture.h` and :code:`function_fixture.cpp` to the
+MyLib package with the following content and add them to the :code:`CMakeLists.txt` file as shown below.
 
 
-#### Sources/MyLib/Tests/function_fixture.h ####
+Sources/MyLib/Tests/function_fixture.h
+""""""""""""""""""""""""""""""""""""""
 
 .. code-block:: cpp
 
@@ -817,7 +839,8 @@ MyLib package with the following content and add them to the \c CMakeLists.txt f
 Note that the fixture library uses a different export macro then the production library.
 
 
-#### Sources/MyLib/Tests/function_fixture.cpp ####
+Sources/MyLib/Tests/function_fixture.cpp
+""""""""""""""""""""""""""""""""""""""""
 
 .. code-block:: cpp
 
@@ -836,10 +859,11 @@ Note that the fixture library uses a different export macro then the production 
   }
 
 
-#### Sources/MyLib/CMakeLists.txt ####
+Sources/MyLib/CMakeLists.txt
+""""""""""""""""""""""""""""
 
 For the fixture library we have to distinguish between public header files and other source files.
-Add the new files to new list variables and as arguments to the \c cpfAddCppPackage() call as shown below.
+Add the new files to new list variables and as arguments to the :code:`cpfAddCppPackage()` call as shown below.
 
 .. code-block:: cmake
 
@@ -855,25 +879,26 @@ Add the new files to new list variables and as arguments to the \c cpfAddCppPack
   ...
 
   cpfAddCppPackage( 
-	  PACKAGE_NAMESPACE		ml
-	  TYPE					LIB
-	  BRIEF_DESCRIPTION		${briefDescription}
-	  LONG_DESCRIPTION		${longDescription}
+      PACKAGE_NAMESPACE       ml
+      TYPE                    LIB
+      BRIEF_DESCRIPTION       ${briefDescription}
+      LONG_DESCRIPTION        ${longDescription}
       PUBLIC_HEADER           ${PACKAGE_PUBLIC_HEADERS}
-	  PRODUCTION_FILES		${PACKAGE_PRODUCTION_FILES}
-      TEST_FILES				${PACKAGE_TEST_FILES}
-      PUBLIC_FIXTURE_HEADER	${PACKAGE_PUBLIC_FIXTURE_HEADER}
-	  FIXTURE_FILES			${PACKAGE_FIXTURE_FILES}
-      LINKED_LIBRARIES		${PACKAGE_LINKED_LIBRARIES}
-      LINKED_TEST_LIBRARIES	${PACKAGE_LINKED_TEST_LIBRARIES}
+      PRODUCTION_FILES        ${PACKAGE_PRODUCTION_FILES}
+      TEST_FILES              ${PACKAGE_TEST_FILES}
+      PUBLIC_FIXTURE_HEADER   ${PACKAGE_PUBLIC_FIXTURE_HEADER}
+      FIXTURE_FILES           ${PACKAGE_FIXTURE_FILES}
+      LINKED_LIBRARIES        ${PACKAGE_LINKED_LIBRARIES}
+      LINKED_TEST_LIBRARIES   ${PACKAGE_LINKED_TEST_LIBRARIES}
   )
 
 
 
-#### Sources/MyLib/Tests/MyLib_tests_main.cpp ####
+Sources/MyLib/Tests/MyLib_tests_main.cpp
+""""""""""""""""""""""""""""""""""""""""
 
-Use the new function in the test code. The fixture library is called &lt;package&gt;_fixtures and is automatically linked to
-the test executable. If you need it in the tests of another package you have to add it to that packages \c PACKAGE_LINKED_TEST_LIBRARIES variable.
+Use the new function in the test code. The fixture library is called :code:`<package>_fixtures` and is automatically linked to
+the test executable. If you need it in the tests of another package you have to add it to that packages :code:`PACKAGE_LINKED_TEST_LIBRARIES` variable.
 
 .. code-block:: cpp
 
@@ -908,9 +933,9 @@ Compile and run the fixture code
 
 You can now compile and run your tests by calling
 
-.. code-block:: bash
+.. code-block:: none
 
-  >3_Make.py --target runAllTests
+  > 3_Make.py --target runAllTests
   ...
   Run tests for MyLib
 
@@ -927,86 +952,91 @@ One part of a CI pipeline is to create some sort of package that can be download
 For applications this is usually an installer which can be arbitrarily complex. For libraries however,
 this often is just a ZIP archive that either holds the complete source code or the compiled artifacts and public headers.
 In the CPF nomenclature we call these package files *distribution packages* in order to distinguish them from the
-CPF code packages in the *Sources* directory.
+CPF code packages in the :code:`Sources` directory.
 
 The CPF has enough information about your package to create the simple compressed archive packages for you.
-To enable creating distribution packages you have to add one more argument to the \c cpfAddCppPackage() function.
+To enable creating distribution packages that contain source files and binary files you have to add two more
+argument to the :code:`cpfAddCppPackage()` function.
 
-#### Sources/MyLib/CMakeLists.txt ####
+Sources/MyLib/CMakeLists.txt
+""""""""""""""""""""""""""""
 
 .. code-block:: cmake
 
   # file MyCPFProject/Sources/MyLib/CMakeLists.txt
+  
   ...
+
   set( developerBinaryPackageOptions 
-      DISTRIBUTION_PACKAGE_CONTENT_TYPE 	CT_DEVELOPER
-      DISTRIBUTION_PACKAGE_FORMATS 		7Z ZIP
+      DISTRIBUTION_PACKAGE_CONTENT_TYPE   CT_DEVELOPER
+      DISTRIBUTION_PACKAGE_FORMATS        7Z ZIP
   )
 
   set( sourcePackageOptions
-      DISTRIBUTION_PACKAGE_CONTENT_TYPE 	CT_SOURCES
-      DISTRIBUTION_PACKAGE_FORMATS 		TGZ
+      DISTRIBUTION_PACKAGE_CONTENT_TYPE   CT_SOURCES
+      DISTRIBUTION_PACKAGE_FORMATS        TGZ
   )
+
   ...
+
   cpfAddCppPackage( 
-	  PACKAGE_NAMESPACE		ml
-	  TYPE					LIB
-	  BRIEF_DESCRIPTION		${briefDescription}
-	  LONG_DESCRIPTION		${longDescription}
+      PACKAGE_NAMESPACE       ml
+      TYPE                    LIB
+      BRIEF_DESCRIPTION       ${briefDescription}
+      LONG_DESCRIPTION        ${longDescription}
       PUBLIC_HEADER           ${PACKAGE_PUBLIC_HEADERS}
-	  PRODUCTION_FILES		${PACKAGE_PRODUCTION_FILES}
-      TEST_FILES				${PACKAGE_TEST_FILES}
-      PUBLIC_FIXTURE_HEADER	${PACKAGE_PUBLIC_FIXTURE_HEADER}
-	  FIXTURE_FILES			${PACKAGE_FIXTURE_FILES}
-      LINKED_LIBRARIES		${PACKAGE_LINKED_LIBRARIES}
-      LINKED_TEST_LIBRARIES	${PACKAGE_LINKED_TEST_LIBRARIES}
+      PRODUCTION_FILES        ${PACKAGE_PRODUCTION_FILES}
+      TEST_FILES              ${PACKAGE_TEST_FILES}
+      PUBLIC_FIXTURE_HEADER   ${PACKAGE_PUBLIC_FIXTURE_HEADER}
+      FIXTURE_FILES           ${PACKAGE_FIXTURE_FILES}
+      LINKED_LIBRARIES        ${PACKAGE_LINKED_LIBRARIES}
+      LINKED_TEST_LIBRARIES   ${PACKAGE_LINKED_TEST_LIBRARIES}
       DISTRIBUTION_PACKAGES   ${developerBinaryPackageOptions}
       DISTRIBUTION_PACKAGES   ${sourcePackageOptions}
   )
 
 
-- Note that the \c DISTRIBUTION_PACKAGES argument requires a list of nested key-word arguments, due to the complexity
-  of the option.
-- The options in this example will cause the creation of a *developer binary* package in the \c .7z and \c .zip format.
+- Note that due to the complexity of the option the :code:`DISTRIBUTION_PACKAGES` argument requires a list of nested key-word arguments.
+- The options in this example will cause the creation of a *developer binary* package in the :code:`.7z` and :code:`.zip` format.
   *Developer binary* means, that the package will contain the compiled binaries and public headers.
-  We also set options for creating a \c .tar.gz archive that contains the package sources.
-- For more information about creating other kinds of distribution packages read: \ref CPFDistributionPackages
+  We also set options for creating a :code:`.tar.gz` archive that contains the packages sources.
+- For more information about creating other kinds of distribution packages read: :ref:`DistributionPackages`
 
 Create the distribution package
 """""""""""""""""""""""""""""""
 
 In order to create the specified packages, run
 
-.. code-block:: bash
+.. code-block:: none
 
-  >3_Make.py --target distributionPackages
+  > 3_Make.py --target distributionPackages
 
 
-You should now have a directory \c MyCPFProject/Generated/VS/html/Downloads/MyLib/LastBuild with the three archives
+You should now have a directory :code:`MyCPFProject/Generated/VS/html/Downloads/MyLib/LastBuild` with the three archives
 
-- <tt>MyLib.\<version\>.Windows.src.tar.gz</tt>
-- <tt>MyLib.\<version\>.Windows.dev.Debug.7z</tt>
-- <tt>MyLib.\<version\>.Windows.dev.Debug.zip</tt>
+- :code:`MyLib.\<version\>.Windows.src.tar.gz`
+- :code:`MyLib.\<version\>.Windows.dev.Debug.7z`
+- :code:`MyLib.\<version\>.Windows.dev.Debug.zip`
 
 The packages are added to the html directory so they can be directly downloaded from the projects web-page.
 
 
-11. Enable pre-compiled header by adding the cotire module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+11. Enable using pre-compiled header by adding the cotire module
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This is an optional feature and you can skip this step if you do not want to use cotire.
+This is an optional feature and you can skip this step if you do not want to use pre-compiled header.
 
-<a href="https://github.com/sakra/cotire">Cotire</a> is a third party cmake module that implements the automatic use of pre-compiled headers.
+`Cotire`_ is a third party cmake module that implements the automatic use of pre-compiled headers.
 You can use this in your CPF project to speed up your builds. 
 First you need to add cotire as an external package by executing
 
-.. code-block:: cpp
+.. code-block:: none
 
-  Sources>git submodule add https://github.com/Knitschi/cotire.git
+  Sources> git submodule add https://github.com/Knitschi/cotire.git
 
 
-Note that we actually added a fork of cotire that was changed to better integrate with the CPF.
-We now add cotire to our external packages in the \c packages.cmake file.
+Note that we actually use a fork of cotire that was changed to better integrate with the CPF.
+We now add cotire to our external packages in the :code:`packages.cmake` file.
 
 .. code-block:: cmake
 
@@ -1023,19 +1053,22 @@ We now add cotire to our external packages in the \c packages.cmake file.
 
 As a last step we enable the use of cotire in our configuration.
 
-.. code-block:: bash
+.. code-block:: none
 
-  >1_Configure.py VS --inherits VS2017-shared -D CPF_ENABLE_PRECOMPILED_HEADER=ON
-  >2_Generate.py
+  > 1_Configure.py VS --inherits VS2017-shared -D CPF_ENABLE_PRECOMPILED_HEADER=ON
+  > 2_Generate.py
 
 
-Note that at this point we will not get much benefit from using cotire. Cotire will only
-add headers from external dependencies to the pre-compiled header and we only use *iostream*.
-Note that cotire will also add a compiler option to include the generated prefix header which
+At this point we will not benefit much from using pre-compiled headers. Cotire will only
+add headers from external dependencies to the pre-compiled header and we only use *iostream* here.
+The speed-up that can be gained with this will show when the project includes many large headers.
+
+Cotire will also add a compiler option for including the generated prefix header which
 is not available to clients of our libraries. Therefore you should make sure that your headers
-include everything they need. To enforce that you can have a configuration that 
-uses <tt>CPF_ENABLE_PRECOMPILED_HEADER=OFF</tt>. This configuration will fail to build
-if you forget to include any headers that are also included with the prefix header.
+include everything they need and do not rely on the inclusion of the prefix header.
+To enforce that you can add a CI configuration that uses :code:`CPF_ENABLE_PRECOMPILED_HEADER=OFF`.
+This configuration will fail to build when forget to add includes that are provided
+by the prefix header.
 
 
 12. Add a Doxygen package to generate the documentation of your CI-project
@@ -1043,9 +1076,9 @@ if you forget to include any headers that are also included with the prefix head
 
 This is an optional feature and you can skip this step if you do not want to use Doxygen as a documentation generator.
 In order to use this feature you have to download and install Doxygen on your developer machine and add it to
-the \c PATH so you can run it from the command line.
+the :code:`PATH` so you can run it from the command line.
 
-The CPF provides you with the \ref cpfAddDoxygenPackage function that can be used to add a custom target
+The CPF provides you with the :ref:`cpfAddDoxygenPackage` function that can be used to add a custom target
 that runs <a href="http://www.doxygen.nl/index.html">Doxygen</a> on your CI-project.
 Doxygen parses your source files for special comments and generates an html documentation from it.
 
@@ -1055,7 +1088,7 @@ not really belong to any of your packages.
 
 Now add the following files.
 
-.. code-block:: bash
+.. code-block:: none
 
   Sources
   │
@@ -1064,13 +1097,14 @@ Now add the following files.
           MyProject.dox
 
 
-It is not required to use \c documentation as the name of the package.
+It is not required to use :code:`documentation` as the name of the package.
 The name of the package directory is also the name of the target that
 is later build to generate the documentation.
 
-#### CMakeLists.txt ####
+CMakeLists.txt
+""""""""""""""
 
-In this \c CMakeLists.txt file we add a custom-target package instead of
+In this :code:`CMakeLists.txt` file we add a custom-target package instead of
 the C++ packages that we added in the previous steps.
 
 .. code-block:: cmake
@@ -1096,7 +1130,8 @@ the C++ packages that we added in the previous steps.
   )
 
 
-#### MyProject.dox ####
+MyProject.dox
+"""""""""""""
 
 This is an example of a file that contains global documentation.
 
@@ -1113,10 +1148,10 @@ This is an example of a file that contains global documentation.
   */
 
 
-We use doxygen to create the default versions of the config files \c DoxygenConfig.txt, \c DoxygenLayout.xml, <tt>DoxygenStylesheet.css</tt>
-<tt>header.html</tt> and <tt>footer.html</tt>.
+We use doxygen to create the default versions of the config files :code:`DoxygenConfig.txt`, :code:`DoxygenLayout.xml`, :code:`DoxygenStylesheet.css`
+:code:`header.html` and :code:`footer.html`.
 
-.. code-block:: bash
+.. code-block:: none
 
   Sources/documentation>doxygen -g DoxygenConfig.txt
   Sources/documentation>doxygen -l DoxygenLayout.xml
@@ -1125,15 +1160,16 @@ We use doxygen to create the default versions of the config files \c DoxygenConf
 
 You can change these files to customize the content and looks of the generated html pages.
 For further information refer to the Doxygen documentation.
-Finally we add the package to the repository and the \c packages.cmake file.
+Finally we add the package to the repository and the :code:`packages.cmake` file.
 
-.. code-block:: bash
+.. code-block:: none
 
-  >git add Sources/documentation
-  >git commit . -m"Adds the project doxygen documentation"
+  > git add Sources/documentation
+  > git commit . -m"Adds the project doxygen documentation"
 
 
-#### packages.cmake ####
+packages.cmake
+""""""""""""""
 
 .. code-block:: cmake
 
@@ -1151,34 +1187,42 @@ Finally we add the package to the repository and the \c packages.cmake file.
 
 To harvest the fruits of your hard labor run
 
-.. code-block:: bash
+.. code-block:: none
 
-  >3_Make.py --target documentation
+  > 3_Make.py --target documentation
 
 
-You can now open \c Generated/VS/html/doxygen/html/index.html in your browser to take a look at the generated html-page.
+You can now open :code:`Generated/VS/html/doxygen/html/index.html` in your browser to take a look at the generated html-page.
 There is not much to see here, because we have not added much content yet.
 The CPF can generate a standard doxygen documentation for your C++ packages that contains the descriptions from
-the *CMakeLists.txt* files. To activate this feature we add the *GENERATE_PACKAGE_DOX_FILES* options to the
-\ref cpfAddCppPackage calls in \c Sources/MyLib/CMakeLists.txt and \c Sources/MyApp/CMakeLists.txt.
+the :code:`CMakeLists.txt` files. To activate this feature we add the :code:`GENERATE_PACKAGE_DOX_FILES` options to the
+:ref:`cpfAddCppPackage` calls in :code:`Sources/MyLib/CMakeLists.txt` and :code:`Sources/MyApp/CMakeLists.txt`.
 
 .. code-block:: cmake
 
   ...
   cpfAddCppPackage( 
-	  ...
+      ...
       GENERATE_PACKAGE_DOX_FILES
   )
 
 
 You can now re-build your documentation target and the html-page should contain *Modules* sub-pages
-for the *MyLib* and *MyApp* packages that contain the description strings and some links to other
+for the :code:`MyLib` and :code:`MyApp` packages that contain the description strings and some links to other
 generated content.
 
-For more details see: \ref CPFDocumentationGeneration
+For more details see: :ref:`DocumentationGeneration`
+
 
 CPFProjectSetupSummary Summary
 ------------------------------
 
 You now know the basics about setting up a CPF project. If you still have open questions, feel free to add an
 issue on github with your question.
+
+
+.. External Links
+.. _CMAKE_MODULE_PATH: https://cmake.org/cmake/help/latest/variable/CMAKE_MODULE_PATH.html
+.. _add_subdirectory(): https://cmake.org/cmake/help/latest/command/add_subdirectory.html
+.. _git submodules: https://git-scm.com/book/en/v2/Git-Tools-Submodules
+.. _Cotire: https://github.com/sakra/cotire

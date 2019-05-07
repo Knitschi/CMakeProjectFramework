@@ -1,4 +1,6 @@
 
+.. _WorkingWithACPFProject:
+
 Working with a CPF Project
 ==========================
 

@@ -4,7 +4,7 @@ Setting up the CPF CI server infrastructure
 
 This page contains a tutorial on how to use the scripts provided by the *CPFMachines* package to
 set up a continuous integration server infrastructure for you CPF projects. The tutorial assumes
-that you are familiar with the \ref CPFWorkingWithCPF and the \ref CPFSettingUpACPFProject tutorials.
+that you are familiar with the \ref WorkingWithACPFProject and the \ref CPFSettingUpACPFProject tutorials.
 The tutorial also assumes that you have a CPF project provided by a remote git repository that
 can be pulled and pushed to via the SSH protocol. It assumes you can clone that repository with
 
