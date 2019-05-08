@@ -4,27 +4,27 @@ Setting up the CPF CI server infrastructure
 
 This page contains a tutorial on how to use the scripts provided by the *CPFMachines* package to
 set up a continuous integration server infrastructure for you CPF projects. The tutorial assumes
-that you are familiar with the \ref WorkingWithACPFProject and the \ref CPFSettingUpACPFProject tutorials.
+that you are familiar with the ':ref:`WorkingWithACPFProject`' and the ':ref:`SettingUpACPFProject` tutorials.
 The tutorial also assumes that you have a CPF project provided by a remote git repository that
 can be pulled and pushed to via the SSH protocol. It assumes you can clone that repository with
 
 
-.. code-block:: bash
+.. code-block:: none
 
-  >git clone --recursive ssh://myuser@mydebianpc:/home/myuser/repositories/MyCPFProject.git
+  > git clone --recursive ssh://myuser@mydebianpc:/home/myuser/repositories/MyCPFProject.git
 
 
 
 Step by step tutorial for setting up the CPF CI infrastructure
 --------------------------------------------------------------
 
-The main functionality of the *CPFMachines* package is provided by a python script \c setup.py.
+The main functionality of the *CPFMachines* package is provided by a python script :code:`setup.py`.
 The script accesses the machines that belong to your environment over SSH in order to setup a
 Jenkins CI server, build slaves and web-servers for your CPF project pages.
-The script reads a configuration \c .json file that contains values like machine access data,
+The script reads a configuration :code:`.json` file that contains values like machine access data,
 the number of slaves that you desire, etc. This tutorial gives you an example on how to use
 create a correct configuration file, provide the host machines for your servers and finally
-how to run the \c setup.py script.
+how to run the :code:`setup.py` script.
 
 
 1. Create a repository for your configuration files
@@ -37,18 +37,18 @@ files with helper scripts and such that you use for handling your infrastructure
 
 .. code-block:: bash
 
-  >mkdir MyCPFMachines.git
-  >cd MyCPFMachines.git
-  >git init --bare --share
-  >cd ..
-  >git clone MyCPFMachines.git
+  > mkdir MyCPFMachines.git
+  > cd MyCPFMachines.git
+  > git init --bare --share
+  > cd ..
+  > git clone MyCPFMachines.git
 
 We now add the *CPFMachines* package as a git submodule.
 
 .. code-block:: bash
 
-  >cd MyCPFMachines
-  >git submodule add https://github.com/Knitschi/CPFMachines.git
+  > cd MyCPFMachines
+  > git submodule add https://github.com/Knitschi/CPFMachines.git
 
 
 2. Provide host machines with SSH access
@@ -68,19 +68,21 @@ attached to the local network.
 3. Create an account on the Windows machine that can be accessed via SSH with the Bitvise SSH server.
 4. Install build tools on the Windows machine.
 
-:: todo: Add more detailed instructions for the above steps?
+.. note::
 
-:: note: Currently more manual steps are required
+  Currently more manual steps are required
+
+.. todo::  Add more detailed instructions for the above steps?
 
 The further steps assume that you can now run
 
 .. code-block:: bash
 
-  >ssh myuser@mydebianpc "echo blub"
-  >ssh myuser@mywindowspc "echo blub"
+  > ssh myuser@mydebianpc "echo blub"
+  > ssh myuser@mywindowspc "echo blub"
 
 
-on the machine that you want to use to run the \c setup.py script. Replace the user and machine names with the ones
+on the machine that you want to use to run the :code:`setup.py` script. Replace the user and machine names with the ones
 that you actually use.
 
 
@@ -88,10 +90,11 @@ that you actually use.
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 We now add a configuration file to our MyCPFMachines repository. The file contains information about our host machines
-and which build-jobs we want to have on the CI server. Add a new file \c MyCPFMachines/MyConfig.json with the following
+and which build-jobs we want to have on the CI server. Add a new file :code:`MyCPFMachines/MyConfig.json` with the following
 content:
 
-#### MyConfig.json ####
+MyConfig.json
+"""""""""""""
 
 .. code-block:: json
 
@@ -149,31 +152,35 @@ content:
   }
 
 
-With this configuration you will get the jenkins master server, a jenkins linux agent and the web-server on the *mydebianpc* machine.
-The *mywindowspc* will be used to run a jenkins windows agent. Jenkins will be configured to have one build job *MyCPFProject* that
-will build your CPF project. You can get more information about the configuration file \ref CPFMachinesConfigFile "here".
+With this configuration you will get the jenkins master server, a jenkins linux agent and the web-server on the :code:`mydebianpc` machine.
+The :code:`mywindowspc` will be used to run a jenkins windows agent. Jenkins will be configured to have one build job *MyCPFProject* that
+will build your CPF project. You can get more information about the configuration file :ref:`here <TheCPFMachinesConfigFile>`.
 
-:: note: Adding passwords for your accounts to the config file is optional. It may be saver to leave them out, but it comes with
-the inconvenience that you have to re-enter them whenever you want to run the \c setup.py script. 
+.. note::
 
-:: todo: Improve the setup script to allow the creation of an admin account on the first run.
+  Adding passwords for your accounts to the config file is optional. It may be saver to leave them out, but it comes with
+  the inconvenience that you have to re-enter them whenever you want to run the :code:`setup.py` script. 
 
-5. Run the setup.py script
+.. todo:: 
+
+  Improve the setup script to allow the creation of an admin account on the first run.
+
+4. Run the setup.py script
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 We now have done all the manual preparations that are necessary to install the servers.
 
 .. code-block:: bash
 
-  >python -m CPFMachines.setup MySetup.json
+  > python -m CPFMachines.setup MySetup.json
 
 
 
 Running the script may take quite some time, as some of the required tools are freshly compiled when running the script.
-If the script fails to run successfully, see if you can find the problem on the trouble shooting page \ref CPFMachinesProblems "here".
+If the script fails to run successfully, see if you can find the problem on the trouble shooting page :ref:`here <CPFMachinesProblems>`.
 
 
-6. Add commit hooks to your repositories
+5. Add commit hooks to your repositories
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-:: todo: Add instructions.
+.. todo::  Add instructions.

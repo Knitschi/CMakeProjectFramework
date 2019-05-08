@@ -244,7 +244,7 @@ Many of the displayed directories do not exist in a freshly cloned CPF project.
   │   1_Configure.py
   │   2_Generate.py
   │   3_Make.py
-  │   README.md
+  │   README.rst
   │   ... [other scripts that help with day to day tasks]
   │
   ├───Configuration

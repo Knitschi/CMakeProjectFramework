@@ -27,25 +27,27 @@ Here is a simplified graph the illustrates the dependencies between the packages
     {
     
       node [shape=box, fontcolor="#4665C0"];
-      CPFBuildscripts [ URL="\ref CPFBuildscripts"];
-      CPFCMake [ URL="\ref CPFCMake"];
-      CPFMachines [ URL="\ref CPFMachines"];
+      CPFBuildscripts [ URL="../CPFBuildscripts/documentation/CPFBuildscripts.html"];
+      CPFCMake [ URL="../CPFCMake/documentation/CPFCMake.html"];
+      CPFMachines [ URL="../CPFMachines/documentation/CPFMachines.html"];
     }
     "MyMachinesConfig" -> "CPFMachines" [ label="Uses setup script and provides config." ]
     "CPFMachines" -> "CPFBuildscripts" [ label="Uses scripts in buildjob." ]
     "CPFMachines" -> "CPFCMake" [ label="Uses CMake scripts for version tagging." ]
     "CPFBuildscripts" -> "CPFCMake" [ label="Uses custom targets and config file mechanics."  ]
-    "CPFCMake" -> "3rd party tools and libs" [ label="Uses 3rd party tools provided by CPFMachines and hunter." style = dashed ]
+    "CPFCMake" -> "3rd party tools and libs" [ label="Uses 3rd party tools in the build pipeline." style = dashed ]
   }
 
-MyBuildRepository represents a project that uses the CMakeProjectFramework. 
+.. note:: 
 
-:: note: In the long run, the dependency between CPFCMake and %CPFMachines should be removed 
-by making CPFCMake acquire all of the third party software via hunter, instead of using the pre-installed
-software from the build slaves.
+  In the long run, the dependency between *CPFCMake* and *CPFMachines* should be removed 
+  by using package managers in *CPFCMake* to acquire all of the required third party software dependencies,
+  instead of using the pre-installed software from the build slaves.
 
 Dependencies
 ------------
 
-:: todo: Add a description on how to get the dependencies with the supported package managers.
+.. todo:: 
+
+  Add a description on how to get the dependencies with the supported package managers.
 

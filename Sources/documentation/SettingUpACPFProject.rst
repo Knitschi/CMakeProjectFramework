@@ -1,4 +1,6 @@
 
+.. _SettingUpACPFProject:
+
 Setting up a CPF project
 ========================
 

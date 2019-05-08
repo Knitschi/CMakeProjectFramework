@@ -5,5 +5,7 @@ cmake_minimum_required(VERSION ${CPF_MINIMUM_CMAKE_VERSION})
 
 project(CMakeProjectFramework)
 
-cpfAddPackages()
+cpfAddPackages(
+	GLOBAL_FILES ../README.rst ../LICENSE
+)
 
