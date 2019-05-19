@@ -27,7 +27,6 @@ set( sources
 cpfAddSphinxPackage(
 	OTHER_FILES ${sources}
 	ADDITIONAL_SPHINX_ARGUMENTS "-W"
-	OUTPUT_SUBDIR html
 	SOURCE_SUFFIXES rst md
 )
 

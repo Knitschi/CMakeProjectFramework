@@ -8,3 +8,4 @@ Sources/*/cpfPackageVersion_*.cmake
 2_Generate.py
 3_Make.py
 /Sources/documentation/__pycache__
+/install
