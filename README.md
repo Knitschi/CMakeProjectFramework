@@ -1,7 +1,6 @@
  
-![Blub](Sources/documentation/Placeholder.svg)![Blub](Sources/documentation/CPFLogo.svg)![Blub](Sources/documentation/Placeholder.svg)
 
-# Welcome to the CMakeProjectFramework
+# Welcome to the CMakeProjectFramework #
 
 - [Project documentation](https://knitschi.github.io/CMakeProjectFramework/LastBuild/doc/sphinx/html/)
 
