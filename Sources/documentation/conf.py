@@ -71,6 +71,7 @@ templates_path = ['.templates']
 #
 source_suffix = ['.rst', '.md']
 
+parallel_read_safe = True
 
 # The master toctree document.
 master_doc = 'index'

@@ -450,3 +450,5 @@ def setup(app):
     app.add_transform(CMakeTransform)
     app.add_transform(CMakeXRefTransform)
     app.add_domain(CMakeDomain)
+
+    return {'parallel_read_safe': False}
