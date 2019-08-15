@@ -3,7 +3,7 @@
 
 # Welcome to the CMakeProjectFramework
 
-- [Project documentation](https://knitschi.github.io/CMakeProjectFramework/doxygen/html/index.html)
+- [Project documentation](https://knitschi.github.io/CMakeProjectFramework/LastBuild/doc/sphinx/html/)
 
 ## CMakeProjectFramework Packages ##
 
