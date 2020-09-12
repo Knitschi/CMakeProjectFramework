@@ -9,3 +9,6 @@ Sources/*/cpfPackageVersion_*.cmake
 3_Make.py
 /Sources/documentation/__pycache__
 /install
+/2_GetDependencies.py
+/3_Generate.py
+/4_Make.py
