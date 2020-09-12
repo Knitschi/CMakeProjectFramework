@@ -58,8 +58,8 @@ The steps are implemented with the following *Python 3* scripts.
 
 * **0_CopyScripts.py:** Copies the other scripts to the projects root directory. 
 * **1_Configure.py:** Adds a CMake configuration for the project.
-* **2_Generate.py:** Create the *make-files* for a project configuration.
-* **3_Make.py:** Build the project.
+* **3_Generate.py:** Create the *make-files* for a project configuration.
+* **4_Make.py:** Build the project.
 
 If you have your operating system configured to run :code:`.py` files with python 3, you can omit the explicit call to :code:`python` in the following command line examples.
 If this is not the case, make sure the :code:`python --version` call returns a 3.X version. On Linux you may need to use the command
@@ -162,14 +162,14 @@ To execute the generate step run
 
 .. code-block:: bash
 
-  ...\ACPFTestProject> python 2_Generate.py VS
+  ...\ACPFTestProject> python 3_Generate.py VS
 
 
 on Windows or
 
 .. code-block:: bash
 
-  .../ACPFTestProject> python3 2_Generate.py Gcc
+  .../ACPFTestProject> python3 3_Generate.py Gcc
 
 
 on Linux in the project root directory.
@@ -195,14 +195,14 @@ To execute a full build run
 
 .. code-block:: bash
 
-  ...\ACPFTestProject> python 3_Make.py VS --target pipeline --config Debug
+  ...\ACPFTestProject> python 4_Make.py VS --target pipeline --config Debug
 
 
 on Windows or
 
 .. code-block:: bash
 
-  .../ACPFTestProject> python3 3_Make.py Gcc --target pipeline
+  .../ACPFTestProject> python3 4_Make.py Gcc --target pipeline
 
 
 on Linux. This will compile the binaries as well as executing extra pipeline tasks like running the tests, do code analysis,
@@ -242,8 +242,8 @@ Many of the displayed directories do not exist in a freshly cloned CPF project.
   │   .gitignore
   │   .gitmodules
   │   1_Configure.py
-  │   2_Generate.py
-  │   3_Make.py
+  │   3_Generate.py
+  │   4_Make.py
   │   README.rst
   │   ... [other scripts that help with day to day tasks]
   │

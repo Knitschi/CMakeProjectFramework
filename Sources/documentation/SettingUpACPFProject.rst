@@ -100,8 +100,8 @@ are ignored by git.
   Configuration/**
   Configuration
   1_Configure.py
-  2_Generate.py
-  3_Make.py
+  3_Generate.py
+  4_Make.py
 
 
 CMakeLists.txt
@@ -203,7 +203,7 @@ Run the following commands in the project root directory.
 
   > Sources\CPFBuildscripts\0_CopyScripts.py
   > 1_Configure.py VS --inherits Windows
-  > 2_Generate.py
+  > 3_Generate.py
 
 
 This creates the :code:`Configuration` and :code:`Generated` directories parallel to your :code:`Sources` directory.
@@ -215,8 +215,8 @@ Your file tree should now look like this.
   │   .gitignore
   │   .gitmodules
   │   1_Configure.py
-  │   2_Generate.py
-  │   3_Make.py
+  │   3_Generate.py
+  │   4_Make.py
   │
   ├───Configuration
   │       VS.config.cmake
@@ -414,12 +414,12 @@ Build the project
 
 With all the files in place we can now generate and build the project. Note that you have to run a fresh generate
 whenever you change the :code:`packages.cmake` file. A *fresh* generate is executed when the :code:`--clean`
-option is given to the :code:`2_Generate.py` script. After that you can build the pipeline target and run the application.
+option is given to the :code:`3_Generate.py` script. After that you can build the pipeline target and run the application.
 
 .. code-block:: none
 
-  > 2_Generate.py --clean
-  > 3_Make.py --target pipeline
+  > 3_Generate.py --clean
+  > 4_Make.py --target pipeline
   > Generated\VS\BuildStage\Debug\MyApp\MyApp-debug
   MyApp (version 0.0.0.2-73cc-dirty) greets the world!
 
@@ -450,7 +450,7 @@ To create the new default configuration execute the following steps.
   > move Configuration\VS2017-shared.config.cmake Sources\CIBuildConfigurations
   > rmdir /s /q Configuration
   > 1_Configure.py VS --inherits VS2017-shared
-  > 2_Generate.py
+  > 3_Generate.py
   > git add Sources\CIBuildConfigurations
   > git commit . -m"Adds the default configuration VS2017-shared."
 
@@ -690,8 +690,8 @@ You now have to commit the changes to :code:`MyCPFProject` and regenerate the ma
 .. code-block:: none
 
   > git commit . -m"Adds MyLib submodule and uses it in MyApp."
-  > 2_Generate.py
-  > 3_Make.py
+  > 3_Generate.py
+  > 4_Make.py
   > Generated\VS\BuildStage\Debug\MyApp\MyApp-debug.exe
   MyLib (version 0.0.0) greets the world!
   MyApp (version 0.0.0.3-3d31) greets the world!
@@ -794,8 +794,8 @@ You can now build and run your test executable by calling:
 
 .. code-block:: none
 
-  > 2_Generate.py
-  > 3_Make.py --target runAllTests
+  > 3_Generate.py
+  > 4_Make.py --target runAllTests
   ...
   Run tests for MyLib
   
@@ -937,7 +937,7 @@ You can now compile and run your tests by calling
 
 .. code-block:: none
 
-  > 3_Make.py --target runAllTests
+  > 4_Make.py --target runAllTests
   ...
   Run tests for MyLib
 
@@ -1011,7 +1011,7 @@ In order to create the specified packages, run
 
 .. code-block:: none
 
-  > 3_Make.py --target distributionPackages
+  > 4_Make.py --target distributionPackages
 
 
 You should now have a directory :code:`MyCPFProject/Generated/VS/html/Downloads/MyLib/LastBuild` with the three archives
@@ -1058,7 +1058,7 @@ As a last step we enable the use of cotire in our configuration.
 .. code-block:: none
 
   > 1_Configure.py VS --inherits VS2017-shared -D CPF_ENABLE_PRECOMPILED_HEADER=ON
-  > 2_Generate.py
+  > 3_Generate.py
 
 
 At this point we will not benefit much from using pre-compiled headers. Cotire will only
@@ -1191,7 +1191,7 @@ To harvest the fruits of your hard labor run
 
 .. code-block:: none
 
-  > 3_Make.py --target documentation
+  > 4_Make.py --target documentation
 
 
 You can now open :code:`Generated/VS/html/doxygen/html/index.html` in your browser to take a look at the generated html-page.
