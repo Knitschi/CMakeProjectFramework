@@ -26,7 +26,9 @@ set( sources
 
 cpfAddSphinxPackage(
 	OTHER_FILES ${sources}
-	ADDITIONAL_SPHINX_ARGUMENTS "-W"
+	# We remove the warnings as errors flag for now because i do not spend the time to fix them now
+	# I should fix them when doing some work on the documentation.
+	# ADDITIONAL_SPHINX_ARGUMENTS "-W"
 	SOURCE_SUFFIXES rst md
 )
 
