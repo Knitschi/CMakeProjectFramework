@@ -42,6 +42,7 @@ Index
   CPFBuildscripts/documentation/CPFBuildscripts
   CPFMachines/documentation/CPFMachines
   CPFTests/documentation/CPFTests
+  documentation/Glossary
 
 Motivation
 ----------

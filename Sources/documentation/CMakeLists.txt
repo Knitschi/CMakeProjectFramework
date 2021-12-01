@@ -18,6 +18,7 @@ set( sources
     SettingUpTheCPFCIInfrastructure.rst
 	SolvedProblems.rst
 	WorkingWithACPFProject.rst
+	Glossary.rst
 	../index.rst
 	cmake.py
 	colors.py
