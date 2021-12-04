@@ -298,7 +298,7 @@ CMakeLists.txt
 - :code:`include(cpfAddCppPackage)`: Provides the :ref:`cpfAddCppPackage` function.
 - :code:`cpfInitPackageProject()`: This creates the package project and sets the :code:`PROJECT_VERSION` variables.
 - :code:`set( briefDescription ...` and :code:`set( longDescription ...`: Basic descriptions of what your package
-  does. The values may be used in auto-generated documentation or in distribution packages.
+  does. The values may be used in auto-generated documentation or in package archives.
 - :code:`set( PACKAGE_PRODUCTION_FILES ...`: A list with the currently available source files of the package. This is
   a :code:`CMakeLists.txt` file after all ;-).
 - :code:`set( PACKAGE_LINKED_LIBRARIES ...`: A list with targets on which the created package depends. For now we have
@@ -953,11 +953,11 @@ You can now compile and run your tests by calling
 One part of a CI pipeline is to create some sort of package that can be downloaded by the users of the software.
 For applications this is usually an installer which can be arbitrarily complex. For libraries however,
 this often is just a ZIP archive that either holds the complete source code or the compiled artifacts and public headers.
-In the CPF nomenclature we call these package files *distribution packages* in order to distinguish them from the
+In the CPF nomenclature we call these package files *package archives* in order to distinguish them from the
 CPF code packages in the :code:`Sources` directory.
 
 The CPF has enough information about your package to create the simple compressed archive packages for you.
-To enable creating distribution packages that contain source files and binary files you have to add two more
+To enable creating package archives that contain source files and binary files you have to add two more
 argument to the :code:`cpfAddCppPackage()` function.
 
 Sources/MyLib/CMakeLists.txt
@@ -970,13 +970,13 @@ Sources/MyLib/CMakeLists.txt
   ...
 
   set( developerBinaryPackageOptions 
-      DISTRIBUTION_PACKAGE_CONTENT_TYPE   CT_DEVELOPER
-      DISTRIBUTION_PACKAGE_FORMATS        7Z ZIP
+      PACKAGE_ARCHIVE_CONTENT_TYPE   CT_DEVELOPER
+      PACKAGE_ARCHIVE_FORMATS        7Z ZIP
   )
 
   set( sourcePackageOptions
-      DISTRIBUTION_PACKAGE_CONTENT_TYPE   CT_SOURCES
-      DISTRIBUTION_PACKAGE_FORMATS        TGZ
+      PACKAGE_ARCHIVE_CONTENT_TYPE   CT_SOURCES
+      PACKAGE_ARCHIVE_FORMATS        TGZ
   )
 
   ...
@@ -993,25 +993,25 @@ Sources/MyLib/CMakeLists.txt
       FIXTURE_FILES           ${PACKAGE_FIXTURE_FILES}
       LINKED_LIBRARIES        ${PACKAGE_LINKED_LIBRARIES}
       LINKED_TEST_LIBRARIES   ${PACKAGE_LINKED_TEST_LIBRARIES}
-      DISTRIBUTION_PACKAGES   ${developerBinaryPackageOptions}
-      DISTRIBUTION_PACKAGES   ${sourcePackageOptions}
+      PACKAGE_ARCHIVES   ${developerBinaryPackageOptions}
+      PACKAGE_ARCHIVES   ${sourcePackageOptions}
   )
 
 
-- Note that due to the complexity of the option the :code:`DISTRIBUTION_PACKAGES` argument requires a list of nested key-word arguments.
+- Note that due to the complexity of the option the :code:`PACKAGE_ARCHIVES` argument requires a list of nested key-word arguments.
 - The options in this example will cause the creation of a *developer binary* package in the :code:`.7z` and :code:`.zip` format.
   *Developer binary* means, that the package will contain the compiled binaries and public headers.
   We also set options for creating a :code:`.tar.gz` archive that contains the packages sources.
-- For more information about creating other kinds of distribution packages read: :ref:`DistributionPackages`
+- For more information about creating other kinds of package archives read: :ref:`DistributionPackages`
 
-Create the distribution package
+Create the package archive
 """""""""""""""""""""""""""""""
 
 In order to create the specified packages, run
 
 .. code-block:: none
 
-  > 4_Make.py --target distributionPackages
+  > 4_Make.py --target packageArchives
 
 
 You should now have a directory :code:`MyCPFProject/Generated/VS/html/Downloads/MyLib/LastBuild` with the three archives

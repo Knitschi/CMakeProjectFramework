@@ -7,7 +7,7 @@ When setting up a C++ Software project multiple tasks besides writing the actual
 - Organizing the code-base into smaller packages.
 - Versioning of the packages.
 - Automatic acquisition of external software dependencies.
-- Creating distribution packages that can be consumed by others.
+- Creating package archives that can be consumed by others.
 - Setting up a build pipeline that also does additional tasks like running automated test, static/dynamic analysis, generate documentation, etc.
 - Setting up a CI-server to run the pipeline.
 - Setting up a homepage for the project that hosts the documentation.
