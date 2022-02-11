@@ -2,7 +2,7 @@ from conans import ConanFile
 
 class SimpleOneLibCPFTestProject(ConanFile):
     
-    url = "https://knitschi.github.io/CMakeProjectFramework/LastBuild/doc/sphinx/html/"
+    url = "https://github.com/Knitschi/CMakeProjectFramework"
     license = "MIT"
     description = "The CMakeProjectFramework provides a solution for organizing cross-platform C++ software projects that are based on Git and CMake."
 
