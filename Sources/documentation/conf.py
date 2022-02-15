@@ -32,7 +32,7 @@ copyright = '2019, Knitschi'
 author = 'Knitschi'
 
 # The short X.Y version
-version = projectutils.get_version_from_repository(filelocations.get_cpf_root_dir_from_script_dir())
+version = projectutils.get_version_from_repository(os.path.realpath(__file__) + "/../..")
 # The full version, including alpha/beta/rc tags
 release = version
 

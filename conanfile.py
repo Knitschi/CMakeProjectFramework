@@ -10,6 +10,8 @@ class SimpleOneLibCPFTestProject(ConanFile):
     python_requires = "CPFConanfile/0.0.20@knitschi/development",
     python_requires_extend = "CPFConanfile.CPFBaseConanfile",
 
+    #build_requires = ;
+
     cpf_conanfile_module = None
 
     def init(self):
