@@ -32,7 +32,7 @@ copyright = '2019, Knitschi'
 author = 'Knitschi'
 
 # The short X.Y version
-version = projectutils.get_version_from_repository(os.path.realpath(__file__) + "/../..")
+version = projectutils.get_version_from_repository(os.path.realpath(__file__) + "/../..", 'Sources/external/CPFCMake')
 # The full version, including alpha/beta/rc tags
 release = version
 
