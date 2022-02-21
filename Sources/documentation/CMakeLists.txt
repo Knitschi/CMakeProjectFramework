@@ -37,3 +37,4 @@ cpfAddSphinxPackageComponent(
 	SOURCE_SUFFIXES rst md
 )
 
+cpfFinalizePackageProject()
