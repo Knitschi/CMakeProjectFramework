@@ -16,6 +16,7 @@ import sys
 import os
 import re
 import glob
+from pathlib import PurePosixPath
 
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../..'))   # required to use CPFBuildscripts modules
@@ -32,7 +33,8 @@ copyright = '2019, Knitschi'
 author = 'Knitschi'
 
 # The short X.Y version
-version = projectutils.get_version_from_repository(os.path.realpath(__file__) + "/../..", 'Sources/external/CPFCMake')
+cpfRootDir = PurePosixPath(os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + "/../..")
+version = projectutils.get_version_from_repository( cpfRootDir , 'Sources/CPFCMake')
 # The full version, including alpha/beta/rc tags
 release = version
 
